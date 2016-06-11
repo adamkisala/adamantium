@@ -1,5 +1,6 @@
 # Generated from /Users/adamkisala/Documents/Projects/DGDL/project/adamantium/ebnf/dgdl.g4 by ANTLR 4.5.3
 from antlr4 import *
+import json
 
 if __name__ is not None and "." in __name__:
     from .dgdlParser import dgdlParser
@@ -11,7 +12,7 @@ else:
 class dgdlListener(ParseTreeListener):
     # Enter a parse tree produced by dgdlParser#game.
     def enterGame(self, ctx: dgdlParser.GameContext):
-        print(ctx.getText())
+        print(ctx.IDENT())
         print("\n")
         # pass
 
@@ -31,7 +32,9 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#turns.
     def enterTurns(self, ctx: dgdlParser.TurnsContext):
-        print(ctx.getText())
+        if str(ctx.TURNS()) in ctx.getText():
+            # data = ctx.getText()[len(str(ctx.TURNS())):]
+            print(ctx.getText())
         print("\n")
         pass
 
@@ -61,6 +64,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#roles.
     def enterRoles(self, ctx: dgdlParser.RolesContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#roles.
@@ -69,6 +74,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#principles.
     def enterPrinciples(self, ctx: dgdlParser.PrinciplesContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#principles.
@@ -77,6 +84,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#principle.
     def enterPrinciple(self, ctx: dgdlParser.PrincipleContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#principle.
@@ -85,6 +94,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#scope.
     def enterScope(self, ctx: dgdlParser.ScopeContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#scope.
@@ -93,6 +104,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#moves.
     def enterMoves(self, ctx: dgdlParser.MovesContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#moves.
@@ -101,6 +114,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#move.
     def enterMove(self, ctx: dgdlParser.MoveContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#move.
@@ -109,6 +124,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#content.
     def enterContent(self, ctx: dgdlParser.ContentContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#content.
@@ -117,6 +134,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#conditions.
     def enterConditions(self, ctx: dgdlParser.ConditionsContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#conditions.
@@ -125,6 +144,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#effects.
     def enterEffects(self, ctx: dgdlParser.EffectsContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#effects.
@@ -133,6 +154,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#expr.
     def enterExpr(self, ctx: dgdlParser.ExprContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#expr.
@@ -141,6 +164,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#param.
     def enterParam(self, ctx: dgdlParser.ParamContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#param.
