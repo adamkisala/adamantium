@@ -1,10 +1,13 @@
-from engine.interface import IGameObserver
+from abc import ABCMeta, abstractmethod
+from interface import IGameDataCollector
 
 
-class Transcript(IGameObserver):
+class IGameObserver(metaclass=ABCMeta):
+    @abstractmethod
     def __init__(self):
         pass
 
+    @abstractmethod
     def update(self, iGameDataCollector):
         """
 

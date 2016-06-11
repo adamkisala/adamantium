@@ -1,4 +1,4 @@
-from engine.interface import IGameDataCollector
+from interface import IGameDataCollector
 
 
 class TranscriptCollector(IGameDataCollector):

@@ -1,6 +1,6 @@
-from engine.interface import Observable
-from engine.model import Game
-from engine.factory import GameFactory
+from interface import Observable
+from model import Game
+from factory import GameFactory
 
 
 class GameController(Observable):

@@ -1,4 +1,4 @@
-from engine.model import Game
+from model import Game
 
 
 def create_game(input_stream):
