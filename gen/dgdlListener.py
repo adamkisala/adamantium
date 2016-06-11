@@ -11,7 +11,9 @@ else:
 class dgdlListener(ParseTreeListener):
     # Enter a parse tree produced by dgdlParser#game.
     def enterGame(self, ctx: dgdlParser.GameContext):
-        pass
+        print(ctx.getText())
+        print("\n")
+        # pass
 
     # Exit a parse tree produced by dgdlParser#game.
     def exitGame(self, ctx: dgdlParser.GameContext):
@@ -19,6 +21,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#store.
     def enterStore(self, ctx: dgdlParser.StoreContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#store.
@@ -27,6 +31,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#turns.
     def enterTurns(self, ctx: dgdlParser.TurnsContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#turns.
@@ -35,6 +41,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#players.
     def enterPlayers(self, ctx: dgdlParser.PlayersContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#players.
@@ -43,6 +51,8 @@ class dgdlListener(ParseTreeListener):
 
     # Enter a parse tree produced by dgdlParser#player.
     def enterPlayer(self, ctx: dgdlParser.PlayerContext):
+        print(ctx.getText())
+        print("\n")
         pass
 
     # Exit a parse tree produced by dgdlParser#player.
