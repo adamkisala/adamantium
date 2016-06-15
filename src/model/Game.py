@@ -1,3 +1,5 @@
+from model import *
+
 
 class Game:
 
@@ -7,4 +9,3 @@ class Game:
     def start_game(self):
         print("Game started")
         pass
-
