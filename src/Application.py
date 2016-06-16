@@ -4,14 +4,15 @@ from gen.dgdlLexer import dgdlLexer
 from gen.dgdlListener import dgdlListener
 from helpers.Constants import *
 from factory.GameFactory import *
+from model.Game import Game
 import sys
 
 
 def main(argv):
     if len(sys.argv) > 0:
         file = FileStream(argv[1])
-        game_factory = GameFactory()
-        game_factory.create_game(file)
+        GameFactory.create_game(file)
+        print(GameFactory.game.turns.magnitude)
     else:
         print(NO_GAME_DESCRIPTION)
 

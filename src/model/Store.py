@@ -1,3 +1,4 @@
 class Store:
     def __init__(self):
-        pass
+        self.structure = None
+        self.visibility = None

@@ -1,4 +1,4 @@
 
 class Principle:
     def __init__(self):
-        pass
+        self.scope = None
