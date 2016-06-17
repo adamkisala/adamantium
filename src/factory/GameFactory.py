@@ -4,17 +4,22 @@ from gen.dgdlListener import dgdlListener
 from antlr4 import *
 from gen.dgdlParser import dgdlParser
 from gen.dgdlLexer import dgdlLexer
-from enums.Magnitude import *
-from enums.Ordering import *
+from enums.Structure import Structure
+from enums.Visibility import Visibility
+from enums.Magnitude import Magnitude
+from enums.Ordering import Ordering
 from enums.Scope import *
-from enums.Structure import *
 
 
 class GameFactory(dgdlListener):
-    game = Game()
-
-    def __init__(self):
+    def __init__(self, game_temp: Game = Game()):
+        self._game = game_temp
         pass
+
+    def get_game(self) -> Game:
+        return self._game
+
+    game = property(get_game, None, None, "Game object created by factory")
 
     # Enter a parse tree produced by dgdlParser#store.
     def enterStore(self, ctx: dgdlParser.StoreContext):
@@ -26,32 +31,35 @@ class GameFactory(dgdlListener):
 
     # Enter a parse tree produced by dgdlParser#visibility_type.
     def enterVisibility_type(self, ctx: dgdlParser.Visibility_typeContext):
-        pass
+        if str(ctx.getText()) == str(ctx.PUBLIC()):
+            self.game.store.visibility = Visibility.PUBLIC
+        elif str(ctx.getText()) == str(ctx.PRIVATE()):
+            self.game.store.visibility = Visibility.PRIVATE
 
     # Enter a parse tree produced by dgdlParser#structure_type.
     def enterStructure_type(self, ctx: dgdlParser.Structure_typeContext):
         if str(ctx.getText()) == str(ctx.STACK()):
-            GameFactory.game.store.structure = Structure.STACK
+            self.game.store.structure = Structure.STACK
         elif str(ctx.getText()) == str(ctx.SET()):
-            GameFactory.game.store.structure = Structure.SET
+            self.game.store.structure = Structure.SET
         elif str(ctx.getText()) == str(ctx.QUEUE()):
-            GameFactory.game.store.structure = Structure.QUEUE
+            self.game.store.structure = Structure.QUEUE
 
     # Enter a parse tree produced by dgdlParser#magnitude_type.
     def enterMagnitude_type(self, ctx: dgdlParser.Magnitude_typeContext):
         if str(ctx.getText()) == str(ctx.SINGLE()):
-            GameFactory.game.turns.magnitude = Magnitude.SINGLE
-            print(GameFactory.game.turns.magnitude)
+            self.game.turns.magnitude = Magnitude.SINGLE
+            print(self.game.turns.magnitude)
         elif str(ctx.getText()) == str(ctx.MULTIPLE()):
-            GameFactory.game.turns.magnitude = Magnitude.MULTIPLE
-            print(GameFactory.game.turns.magnitude)
+            self.game.turns.magnitude = Magnitude.MULTIPLE
+            print(self.game.turns.magnitude)
 
     # Enter a parse tree produced by dgdlParser#ordering_type.
     def enterOrdering_type(self, ctx: dgdlParser.Ordering_typeContext):
         if str(ctx.getText()) == str(ctx.STRICT()):
-            GameFactory.game.turns.ordering = Ordering.STRICT
+            self.game.turns.ordering = Ordering.STRICT
         elif str(ctx.getText()) == str(ctx.LIBERAL()):
-            GameFactory.game.turns.ordering = Ordering.LIBERAL
+            self.game.turns.ordering = Ordering.LIBERAL
 
     # Enter a parse tree produced by dgdlParser#players.
     def enterPlayers(self, ctx: dgdlParser.PlayersContext):
@@ -105,8 +113,7 @@ class GameFactory(dgdlListener):
     def enterParam(self, ctx: dgdlParser.ParamContext):
         pass
 
-    @staticmethod
-    def create_game(input_stream):
+    def create_game(self, input_stream):
         lexer = dgdlLexer(input_stream)
         stream = CommonTokenStream(lexer)
         parser = dgdlParser(stream)
@@ -114,5 +121,3 @@ class GameFactory(dgdlListener):
         listener = GameFactory()
         walker = ParseTreeWalker()
         walker.walk(listener, tree)
-
-
