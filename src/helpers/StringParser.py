@@ -6,7 +6,7 @@ class StringParser:
         if pos_a == -1:
             return ""
         # Find and validate after part.
-        pos_b = data.find(str_after)
+        pos_b = data.find(str_after, pos_a)
         if pos_b == -1:
             return ""
         # Return middle part.

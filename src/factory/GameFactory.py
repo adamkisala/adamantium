@@ -1,4 +1,5 @@
 from model.Game import Game
+from model.Player import Player
 from model.Store import Store
 from gen.dgdlListener import dgdlListener
 from antlr4 import *
@@ -25,59 +26,53 @@ class GameFactory(dgdlListener):
 
     # Enter a parse tree produced by dgdlParser#game.
     def enterGame(self, ctx: dgdlParser.GameContext):
-        if str(ctx.IDENT()) in str(ctx.getText()):
-            self.game.name = StringParser.before(str(ctx.getText()), OPEN_BRACE)
+        data = str(ctx.getText())
+        if str(ctx.IDENT()) in data:
+            self.game.name = StringParser.before(data, OPEN_BRACE)
 
     # Enter a parse tree produced by dgdlParser#store.
     def enterStore(self, ctx: dgdlParser.StoreContext):
-        if str(ctx.NAME()) in str(ctx.getText()):
-            self.game.store.name = StringParser.between(str(ctx.getText()), str(ctx.NAME()) + COLON, COLON)
-        if str(ctx.OWNER()) in str(ctx.getText()):
-            values = StringParser.between(str(ctx.getText()), str(ctx.OWNER()) + OPEN_BRACE, CLOSE_BRACE)
-            self.game.store.owner = values.split(",")
+        data = str(ctx.getText())
+        store = Store()
+        if str(ctx.NAME()) in data:
+            store.name = StringParser.between(data, str(ctx.NAME()) + COLON, COMMA)
+        if str(ctx.OWNER()) in data:
+            values = StringParser.between(data, str(ctx.OWNER()) + OPEN_BRACE, CLOSE_BRACE)
+            store.owner = values.split(",")
+        if str(ctx.STRUCTURE()) in data:
+            store.structure = StringParser.between(data, str(ctx.STRUCTURE()) + COLON, COMMA)
+        if str(ctx.VISIBILITY()) in data:
+            store.visibility = StringParser.between(data, str(ctx.VISIBILITY()) + COLON, CLOSE_BRACE)
+        self.game.stores.append(store)
 
     # Enter a parse tree produced by dgdlParser#turns.
     def enterTurns(self, ctx: dgdlParser.TurnsContext):
-        if str(ctx.MAX()) in str(ctx.getText()):
-            self.game.turns.max = int(StringParser.between(str(ctx.getText()), str(ctx.MAX()) + COLON, CLOSE_BRACE))
-
-    # Enter a parse tree produced by dgdlParser#visibility_type.
-    def enterVisibility_type(self, ctx: dgdlParser.Visibility_typeContext):
-        if str(ctx.getText()) == str(ctx.PUBLIC()):
-            self.game.store.visibility = Visibility.PUBLIC
-        elif str(ctx.getText()) == str(ctx.PRIVATE()):
-            self.game.store.visibility = Visibility.PRIVATE
-
-    # Enter a parse tree produced by dgdlParser#structure_type.
-    def enterStructure_type(self, ctx: dgdlParser.Structure_typeContext):
-        if str(ctx.getText()) == str(ctx.STACK()):
-            self.game.store.structure = Structure.STACK
-        elif str(ctx.getText()) == str(ctx.SET()):
-            self.game.store.structure = Structure.SET
-        elif str(ctx.getText()) == str(ctx.QUEUE()):
-            self.game.store.structure = Structure.QUEUE
-
-    # Enter a parse tree produced by dgdlParser#magnitude_type.
-    def enterMagnitude_type(self, ctx: dgdlParser.Magnitude_typeContext):
-        if str(ctx.getText()) == str(ctx.SINGLE()):
-            self.game.turns.magnitude = Magnitude.SINGLE
-        elif str(ctx.getText()) == str(ctx.MULTIPLE()):
-            self.game.turns.magnitude = Magnitude.MULTIPLE
-
-    # Enter a parse tree produced by dgdlParser#ordering_type.
-    def enterOrdering_type(self, ctx: dgdlParser.Ordering_typeContext):
-        if str(ctx.getText()) == str(ctx.STRICT()):
-            self.game.turns.ordering = Ordering.STRICT
-        elif str(ctx.getText()) == str(ctx.LIBERAL()):
-            self.game.turns.ordering = Ordering.LIBERAL
+        data = str(ctx.getText())
+        if str(ctx.MAX()) in data:
+            self.game.turns.max = int(StringParser.between(data, str(ctx.MAX()) + COLON, CLOSE_BRACE))
+        if str(ctx.MAGNITUDE()) in data:
+            self.game.turns.magnitude = StringParser.between(data, str(ctx.MAGNITUDE()) + COLON, COMMA)
+        if str(ctx.ORDERING()) in data:
+            self.game.turns.ordering = StringParser.between(data, str(ctx.ORDERING()) + COLON,
+                                                            COMMA if (str(ctx.MAX()) in data) else CLOSE_BRACE)
 
     # Enter a parse tree produced by dgdlParser#players.
     def enterPlayers(self, ctx: dgdlParser.PlayersContext):
-        pass
+        data = str(ctx.getText())
+        if str(ctx.MIN()) in data:
+            self.game.players.min = int(
+                StringParser.between(data, str(ctx.MIN()) + COLON, COMMA if (str(ctx.MAX()) in data) else CLOSE_BRACE))
+        if str(ctx.MAX()) in data:
+            self.game.players.max = int(StringParser.between(data, str(ctx.MAX()) + COLON, CLOSE_BRACE))
 
     # Enter a parse tree produced by dgdlParser#player.
     def enterPlayer(self, ctx: dgdlParser.PlayerContext):
-        pass
+        data = str(ctx.getText())
+        player = Player()
+        if str(ctx.NAME()) in data:
+            player.name = StringParser.between(data, str(ctx.NAME()) + COLON,
+                                               COMMA if (ctx.roles()) else CLOSE_BRACE)
+        self.game.players.list.append(player)
 
     # Enter a parse tree produced by dgdlParser#roles.
     def enterRoles(self, ctx: dgdlParser.RolesContext):
@@ -89,10 +84,6 @@ class GameFactory(dgdlListener):
 
     # Enter a parse tree produced by dgdlParser#principle.
     def enterPrinciple(self, ctx: dgdlParser.PrincipleContext):
-        pass
-
-    # Enter a parse tree produced by dgdlParser#scope_type.
-    def enterScope_type(self, ctx: dgdlParser.Scope_typeContext):
         pass
 
     # Enter a parse tree produced by dgdlParser#moves.

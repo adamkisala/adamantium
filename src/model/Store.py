@@ -1,4 +1,5 @@
-from enums import Structure, Visibility
+from enums.Structure import Structure
+from enums.Visibility import Visibility
 
 
 class Store:
@@ -9,13 +10,21 @@ class Store:
         self._owner = []
 
     def _set_structure(self, structure_tmp: Structure = None):
-        self._structure = structure_tmp
+        if structure_tmp == str.lower(Structure.SET.name):
+            self._structure = Structure.SET
+        elif structure_tmp == str.lower(Structure.QUEUE.name):
+            self._structure = Structure.QUEUE
+        elif structure_tmp == str.lower(Structure.STACK.name):
+            self._structure = Structure.STACK
 
     def _get_structure(self) -> Structure:
         return self._structure
 
     def _set_visibility(self, visibility_tmp: Visibility = None):
-        self._visibility = visibility_tmp
+        if visibility_tmp == str.lower(Visibility.PRIVATE.name):
+            self._visibility = Visibility.PRIVATE
+        elif visibility_tmp == str.lower(Visibility.PUBLIC.name):
+            self._visibility = Visibility.PUBLIC
 
     def _get_visibility(self) -> Visibility:
         return self._visibility

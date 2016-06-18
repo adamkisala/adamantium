@@ -7,7 +7,7 @@ from model.Players import Players
 class Game:
     def __init__(self):
         self._name = None
-        self._store = Store()
+        self._store = []
         self._turns = Turns()
         self._players = Players()
 
@@ -17,10 +17,10 @@ class Game:
     def _get_name(self) -> str:
         return self._name
 
-    def _set_store(self, store_tmp: Store = None):
+    def _set_store(self, store_tmp: [] = None):
         self._store = store_tmp
 
-    def _get_store(self) -> Store:
+    def _get_store(self) -> []:
         return self._store
 
     def _set_turns(self, turns_tmp: Turns = None):
@@ -36,7 +36,7 @@ class Game:
         return self._players
 
     name = property(_get_name, _set_name, None)
-    store = property(_get_store, _set_store, None)
+    stores = property(_get_store, _set_store, None)
     turns = property(_get_turns, _set_turns, None)
     players = property(_get_players, _set_players, None)
 
@@ -50,10 +50,16 @@ class Game:
 
         print("Players min: " + str(self.players.min))
         print("Players max: " + str(self.players.max))
+        print("Players: ")
+        for player in self.players.list:
+            print("\t" + player.name)
 
         print("Stores")
-        print("Owners: " + str(self.store.owner))
-        print(self.store.visibility)
-        print(self.store.structure)
+        for store in self.stores:
+            print("\t" + store.name)
+            print("\t" + "Owners: " + str(store.owner))
+            print("\t" + str(store.visibility))
+            print("\t" + str(store.structure))
+
 
         pass

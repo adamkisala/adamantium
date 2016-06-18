@@ -24,46 +24,6 @@ class dgdlVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by dgdlParser#visibility.
-    def visitVisibility(self, ctx:dgdlParser.VisibilityContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#structure.
-    def visitStructure(self, ctx:dgdlParser.StructureContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#magnitude.
-    def visitMagnitude(self, ctx:dgdlParser.MagnitudeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#ordering.
-    def visitOrdering(self, ctx:dgdlParser.OrderingContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#visibility_type.
-    def visitVisibility_type(self, ctx:dgdlParser.Visibility_typeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#structure_type.
-    def visitStructure_type(self, ctx:dgdlParser.Structure_typeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#magnitude_type.
-    def visitMagnitude_type(self, ctx:dgdlParser.Magnitude_typeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#ordering_type.
-    def visitOrdering_type(self, ctx:dgdlParser.Ordering_typeContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by dgdlParser#players.
     def visitPlayers(self, ctx:dgdlParser.PlayersContext):
         return self.visitChildren(ctx)
@@ -91,11 +51,6 @@ class dgdlVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by dgdlParser#scope.
     def visitScope(self, ctx:dgdlParser.ScopeContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by dgdlParser#scope_type.
-    def visitScope_type(self, ctx:dgdlParser.Scope_typeContext):
         return self.visitChildren(ctx)
 
 

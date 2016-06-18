@@ -35,78 +35,6 @@ class dgdlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by dgdlParser#visibility.
-    def enterVisibility(self, ctx:dgdlParser.VisibilityContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#visibility.
-    def exitVisibility(self, ctx:dgdlParser.VisibilityContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#structure.
-    def enterStructure(self, ctx:dgdlParser.StructureContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#structure.
-    def exitStructure(self, ctx:dgdlParser.StructureContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#magnitude.
-    def enterMagnitude(self, ctx:dgdlParser.MagnitudeContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#magnitude.
-    def exitMagnitude(self, ctx:dgdlParser.MagnitudeContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#ordering.
-    def enterOrdering(self, ctx:dgdlParser.OrderingContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#ordering.
-    def exitOrdering(self, ctx:dgdlParser.OrderingContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#visibility_type.
-    def enterVisibility_type(self, ctx:dgdlParser.Visibility_typeContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#visibility_type.
-    def exitVisibility_type(self, ctx:dgdlParser.Visibility_typeContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#structure_type.
-    def enterStructure_type(self, ctx:dgdlParser.Structure_typeContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#structure_type.
-    def exitStructure_type(self, ctx:dgdlParser.Structure_typeContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#magnitude_type.
-    def enterMagnitude_type(self, ctx:dgdlParser.Magnitude_typeContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#magnitude_type.
-    def exitMagnitude_type(self, ctx:dgdlParser.Magnitude_typeContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#ordering_type.
-    def enterOrdering_type(self, ctx:dgdlParser.Ordering_typeContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#ordering_type.
-    def exitOrdering_type(self, ctx:dgdlParser.Ordering_typeContext):
-        pass
-
-
     # Enter a parse tree produced by dgdlParser#players.
     def enterPlayers(self, ctx:dgdlParser.PlayersContext):
         pass
@@ -158,15 +86,6 @@ class dgdlListener(ParseTreeListener):
 
     # Exit a parse tree produced by dgdlParser#scope.
     def exitScope(self, ctx:dgdlParser.ScopeContext):
-        pass
-
-
-    # Enter a parse tree produced by dgdlParser#scope_type.
-    def enterScope_type(self, ctx:dgdlParser.Scope_typeContext):
-        pass
-
-    # Exit a parse tree produced by dgdlParser#scope_type.
-    def exitScope_type(self, ctx:dgdlParser.Scope_typeContext):
         pass
 
 
