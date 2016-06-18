@@ -12,9 +12,10 @@ from enums.Ordering import Ordering
 from enums.Scope import *
 from helpers.StringParser import *
 from helpers.Constants import *
+from gen.dgdlVisitor import *
+from model.Principle import *
 
-
-class GameFactory(dgdlListener):
+class GameFactory(dgdlListener, dgdlVisitor):
     def __init__(self, game_temp: Game = Game()):
         self._game = game_temp
         pass
@@ -72,11 +73,16 @@ class GameFactory(dgdlListener):
         if str(ctx.NAME()) in data:
             player.name = StringParser.between(data, str(ctx.NAME()) + COLON,
                                                COMMA if (ctx.roles()) else CLOSE_BRACE)
+        if ctx.roles():
+            roles = self.visit(ctx.roles())
+            player.roles = roles
         self.game.players.list.append(player)
 
     # Enter a parse tree produced by dgdlParser#roles.
     def enterRoles(self, ctx: dgdlParser.RolesContext):
-        pass
+        if (ctx.getRuleContext() == self.exitStore) or (ctx.getRuleIndex() == self.exitPlayer):
+            roles = self.visit(dgdlParser.RolesContext)
+            self.game.roles = roles
 
     # Enter a parse tree produced by dgdlParser#principles.
     def enterPrinciples(self, ctx: dgdlParser.PrinciplesContext):
@@ -84,7 +90,16 @@ class GameFactory(dgdlListener):
 
     # Enter a parse tree produced by dgdlParser#principle.
     def enterPrinciple(self, ctx: dgdlParser.PrincipleContext):
-        pass
+        principle = Principle()
+        data = str(ctx.getText())
+        if str(ctx.IDENT()) in data:
+            principle.name = StringParser.before(data, OPEN_BRACE)
+        if ctx.scope():
+            principle.scope = self.visit(ctx.scope())
+        if ctx.conditions():
+            principle.conditions = self.visit(ctx.conditions())
+        if ctx.effects():
+            principle.effects = self.visit(ctx.effects())
 
     # Enter a parse tree produced by dgdlParser#moves.
     def enterMoves(self, ctx: dgdlParser.MovesContext):
@@ -113,6 +128,45 @@ class GameFactory(dgdlListener):
     # Enter a parse tree produced by dgdlParser#param.
     def enterParam(self, ctx: dgdlParser.ParamContext):
         pass
+
+    # Visit a parse tree produced by dgdlParser#roles.
+    def visitRoles(self, ctx: dgdlParser.RolesContext):
+        data = str(ctx.getText())
+        values = []
+        if str(ctx.ROLES()) in data:
+            roles = StringParser.between(data, str(ctx.ROLES()) + OPEN_BRACE, CLOSE_BRACE)
+            values = roles.split(",")
+        return values
+
+    # Visit a parse tree produced by dgdlParser#scope.
+    def visitScope(self, ctx: dgdlParser.ScopeContext):
+        data = str(ctx.getText())
+        scope = None
+        if str(ctx.SCOPE()) in data:
+            scope = StringParser.after(data, str(ctx.SCOPE()) + COLON)
+        return scope
+
+    # Visit a parse tree produced by dgdlParser#conditions.
+    def visitConditions(self, ctx:dgdlParser.ConditionsContext):
+        data = str(ctx.getText())
+        condition = Condition()
+        values = []
+        if str(ctx.CONDITIONS()) in data:
+            condition.name = StringParser.before(data, OPEN_BRACE)
+            conditions = StringParser.between(data, str(ctx.CONDITIONS()) + OPEN_BRACE, CLOSE_BRACE)
+            condition.list = conditions.split(",")
+        return condition
+
+    # Visit a parse tree produced by dgdlParser#effects.
+    def visitEffects(self, ctx: dgdlParser.EffectsContext):
+        data = str(ctx.getText())
+        effect = Effect()
+        values = []
+        if str(ctx.EFFECTS()) in data:
+            effect.name = StringParser.before(data, OPEN_BRACE)
+            effects = StringParser.between(data, str(ctx.EFFECTS()) + OPEN_BRACE, CLOSE_BRACE)
+            effect.list = effects.split(",")
+        return effect
 
     def create_game(self, input_stream):
         lexer = dgdlLexer(input_stream)

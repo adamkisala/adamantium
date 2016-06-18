@@ -10,6 +10,8 @@ class Game:
         self._store = []
         self._turns = Turns()
         self._players = Players()
+        self._roles = []
+        self._principles = []
 
     def _set_name(self, name_tmp: str = None):
         self._name = name_tmp
@@ -35,10 +37,24 @@ class Game:
     def _get_players(self) -> Players:
         return self._players
 
+    def _get_roles(self) -> []:
+        return self._roles
+
+    def _set_roles(self, roles_tmp: [] = None):
+        self._roles = roles_tmp
+
+    def _get_principles(self) -> []:
+        return self._principles
+
+    def _set_principles(self, principles_tmp: [] = None):
+        self._principles = principles_tmp
+
     name = property(_get_name, _set_name, None)
     stores = property(_get_store, _set_store, None)
     turns = property(_get_turns, _set_turns, None)
     players = property(_get_players, _set_players, None)
+    roles = property(_get_roles, _set_roles, None)
+    principles = property(_get_principles, _set_principles, None)
 
     def start_game(self):
         print("Game started: " + self.name)
@@ -53,6 +69,7 @@ class Game:
         print("Players: ")
         for player in self.players.list:
             print("\t" + player.name)
+            print("\t" + str(player.roles))
 
         print("Stores")
         for store in self.stores:
@@ -61,5 +78,10 @@ class Game:
             print("\t" + str(store.visibility))
             print("\t" + str(store.structure))
 
+        print("Roles:")
+        for role in self.roles:
+            print("\t" + role)
 
-        pass
+        print("Principles:")
+        for principle in self.principles:
+            print("\t" + principle)
