@@ -8,31 +8,31 @@ class Store:
         self._name = None
         self._owner = []
 
-    def set_structure(self, structure_tmp: Structure = None):
+    def _set_structure(self, structure_tmp: Structure = None):
         self._structure = structure_tmp
 
-    def get_structure(self) -> Structure:
+    def _get_structure(self) -> Structure:
         return self._structure
 
-    def set_visibility(self, visibility_tmp: Visibility = None):
+    def _set_visibility(self, visibility_tmp: Visibility = None):
         self._visibility = visibility_tmp
 
-    def get_visibility(self) -> Visibility:
+    def _get_visibility(self) -> Visibility:
         return self._visibility
 
-    def set_name(self, name_tmp: str = None):
+    def _set_name(self, name_tmp: str = None):
         self._name = name_tmp
 
-    def get_name(self) -> str:
+    def _get_name(self) -> str:
         return self._name
 
-    def set_owner(self, owner_tmp: [] = None):
+    def _set_owner(self, owner_tmp: [] = None):
         self._owner = owner_tmp
 
-    def get_owner(self) -> []:
+    def _get_owner(self) -> []:
         return self._owner
 
-    structure = property(get_structure, set_structure)
-    visibility = property(get_visibility, set_visibility)
-    name = property(get_name, set_name)
-    owner = property(get_owner, set_owner)
+    structure = property(_get_structure, _set_structure)
+    visibility = property(_get_visibility, _set_visibility)
+    name = property(_get_name, _set_name)
+    owner = property(_get_owner, _set_owner)

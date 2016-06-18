@@ -9,6 +9,8 @@ from enums.Visibility import Visibility
 from enums.Magnitude import Magnitude
 from enums.Ordering import Ordering
 from enums.Scope import *
+from helpers.StringParser import *
+from helpers.Constants import *
 
 
 class GameFactory(dgdlListener):
@@ -16,18 +18,28 @@ class GameFactory(dgdlListener):
         self._game = game_temp
         pass
 
-    def get_game(self) -> Game:
+    def _get_game(self) -> Game:
         return self._game
 
-    game = property(get_game, None, None, "Game object created by factory")
+    game = property(_get_game, None, None, "Game object created by factory")
+
+    # Enter a parse tree produced by dgdlParser#game.
+    def enterGame(self, ctx: dgdlParser.GameContext):
+        if str(ctx.IDENT()) in str(ctx.getText()):
+            self.game.name = StringParser.before(str(ctx.getText()), OPEN_BRACE)
 
     # Enter a parse tree produced by dgdlParser#store.
     def enterStore(self, ctx: dgdlParser.StoreContext):
-        pass
+        if str(ctx.NAME()) in str(ctx.getText()):
+            self.game.store.name = StringParser.between(str(ctx.getText()), str(ctx.NAME()) + COLON, COLON)
+        if str(ctx.OWNER()) in str(ctx.getText()):
+            values = StringParser.between(str(ctx.getText()), str(ctx.OWNER()) + OPEN_BRACE, CLOSE_BRACE)
+            self.game.store.owner = values.split(",")
 
     # Enter a parse tree produced by dgdlParser#turns.
     def enterTurns(self, ctx: dgdlParser.TurnsContext):
-        pass
+        if str(ctx.MAX()) in str(ctx.getText()):
+            self.game.turns.max = int(StringParser.between(str(ctx.getText()), str(ctx.MAX()) + COLON, CLOSE_BRACE))
 
     # Enter a parse tree produced by dgdlParser#visibility_type.
     def enterVisibility_type(self, ctx: dgdlParser.Visibility_typeContext):
@@ -49,10 +61,8 @@ class GameFactory(dgdlListener):
     def enterMagnitude_type(self, ctx: dgdlParser.Magnitude_typeContext):
         if str(ctx.getText()) == str(ctx.SINGLE()):
             self.game.turns.magnitude = Magnitude.SINGLE
-            print(self.game.turns.magnitude)
         elif str(ctx.getText()) == str(ctx.MULTIPLE()):
             self.game.turns.magnitude = Magnitude.MULTIPLE
-            print(self.game.turns.magnitude)
 
     # Enter a parse tree produced by dgdlParser#ordering_type.
     def enterOrdering_type(self, ctx: dgdlParser.Ordering_typeContext):

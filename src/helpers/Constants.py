@@ -1,1 +1,5 @@
 NO_GAME_DESCRIPTION = "Please provide game description"
+COLON = ":"
+OPEN_BRACE = "{"
+CLOSE_BRACE = "}"
+COMMA = ","

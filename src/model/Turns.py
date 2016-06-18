@@ -6,25 +6,26 @@ class Turns:
     def __init__(self):
         self._magnitude = None
         self._ordering = None
+        self._max = None
 
-    def set_magnitude(self, magnitude_tmp: Magnitude = None):
-        """
-
-        :param magnitude_tmp:
-        """
+    def _set_magnitude(self, magnitude_tmp: Magnitude = None):
         self._magnitude = magnitude_tmp
 
-    def set_ordering(self, ordering_tmp: Ordering = None):
+    def _set_ordering(self, ordering_tmp: Ordering = None):
         self._ordering = ordering_tmp
 
-    def get_magnitude(self) -> Magnitude:
+    def _set_max(self, max_tmp: int = None):
+        self._max = max_tmp
+
+    def _get_magnitude(self) -> Magnitude:
         return self._magnitude
 
-    def get_ordering(self) -> Ordering:
+    def _get_ordering(self) -> Ordering:
         return self._ordering
 
-    def commit(self):
-        pass
+    def _get_max(self) -> int:
+        return self._max
 
-    ordering = property(get_ordering, set_ordering, None)
-    magnitude = property(get_magnitude, set_magnitude, None)
+    ordering = property(_get_ordering, _set_ordering, None)
+    magnitude = property(_get_magnitude, _set_magnitude, None)
+    max = property(_get_max, _set_max, None)
