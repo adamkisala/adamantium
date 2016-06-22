@@ -2,7 +2,7 @@ from model.Store import Store
 from model.Turns import Turns
 from model.Player import Player
 from model.Players import Players
-
+from model.Principle import Principle
 
 class Game:
     def __init__(self):
@@ -12,6 +12,7 @@ class Game:
         self._players = Players()
         self._roles = []
         self._principles = []
+        self._moves = []
 
     def _set_name(self, name_tmp: str = None):
         self._name = name_tmp
@@ -49,12 +50,19 @@ class Game:
     def _set_principles(self, principles_tmp: [] = None):
         self._principles = principles_tmp
 
+    def _set_moves(self, moves_tmp: [] = None):
+        self._moves = moves_tmp
+
+    def _get_moves(self) -> []:
+        return self._moves
+
     name = property(_get_name, _set_name, None)
     stores = property(_get_store, _set_store, None)
     turns = property(_get_turns, _set_turns, None)
     players = property(_get_players, _set_players, None)
     roles = property(_get_roles, _set_roles, None)
     principles = property(_get_principles, _set_principles, None)
+    moves = property(_get_moves, _set_moves, None)
 
     def start_game(self):
         print("Game started: " + self.name)
@@ -84,4 +92,22 @@ class Game:
 
         print("Principles:")
         for principle in self.principles:
-            print("\t" + principle)
+            print("\t" + principle.name)
+            print("\t" + str(principle.scope))
+            for condition in principle.conditions:
+                print("\t" + "\t" + condition.name)
+                print("\t" + "\t" + str(condition.list))
+            for effect in principle.effects:
+                print("\t" + "\t" + effect.name)
+                print("\t" + "\t" + str(effect.list))
+
+        print("Moves:")
+        for move in self.moves:
+            print("\t" + move.name)
+            print("\t" + "\t" + "Content: " + str(move.content.list))
+            for condition in move.conditions:
+                print("\t" + "\t" + condition.name)
+                print("\t" + "\t" + str(condition.list))
+            for effect in move.effects:
+                print("\t" + "\t" + effect.name)
+                print("\t" + "\t" + str(effect.list))

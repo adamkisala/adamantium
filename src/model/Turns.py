@@ -9,10 +9,16 @@ class Turns:
         self._max = None
 
     def _set_magnitude(self, magnitude_tmp: Magnitude = None):
-        self._magnitude = magnitude_tmp
+        if magnitude_tmp == str.lower(Magnitude.SINGLE.name):
+            self._magnitude = Magnitude.SINGLE
+        elif magnitude_tmp == str.lower(Magnitude.MULTIPLE.name):
+            self._magnitude = Magnitude.MULTIPLE
 
     def _set_ordering(self, ordering_tmp: Ordering = None):
-        self._ordering = ordering_tmp
+        if ordering_tmp == str.lower(Ordering.LIBERAL.name):
+            self._ordering = Ordering.LIBERAL
+        elif ordering_tmp == str.lower(Ordering.STRICT.name):
+            self._ordering = Ordering.STRICT
 
     def _set_max(self, max_tmp: int = None):
         self._max = max_tmp
