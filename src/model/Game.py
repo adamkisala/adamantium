@@ -4,6 +4,7 @@ from model.Player import Player
 from model.Players import Players
 from model.Principle import Principle
 
+
 class Game:
     def __init__(self):
         self._name = None
@@ -88,7 +89,7 @@ class Game:
 
         print("Roles:")
         for role in self.roles:
-            print("\t" + role)
+            print("\t" + str(role))
 
         print("Principles:")
         for principle in self.principles:

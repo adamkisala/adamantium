@@ -1,6 +1,7 @@
 from helpers.Constants import *
 from factory.GameFactory import *
 from model.Game import Game
+from controllers.GameController import *
 import sys
 
 
@@ -8,8 +9,11 @@ def main(argv):
     if len(sys.argv) > 0:
         file = FileStream(argv[1])
         game_fac = GameFactory()
-        game_fac.create_game(file)
+        game = game_fac.create_game(file)
         game_fac.game.start_game()
+        game_controller = GameController(game)
+        game_controller.game.start_game()
+
     else:
         print(NO_GAME_DESCRIPTION)
 

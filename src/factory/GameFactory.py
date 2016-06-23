@@ -5,11 +5,6 @@ from gen.dgdlListener import dgdlListener
 from antlr4 import *
 from gen.dgdlParser import dgdlParser
 from gen.dgdlLexer import dgdlLexer
-from enums.Structure import Structure
-from enums.Visibility import Visibility
-from enums.Magnitude import Magnitude
-from enums.Ordering import Ordering
-from enums.Scope import *
 from helpers.StringParser import *
 from helpers.Constants import *
 from gen.dgdlVisitor import *
@@ -21,7 +16,6 @@ from model.Content import Content
 class GameFactory(dgdlListener, dgdlVisitor):
     def __init__(self, game_temp: Game = Game()):
         self._game = game_temp
-        self._parent_state = None
         pass
 
     def _get_game(self) -> Game:
@@ -34,9 +28,9 @@ class GameFactory(dgdlListener, dgdlVisitor):
         data = str(ctx.getText())
         if str(ctx.IDENT()) in data:
             self.game.name = StringParser.before(data, OPEN_BRACE)
-        if str(ctx.roles()):
-            # self.game.roles = self.visit(ctx.roles())
-            pass
+        if ctx.roles():
+            for role in ctx.roles():
+                self.game.roles.append(self.visit(ctx.roles(0)))
 
     # Enter a parse tree produced by dgdlParser#store.
     def enterStore(self, ctx: dgdlParser.StoreContext):
@@ -217,3 +211,4 @@ class GameFactory(dgdlListener, dgdlVisitor):
         listener = GameFactory()
         walker = ParseTreeWalker()
         walker.walk(listener, tree)
+        return self.game
