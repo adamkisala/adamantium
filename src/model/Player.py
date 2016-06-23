@@ -1,6 +1,12 @@
+from interface.IGameObserver import *
 
-class Player:
+
+class Player(IGameObserver):
+    def update(self, i_game_data_collector: IGameDataCollector = None):
+        pass
+
     def __init__(self):
+        super().__init__()
         self._name = None
         self._roles = []
 

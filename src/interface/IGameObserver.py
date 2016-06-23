@@ -8,9 +8,9 @@ class IGameObserver(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def update(self, iGameDataCollector):
+    def update(self, i_game_data_collector: IGameDataCollector = None):
         """
 
-        :type iGameDataCollector: IGameDataCollector
+        :type i_game_data_collector: IGameDataCollector
         """
         pass
