@@ -66,7 +66,7 @@ class Game:
     principles = property(_get_principles, _set_principles, None)
     moves = property(_get_moves, _set_moves, None)
 
-    def start_game(self):
+    def print_self(self):
         print("Game started: " + self.name)
 
         print("Turns")

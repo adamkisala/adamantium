@@ -10,9 +10,9 @@ def main(argv):
         file = FileStream(argv[1])
         game_fac = GameFactory()
         game = game_fac.create_game(file)
-        game_fac.game.start_game()
         game_controller = GameController(game)
-        game_controller.game.start_game()
+        # game_controller.game.print_self()
+        game_controller.play()
 
     else:
         print(NO_GAME_DESCRIPTION)

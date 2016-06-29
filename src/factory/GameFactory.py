@@ -86,10 +86,6 @@ class GameFactory(dgdlListener, dgdlVisitor):
             roles = self.visit(dgdlParser.RolesContext)
             self.game.roles = roles
 
-    # Enter a parse tree produced by dgdlParser#principles.
-    def enterPrinciples(self, ctx: dgdlParser.PrinciplesContext):
-        pass
-
     # Enter a parse tree produced by dgdlParser#principle.
     def enterPrinciple(self, ctx: dgdlParser.PrincipleContext):
         principle = Principle()
@@ -121,26 +117,6 @@ class GameFactory(dgdlListener, dgdlVisitor):
         if ctx.effects():
             move.effects = self.visit(ctx.effects())
         self.game.moves.append(move)
-
-    # Enter a parse tree produced by dgdlParser#content.
-    def enterContent(self, ctx: dgdlParser.ContentContext):
-        pass
-
-    # Enter a parse tree produced by dgdlParser#conditions.
-    def enterConditions(self, ctx: dgdlParser.ConditionsContext):
-        pass
-
-    # Enter a parse tree produced by dgdlParser#effects.
-    def enterEffects(self, ctx: dgdlParser.EffectsContext):
-        pass
-
-    # Enter a parse tree produced by dgdlParser#expr.
-    def enterExpr(self, ctx: dgdlParser.ExprContext):
-        pass
-
-    # Enter a parse tree produced by dgdlParser#param.
-    def enterParam(self, ctx: dgdlParser.ParamContext):
-        pass
 
     # Visit a parse tree produced by dgdlParser#roles.
     def visitRoles(self, ctx: dgdlParser.RolesContext):
