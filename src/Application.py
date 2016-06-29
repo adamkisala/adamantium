@@ -11,7 +11,6 @@ def main(argv):
         game_fac = GameFactory()
         game = game_fac.create_game(file)
         game_controller = GameController(game)
-        # game_controller.game.print_self()
         game_controller.play()
 
     else:
