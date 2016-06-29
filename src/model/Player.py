@@ -1,5 +1,5 @@
 from interface.IGameObserver import *
-
+from enums.Role import Role
 
 class Player(IGameObserver):
     def update(self, i_game_data_collector: IGameDataCollector = None):

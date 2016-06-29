@@ -7,7 +7,7 @@ class GameController(IObservable):
     def __init__(self, game_tmp: Game = None):
         super().__init__()
         self._game = game_tmp
-        self._listeners = [IGameObserver]
+        self._listeners = []
         for player in self.game.players.list:
             self.listeners.append(player)
 

@@ -1,3 +1,4 @@
+from enums.Role import Role
 from model.Game import Game
 from model.Player import Player
 from model.Store import Store
@@ -147,7 +148,24 @@ class GameFactory(dgdlListener, dgdlVisitor):
         values = []
         if str(ctx.ROLES()) in data:
             roles = StringParser.between(data, str(ctx.ROLES()) + OPEN_BRACE, CLOSE_BRACE)
-            values = roles.split(COMMA)
+            roles_tmp = roles.split(COMMA)
+            for role in roles_tmp:
+                if str.upper(role) == Role.LISTENER.name:
+                    values.append(Role.LISTENER)
+                elif str.upper(role) == Role.SPEAKER.name:
+                    values.append(Role.SPEAKER)
+                elif str.upper(role) == Role.RESPONDENT.name:
+                    values.append(Role.RESPONDENT)
+                elif str.upper(role) == Role.INITIATOR.name:
+                    values.append(Role.INITIATOR)
+                elif str.upper(role) == Role.LOOSER.name:
+                    values.append(Role.LOOSER)
+                elif str.upper(role) == Role.WINNER.name:
+                    values.append(Role.WINNER)
+                elif str.upper(role) == Role.PROPONENT.name:
+                    values.append(Role.PROPONENT)
+                elif str.upper(role) == Role.OPPONENT.name:
+                    values.append(Role.OPPONENT)
         return values
 
     # Visit a parse tree produced by dgdlParser#scope.

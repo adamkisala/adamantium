@@ -3,6 +3,7 @@ from model.Turns import Turns
 from model.Player import Player
 from model.Players import Players
 from model.Principle import Principle
+from model.Move import Move
 
 
 class Game:
