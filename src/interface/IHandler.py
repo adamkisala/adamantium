@@ -9,3 +9,7 @@ class IHandler(metaclass=ABCMeta):
     @abstractmethod
     def handle(self):
         pass
+
+    @abstractmethod
+    def type(self):
+        pass

@@ -1,10 +1,43 @@
 from interface.IGameDataCollector import IGameDataCollector
+from interface.IHandler import IHandler
+from model.GameStatus import GameStatus
+from controllers.ConditionsController import ConditionsController
+from controllers.EffectsController import EffectsController
+from controllers.StoreController import StoreController
+from controllers.RulesController import RulesController
+from controllers.MoveControlller import MoveController
+from controllers.MoveValidationController import MoveValidationController
+from controllers.TranscriptController import TranscriptController
 
 
 class GameStatusCollector(IGameDataCollector):
-    def collect(self):
-        pass
+    def collect(self, i_handler: IHandler = None):
+        if i_handler is None:
+            for handler in self.__handlers:
+                self.game_status = handler.handle(self.game_status)
+        else:
+            for handler in self.__handlers:
+                self.game_status = handler.handle(self.game_status) if (
+                    isinstance(handler, i_handler)) else self.game_status
 
     def __init__(self):
         super().__init__()
+        self.__game_status = GameStatus()
+        self.__conditions_controller = ConditionsController()
+        self.__effects_controller = EffectsController()
+        self.__store_controller = StoreController()
+        self.__rules_controller = RulesController()
+        self.__move_controller = MoveController()
+        self.__move_validation_controller = MoveValidationController()
+        self.__transcript_controller = TranscriptController()
+        self.__handlers = [self.__rules_controller, self.__conditions_controller, self.__move_controller,
+                           self.__move_validation_controller, self.__effects_controller,
+                           self.__store_controller, self.__transcript_controller]
 
+    def __get_game_status(self) -> GameStatus:
+        return self.__game_status
+
+    def __set_game_status(self, game_status_tmp: GameStatus = None):
+        self.__game_status = game_status_tmp
+
+    game_status = property(__get_game_status, __set_game_status, None)

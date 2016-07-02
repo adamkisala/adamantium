@@ -3,7 +3,7 @@ from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
 
 
-class StoreController(IHandler):
+class EffectsController(IHandler):
     def type(self):
         return HandlerType.POST_MOVE_CHECK
 

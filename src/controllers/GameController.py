@@ -1,16 +1,12 @@
 from interface.IObservable import IObservable
 from model import Game
-from interface.IGameObserver import IGameObserver
 from concrete.ConsoleInputController import ConsoleInputController
 from concrete.ConsoleOutputController import ConsoleOutputController
 from concrete.GameEndController import GameEndController
-from interface.IHandler import IHandler
+from concrete.data_collectors.GameStatusCollector import GameStatusCollector
 
 
-class GameController(IObservable, IHandler):
-    def handle(self):
-        pass
-
+class GameController(IObservable):
     def __init__(self, game_tmp: Game = None):
         super().__init__()
         self._game = game_tmp
@@ -20,6 +16,7 @@ class GameController(IObservable, IHandler):
         self._console_input_controller = ConsoleInputController()
         self._console_output_controller = ConsoleOutputController()
         self._game_end_controller = GameEndController()
+        self._game_status_collector = GameStatusCollector()
 
     def _get_game(self) -> Game:
         return self._game
@@ -42,7 +39,6 @@ class GameController(IObservable, IHandler):
 
     def play(self):
         self.game.print_self()
-        data = self._console_input_controller.get_input()
-        while not self._game_end_controller.is_finished(data):
-            self._console_output_controller.send_output("Entered: " + data)
-            data = self._console_input_controller.get_input()
+        while not self._game_end_controller.is_finished():
+            self._game_status_collector.collect()
+
