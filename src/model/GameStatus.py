@@ -1,5 +1,7 @@
+from model.Game import Game
 
 
-class GameStatus:
+class GameStatus(Game):
     def __init__(self):
-        pass
+        super().__init__()
+

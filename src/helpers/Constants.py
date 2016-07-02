@@ -7,3 +7,4 @@ OPEN_BRACKET = "("
 CLOSE_BRACKET = ")"
 EXIT = "EXIT"
 EMPTY = ""
+DEBUG = True

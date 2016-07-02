@@ -1,6 +1,7 @@
 from interface.IHandler import IHandler
 from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
+from helpers.Constants import *
 
 
 class RulesController(IHandler):
@@ -11,4 +12,6 @@ class RulesController(IHandler):
         super().__init__()
 
     def handle(self, game_status_tmp: GameStatus = None):
+        if DEBUG:
+            print("Handling in: " + str(type(self)))
         return game_status_tmp

@@ -3,6 +3,7 @@ from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
 from model.Move import Move
 from enums.HandlerType import HandlerType
+from helpers.Constants import *
 
 
 class MoveController(IHandler):
@@ -10,6 +11,8 @@ class MoveController(IHandler):
         return HandlerType.MOVE
 
     def handle(self, game_status_tmp: GameStatus = None):
+        if DEBUG:
+            print("Handling in: " + str(type(self)))
         move_str = self.__move_collector.collect()
         self.__move = self.__parse_move(move_str)
         return game_status_tmp

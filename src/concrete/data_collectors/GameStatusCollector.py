@@ -5,20 +5,24 @@ from controllers.ConditionsController import ConditionsController
 from controllers.EffectsController import EffectsController
 from controllers.StoreController import StoreController
 from controllers.RulesController import RulesController
-from controllers.MoveControlller import MoveController
+from controllers.MoveController import MoveController
 from controllers.MoveValidationController import MoveValidationController
 from controllers.TranscriptController import TranscriptController
+from helpers.Constants import *
 
 
 class GameStatusCollector(IGameDataCollector):
     def collect(self, i_handler: IHandler = None):
         if i_handler is None:
+            # TODO differentiate between HandlerTypes
             for handler in self.__handlers:
                 self.game_status = handler.handle(self.game_status)
         else:
             for handler in self.__handlers:
-                self.game_status = handler.handle(self.game_status) if (
-                    isinstance(handler, i_handler)) else self.game_status
+                if isinstance(handler, i_handler):
+                    if DEBUG:
+                        print(str(type(handler)) + " is " + str(type(i_handler)))
+                    self.game_status = handler.handle(self.game_status)
 
     def __init__(self):
         super().__init__()
