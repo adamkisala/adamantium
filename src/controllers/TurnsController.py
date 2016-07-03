@@ -8,6 +8,7 @@ import controllers.GameController
 
 class TurnsController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
+        game_status_tmp.initial_turn = self.__initial
         game_status_tmp.new_turn = self.__evaluate_new_turn(game_status_tmp)
         return game_status_tmp
 
@@ -28,6 +29,7 @@ class TurnsController(IHandler):
     def __init__(self):
         super().__init__()
         self.__turns_count = 0
+        self.__initial = True
 
     def __get_turns_count(self) -> int:
         return self.__turns_count
@@ -37,7 +39,8 @@ class TurnsController(IHandler):
     def is_max_turns(self) -> bool:
         value = False
         if controllers.GameController.GameController.game.turns.max is not None and controllers.GameController.GameController.game.turns.max > 0:
-            value = True if (controllers.GameController.GameController.game.turns.max - self.turns_count <= 0) else False
+            value = True if (
+                controllers.GameController.GameController.game.turns.max - self.turns_count <= 0) else False
         return value
 
     def __turn_count_increment(self):
@@ -48,11 +51,23 @@ class TurnsController(IHandler):
         if controllers.GameController.GameController.game.turns.magnitude == Magnitude.SINGLE:
             new_turn = True
             self.__turns_count = 0
+            game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
+            if game_status_tmp.all_players_did_move:
+                self.__initial = False
         elif controllers.GameController.GameController.game.turns.magnitude == Magnitude.MULTIPLE:
             if controllers.GameController.GameController.game.turns.max is not None and controllers.GameController.GameController.game.turns.max > 0:
                 if self.turns_count >= controllers.GameController.GameController.game.turns.max:
                     new_turn = True
                     self.__turns_count = 0
+                    game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
+                    if game_status_tmp.all_players_did_move:
+                        self.__initial = False
+                elif self.turns_count == 0:
+                    new_turn = True
+                    self.__turn_count_increment()
+                    game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
+                    if game_status_tmp.all_players_did_move:
+                        self.__initial = False
                 else:
                     new_turn = False
                     self.__turn_count_increment()
@@ -61,8 +76,10 @@ class TurnsController(IHandler):
                 if move.final:
                     new_turn = True
                     self.__turns_count = 0
+                    game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
+                    if game_status_tmp.all_players_did_move:
+                        self.__initial = False
                 else:
                     new_turn = False
                     self.__turn_count_increment()
         return new_turn
-
