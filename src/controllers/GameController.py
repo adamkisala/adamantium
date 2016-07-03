@@ -14,7 +14,7 @@ class GameController(IObservable):
         for player in GameController.game.players.list:
             self._listeners.append(player)
         self._game_end_controller = GameEndController()
-        self._game_status_collector = GameStatusCollector()
+        self._game_status_collector = GameStatusCollector(game_tmp)
 
     def _set_listeners(self, listeners_tmp: [] = None):
         self._listeners = listeners_tmp

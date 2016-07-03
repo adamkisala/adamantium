@@ -9,6 +9,8 @@ from controllers.MoveController import MoveController
 from controllers.MoveValidationController import MoveValidationController
 from controllers.TranscriptController import TranscriptController
 from helpers.Constants import *
+from model.Game import Game
+from controllers.TurnsController import TurnsController
 
 
 class GameStatusCollector(IGameDataCollector):
@@ -24,9 +26,10 @@ class GameStatusCollector(IGameDataCollector):
                         print(str(type(handler)) + " is " + str(type(i_handler)))
                     self.game_status = handler.handle(self.game_status)
 
-    def __init__(self):
+    def __init__(self, game_tmp: Game = None):
         super().__init__()
-        self.__game_status = GameStatus()
+        self.__game_status = GameStatus(game_tmp)
+        self.__turns_controller = TurnsController()
         self.__conditions_controller = ConditionsController()
         self.__effects_controller = EffectsController()
         self.__store_controller = StoreController()
@@ -34,7 +37,8 @@ class GameStatusCollector(IGameDataCollector):
         self.__move_controller = MoveController()
         self.__move_validation_controller = MoveValidationController()
         self.__transcript_controller = TranscriptController()
-        self.__handlers = [self.__rules_controller, self.__conditions_controller, self.__move_controller,
+        self.__handlers = [self.__turns_controller, self.__rules_controller, self.__conditions_controller,
+                           self.__move_controller,
                            self.__move_validation_controller, self.__effects_controller,
                            self.__store_controller, self.__transcript_controller]
 

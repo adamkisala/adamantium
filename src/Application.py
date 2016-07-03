@@ -1,7 +1,6 @@
 from helpers.Constants import *
 from factory.GameFactory import *
-from model.Game import Game
-from controllers.GameController import *
+import controllers.GameController
 import sys
 
 
@@ -10,7 +9,7 @@ def main(argv):
         file = FileStream(argv[1])
         game_fac = GameFactory()
         game = game_fac.create_game(file)
-        game_controller = GameController(game)
+        game_controller = controllers.GameController.GameController(game)
         game_controller.play()
 
     else:

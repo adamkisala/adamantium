@@ -105,7 +105,7 @@ class Game:
 
         print("Moves:")
         for move in self.moves:
-            print("\t" + move.name)
+            print("\t" + move.id)
             print("\t" + "\t" + "Content: " + str(move.content.list))
             for condition in move.conditions:
                 print("\t" + "\t" + condition.name)
