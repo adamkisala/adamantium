@@ -13,3 +13,11 @@ class IHandler(metaclass=ABCMeta):
     @abstractmethod
     def type(self):
         pass
+
+    @abstractmethod
+    def update_flag(self):
+        pass
+
+    @abstractmethod
+    def update_collector(self):
+        pass

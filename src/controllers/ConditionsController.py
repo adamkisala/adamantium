@@ -5,6 +5,12 @@ from helpers.Constants import *
 
 
 class ConditionsController(IHandler):
+    def update_collector(self):
+        pass
+
+    def update_flag(self):
+        pass
+
     def type(self):
         return HandlerType.PRE_MOVE_CHECK
 
