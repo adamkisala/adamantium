@@ -20,6 +20,7 @@ class RulesController(IHandler):
 
     def handle(self, game_status_tmp: GameStatus = None):
         principles = self.__get_principles_to_update(game_status_tmp)
+        self.__evaluate_principle(principles)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         if DEBUG:
@@ -45,3 +46,9 @@ class RulesController(IHandler):
                 if DEBUG:
                     print("Not evaluating: " + str(principle))
         return values
+
+    def __evaluate_principle(self, principles_tmp: [] = None):
+        for principle in principles_tmp:
+            if DEBUG:
+                print("Checking conditions of: " + str(principle))
+            # TODO check condition here and apply effects

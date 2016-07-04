@@ -5,6 +5,7 @@ from model.Move import Move
 from enums.HandlerType import HandlerType
 from helpers.Constants import *
 from model.InteractionMove import InteractionMove
+import json
 
 
 class MoveController(IHandler):
@@ -27,6 +28,8 @@ class MoveController(IHandler):
         self.update_flag()
         if DEBUG:
             print("Handling in: " + str(type(self)))
+            print(str(self.__interaction_move) + " Move id: " + str(self.__interaction_move.move_id))
+            print(self.__interaction_move)
         return game_status_tmp
 
     def __init__(self):
@@ -34,8 +37,22 @@ class MoveController(IHandler):
         self.__move_collector = MoveCollector()
         self.__interaction_move = InteractionMove()
 
-    @staticmethod
-    def __parse_move(move_str: str = None) -> InteractionMove:
+    def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
-        move = InteractionMove()
+        # {"move_type":"permit", "content":"stufff", "player_id":"White", "role":"speaker"}
+        move = None
+        if self.__is_json(move_str):
+            move_json = json.loads(str(move_str))
+            move = InteractionMove(**move_json)
+        else:
+            if DEBUG:
+                print("Invalid JSON format")
+            # TODO raise error,
         return move
+
+    def __is_json(self, json_str: str = EMPTY):
+        try:
+            json_object = json.loads(json_str)
+        except ValueError:
+            return False
+        return True
