@@ -15,6 +15,7 @@ class Game:
         self._roles = []
         self._principles = []
         self._moves = []
+        self.__max_moves = None
 
     def _set_name(self, name_tmp: str = None):
         self._name = name_tmp
@@ -58,6 +59,12 @@ class Game:
     def _get_moves(self) -> []:
         return self._moves
 
+    def __set_max_moves(self, max_tmp: int = None):
+        self.__max_moves = max_tmp
+
+    def __get_max_moves(self) -> int:
+        return self.__max_moves
+
     name = property(_get_name, _set_name, None)
     stores = property(_get_store, _set_store, None)
     turns = property(_get_turns, _set_turns, None)
@@ -65,6 +72,7 @@ class Game:
     roles = property(_get_roles, _set_roles, None)
     principles = property(_get_principles, _set_principles, None)
     moves = property(_get_moves, _set_moves, None)
+    max_moves_per_turn = property(__get_max_moves, __set_max_moves, None)
 
     def print_self(self):
         print("Game started: " + self.name)
@@ -105,7 +113,7 @@ class Game:
 
         print("Moves:")
         for move in self.moves:
-            print("\t" + move.id)
+            print("\t" + move.name)
             print("\t" + "\t" + "Content: " + str(move.content.list))
             for condition in move.conditions:
                 print("\t" + "\t" + condition.name)

@@ -9,7 +9,7 @@ import controllers.GameController
 class TurnsController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         game_status_tmp.initial_turn = self.__initial
-        game_status_tmp.new_turn = self.__evaluate_new_turn(game_status_tmp)
+        game_status_tmp.new_turn = self.__evaluate_next_player_by_turns(game_status_tmp)
         return game_status_tmp
 
     def update_flag(self):
@@ -20,7 +20,7 @@ class TurnsController(IHandler):
         self.update_flag()
         if DEBUG:
             print("Handling in: " + str(type(self)))
-            print("New turn: " + str(game_status_tmp.new_turn))
+            print("Next player: " + str(game_status_tmp.new_turn))
         return game_status_tmp
 
     def type(self):
@@ -28,58 +28,37 @@ class TurnsController(IHandler):
 
     def __init__(self):
         super().__init__()
-        self.__turns_count = 0
+        self.__multiple_moves_count = 0
         self.__initial = True
 
     def __get_turns_count(self) -> int:
-        return self.__turns_count
+        return self.__multiple_moves_count
 
-    turns_count = property(__get_turns_count, None, None)
-
-    def is_max_turns(self) -> bool:
-        value = False
-        if controllers.GameController.GameController.game.turns.max is not None and controllers.GameController.GameController.game.turns.max > 0:
-            value = True if (
-                controllers.GameController.GameController.game.turns.max - self.turns_count <= 0) else False
-        return value
+    multiple_moves_count = property(__get_turns_count, None, None)
 
     def __turn_count_increment(self):
-        self.__turns_count += 1
+        self.__multiple_moves_count += 1
 
-    def __evaluate_new_turn(self, game_status_tmp: GameStatus = None) -> bool:
+    def __evaluate_next_player_by_turns(self, game_status_tmp: GameStatus = None) -> bool:
         new_turn = False
         if controllers.GameController.GameController.game.turns.magnitude == Magnitude.SINGLE:
             new_turn = True
-            self.__turns_count = 0
-            game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
-            if game_status_tmp.all_players_did_move:
-                self.__initial = False
         elif controllers.GameController.GameController.game.turns.magnitude == Magnitude.MULTIPLE:
-            if controllers.GameController.GameController.game.turns.max is not None and controllers.GameController.GameController.game.turns.max > 0:
-                if self.turns_count >= controllers.GameController.GameController.game.turns.max:
+            if game_status_tmp.max_moves_per_turn is not None:
+                if self.multiple_moves_count >= game_status_tmp.max_moves_per_turn:
                     new_turn = True
-                    self.__turns_count = 0
-                    game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
-                    if game_status_tmp.all_players_did_move:
-                        self.__initial = False
-                elif self.turns_count == 0:
+                    self.__multiple_moves_count = 0
+                elif self.multiple_moves_count == 0:
                     new_turn = True
                     self.__turn_count_increment()
-                    game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
-                    if game_status_tmp.all_players_did_move:
-                        self.__initial = False
                 else:
                     new_turn = False
                     self.__turn_count_increment()
-            else:
-                move = game_status_tmp.moves[len(game_status_tmp.moves) - 1]
-                if move.final:
+            elif game_status_tmp.last_interaction_move is not None:
+                if game_status_tmp.last_interaction_move.final:
                     new_turn = True
-                    self.__turns_count = 0
-                    game_status_tmp.set_did_move_flag_(game_status_tmp.current_speaker)
-                    if game_status_tmp.all_players_did_move:
-                        self.__initial = False
                 else:
                     new_turn = False
-                    self.__turn_count_increment()
+        if game_status_tmp.all_players_did_move:
+            self.__initial = False
         return new_turn

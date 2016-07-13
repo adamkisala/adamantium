@@ -109,7 +109,7 @@ class GameFactory(dgdlListener, dgdlVisitor):
         move = Move()
         data = str(ctx.getText())
         if str(ctx.IDENT()) in data:
-            move.id = StringParser.before(data, OPEN_BRACE)
+            move.name = StringParser.before(data, OPEN_BRACE)
         if ctx.content():
             move.content = self.visit(ctx.content())
         if ctx.conditions():

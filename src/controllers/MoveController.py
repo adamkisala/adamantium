@@ -10,7 +10,14 @@ import json
 
 class MoveController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
+        """
+        This only updates current speaker and last interaction move,
+        last_move should only be updated after validation in MoveValidationController
+        :param game_status_tmp:
+        :return: GameStatus
+        """
         game_status_tmp.current_speaker = self.__interaction_move.player_id
+        game_status_tmp.last_interaction_move = self.__interaction_move
         return game_status_tmp
 
     def update_flag(self):
@@ -39,7 +46,7 @@ class MoveController(IHandler):
 
     def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
-        # {"move_type":"permit", "content":"stufff", "player_id":"White", "role":"speaker"}
+        # {"move_type":"permit", "content":"stufff", "player_id":"White", "role":"speaker", "final": "True"}
         if self.__is_json(move_str):
             move_json = json.loads(str(move_str))
             move = InteractionMove(**move_json)
@@ -56,3 +63,4 @@ class MoveController(IHandler):
         except ValueError:
             return False
         return True
+

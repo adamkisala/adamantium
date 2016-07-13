@@ -39,7 +39,7 @@ class Move:
     def __set_final(self, final_tmp: bool = False):
         self.__final = final_tmp
 
-    id = property(_get_name, _set_name, None)
+    name = property(_get_name, _set_name, None)
     effects = property(_get_effect, _set_effect, None)
     conditions = property(_get_condition, _set_condition, None)
     content = property(_get_content, _set_content, None)
