@@ -36,7 +36,6 @@ class MoveController(IHandler):
         if DEBUG:
             print("Handling in: " + str(type(self)))
             print(str(self.__interaction_move) + " Move id: " + str(self.__interaction_move.move_id))
-            print(self.__interaction_move)
         return game_status_tmp
 
     def __init__(self):

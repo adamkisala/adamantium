@@ -1,3 +1,5 @@
+from concrete.GameEndController import GameEndController
+from enums.Status import Status
 from interface.IGameDataCollector import IGameDataCollector
 from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
@@ -19,12 +21,16 @@ class GameStatusCollector(IGameDataCollector):
             # TODO differentiate between HandlerTypes
             for handler in self.__handlers:
                 self.game_status = handler.handle(self.game_status)
+                self.game_status.evaluate_game_status()
         else:
             for handler in self.__handlers:
                 if isinstance(handler, i_handler):
                     if DEBUG:
                         print(str(type(handler)) + " is " + str(type(i_handler)))
                     self.game_status = handler.handle(self.game_status)
+                    self.game_status.evaluate_game_status()
+        if self.game_status.status == Status.TERMINATE:
+            GameEndController.finished = True
 
     def __init__(self, game_tmp: Game = None):
         super().__init__()

@@ -8,7 +8,7 @@ from controllers.MoveController import MoveController
 class MoveValidationController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         game_status_tmp.set_did_move_flag(game_status_tmp.current_speaker)
-        #TODO this is to be done after validation that the move was correct
+        # TODO this is to be done after validation that the move was correct
         game_status_tmp.set_last_move_by_name(game_status_tmp.last_interaction_move.move_name)
         return game_status_tmp
 

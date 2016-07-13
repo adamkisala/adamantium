@@ -30,5 +30,5 @@ class GameController(IObservable):
 
     def play(self):
         GameController.game.print_self()
-        while not self._game_end_controller.is_finished():
+        while not self._game_end_controller.finished:
             self._game_status_collector.collect()

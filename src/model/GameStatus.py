@@ -4,6 +4,7 @@ from model.Move import Move
 from enums.Role import Role
 from interface.IObservable import IObservable
 from helpers.Constants import *
+from enums.Status import Status
 
 
 class GameStatus(Game, IObservable):
@@ -23,7 +24,7 @@ class GameStatus(Game, IObservable):
         self.__available_moves = []
         self.__all_players_did_move = False
         self.__listeners = []
-        self.__game_status = None
+        self.__status = None
         if game_template is not None:
             self.name = game_template.name
             self.stores = game_template.stores
@@ -88,6 +89,12 @@ class GameStatus(Game, IObservable):
     def __get_last_move(self) -> Move:
         return self.__last_move
 
+    def __set_status(self, status_tmp: Status = None):
+        self.__status = status_tmp
+
+    def __get_status(self) -> Status:
+        return self.__status
+
     new_turn = property(__get_new_turn, __set_new_turn, None)
     speakers = property(__get_speakers, __set_speakers, None)
     current_speaker = property(__get_current_speaker, __set_current_speaker, None)
@@ -97,6 +104,7 @@ class GameStatus(Game, IObservable):
     turns_counter = property(__get_turns_counter)
     last_interaction_move = property(__get_last_interaction_move, __set_last_interaction_move, None)
     last_move = property(__get_last_move, __set_last_move, None)
+    status = property(__get_status, __set_status, None)
 
     def get_speakers(self) -> []:
         speakers = []
@@ -119,6 +127,11 @@ class GameStatus(Game, IObservable):
                 break
         if flag:
             self.__turns_counter += 1
+            # clear flag for all
+            for player in self.players.list:
+                player.did_move_flag = False
+            if DEBUG:
+                print("New turn: " + str(self.turns_counter))
         return flag
 
     def set_last_move_by_name(self, move_name: str = None):
@@ -136,6 +149,6 @@ class GameStatus(Game, IObservable):
                 self.turns.max - self.turns_counter <= 0) else False
         return value
 
-    def __evaluate_game_status(self):
+    def evaluate_game_status(self):
         if self.__is_max_turns():
-            self.__game_status = None
+            self.__status = Status.TERMINATE

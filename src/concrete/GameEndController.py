@@ -3,11 +3,13 @@ from helpers.Constants import *
 
 
 class GameEndController(IGameEndController):
+    finished = False
+
     def __init__(self):
         super().__init__()
 
     def is_finished(self, data: str = EMPTY) -> bool:
         if str.upper(data) == EXIT:
-            return True
+            GameEndController.finished = True
         else:
-            return False
+            GameEndController.finished = False
