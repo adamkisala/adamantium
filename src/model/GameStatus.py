@@ -11,6 +11,7 @@ class GameStatus(Game, IObservable):
 
     def __init__(self, game_template: Game = None):
         super().__init__()
+        self.__turns_counter = 0
         self.__new_turn = False
         self.__initial_turn = True
         self.__speakers = []
@@ -64,12 +65,19 @@ class GameStatus(Game, IObservable):
     def __get_all_players_did_move(self) -> bool:
         return self.__all_players_did_move
 
+    def __get_turns_counter(self) -> int:
+        return self.__turns_counter
+
+    def __set_turns_counter(self, counter_tmp: int = 0):
+        self.__turns_counter = counter_tmp
+
     new_turn = property(__get_new_turn, __set_new_turn, None)
     speakers = property(__get_speakers, __set_speakers, None)
     current_speaker = property(__get_current_speaker, __set_current_speaker, None)
     available_moves = property(__get_current_speaker_moves, __set_current_speaker_moves, None)
     initial_turn = property(__get_initial_turn, __set_initial_turn, None)
     all_players_did_move = property(__get_all_players_did_move, __set_all_players_did_move, None)
+    turns_counter = property(__get_turns_counter)
 
     def get_speakers(self) -> []:
         speakers = []
@@ -90,4 +98,6 @@ class GameStatus(Game, IObservable):
             if player.did_move_flag is False:
                 flag = False
                 break
+        if flag:
+            self.__turns_counter += 1
         return flag

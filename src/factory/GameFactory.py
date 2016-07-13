@@ -160,13 +160,13 @@ class GameFactory(dgdlListener, dgdlVisitor):
             sub_str = StringParser.between(data, OPEN_BRACE, CLOSE_BRACE)
             values = sub_str.split(str(ctx.CONDITIONS()))
             for condition_tmp in values:
-                if condition_tmp == "":
+                if condition_tmp == EMPTY:
                     continue
                 condition_tmp += CLOSE_BRACKET
                 condition = Condition()
                 condition.name = StringParser.before(condition_tmp, OPEN_BRACKET)
                 conditions = StringParser.between(condition_tmp, OPEN_BRACKET, CLOSE_BRACKET)
-                condition.list = conditions.split(",")
+                condition.list = conditions.split(COMMA)
                 result.append(condition)
         return result
 
@@ -178,7 +178,7 @@ class GameFactory(dgdlListener, dgdlVisitor):
             sub_str = StringParser.between(data, OPEN_BRACE, CLOSE_BRACE)
             values = sub_str.split(CLOSE_BRACKET + COMMA)
             for effect_tmp in values:
-                if effect_tmp == "":
+                if effect_tmp == EMPTY:
                     continue
                 effect_tmp += CLOSE_BRACKET
                 effect = Effect()
