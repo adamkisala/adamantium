@@ -152,3 +152,10 @@ class GameStatus(Game, IObservable):
     def evaluate_game_status(self):
         if self.__is_max_turns():
             self.__status = Status.TERMINATE
+
+    def is_player_in_game(self, player_name: str = EMPTY):
+        match = False
+        for player in self.players.list:
+            if player.name == player_name:
+                match = True
+        return match
