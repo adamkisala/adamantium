@@ -1,20 +1,20 @@
 class Effect:
     def __init__(self):
-        self._name = None
+        self.__name = None
         self._list = []
 
-    def _get_name(self) -> str:
-        return self._name
+    def __get_name(self) -> str:
+        return self.__name
 
-    def _set_name(self, name_tmp: str = None):
-        self._name = name_tmp
+    def __set_name(self, name_tmp: str = None):
+        self.__name = name_tmp
 
-    def _get_list(self) -> []:
-        return self._list
+    def __get_list(self) -> []:
+        return self.__list
 
-    def _set_list(self, list_tmp: [] = None):
-        self._list = list_tmp
+    def __set_list(self, list_tmp: [] = None):
+        self.__list = list_tmp
 
-    name = property(_get_name, _set_name, None)
-    list = property(_get_list, _set_list, None)
+    name = property(__get_name, __set_name, None)
+    list = property(__get_list, __set_list, None)
 
