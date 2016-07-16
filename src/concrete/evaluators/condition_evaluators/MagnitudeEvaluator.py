@@ -76,5 +76,6 @@ class MagnitudeEvaluator(IEvaluator):
                     second_store = store
             # check if stores are in game
             if first_store is not None and second_store is not None:
-                evaluated = MagnitudeEvaluator.__options[comparator].__func__(first_store, second_store)
+                if comparator in MagnitudeEvaluator.__options:
+                    evaluated = MagnitudeEvaluator.__options[comparator].__func__(first_store, second_store)
         return evaluated
