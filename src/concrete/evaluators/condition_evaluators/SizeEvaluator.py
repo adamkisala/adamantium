@@ -10,7 +10,8 @@ from model.Store import Store
 class SizeEvaluator(IEvaluator):
     @staticmethod
     def evaluate(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
-        pass
+        evaluated = SizeEvaluator.__check_size(condition_tmp, game_status_tmp)
+        return evaluated
 
     def __init__(self):
         super().__init__()
