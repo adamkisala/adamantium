@@ -1,47 +1,59 @@
 from enums.Structure import Structure
 from enums.Visibility import Visibility
+from collections import deque
 
 
 class Store:
     def __init__(self):
-        self._structure = None
-        self._visibility = None
-        self._name = None
-        self._owner = []
+        self.__structure = None
+        self.__visibility = None
+        self.__name = None
+        self.__owner = []
+        self.__store = []
 
-    def _set_structure(self, structure_tmp: Structure = None):
+    def __set_structure(self, structure_tmp: Structure = None):
         if structure_tmp == str.lower(Structure.SET.name):
-            self._structure = Structure.SET
+            self.__structure = Structure.SET
         elif structure_tmp == str.lower(Structure.QUEUE.name):
-            self._structure = Structure.QUEUE
+            self.__structure = Structure.QUEUE
         elif structure_tmp == str.lower(Structure.STACK.name):
-            self._structure = Structure.STACK
+            self.__structure = Structure.STACK
 
-    def _get_structure(self) -> Structure:
-        return self._structure
+    def __get_structure(self) -> Structure:
+        return self.__structure
 
-    def _set_visibility(self, visibility_tmp: Visibility = None):
+    def __set_visibility(self, visibility_tmp: Visibility = None):
         if visibility_tmp == str.lower(Visibility.PRIVATE.name):
-            self._visibility = Visibility.PRIVATE
+            self.__visibility = Visibility.PRIVATE
         elif visibility_tmp == str.lower(Visibility.PUBLIC.name):
-            self._visibility = Visibility.PUBLIC
+            self.__visibility = Visibility.PUBLIC
 
-    def _get_visibility(self) -> Visibility:
-        return self._visibility
+    def __get_visibility(self) -> Visibility:
+        return self.__visibility
 
-    def _set_name(self, name_tmp: str = None):
-        self._name = name_tmp
+    def __set_name(self, name_tmp: str = None):
+        self.__name = name_tmp
 
-    def _get_name(self) -> str:
-        return self._name
+    def __get_name(self) -> str:
+        return self.__name
 
-    def _set_owner(self, owner_tmp: [] = None):
-        self._owner = owner_tmp
+    def __set_owner(self, owner_tmp: [] = None):
+        self.__owner = owner_tmp
 
-    def _get_owner(self) -> []:
-        return self._owner
+    def __get_owner(self) -> []:
+        return self.__owner
 
-    structure = property(_get_structure, _set_structure)
-    visibility = property(_get_visibility, _set_visibility)
-    name = property(_get_name, _set_name)
-    owner = property(_get_owner, _set_owner)
+    def __set_store(self, store_tmp: [] = None):
+        if self.__structure == Structure.QUEUE:
+            self.__store = deque(store_tmp)
+        else:
+            self.__store = store_tmp
+
+    def __get_store(self) -> []:
+        return self.__store
+
+    structure = property(__get_structure, __set_structure)
+    visibility = property(__get_visibility, __set_visibility)
+    name = property(__get_name, __set_name)
+    owner = property(__get_owner, __set_owner)
+    store = property(__get_store, __set_store)

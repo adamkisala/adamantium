@@ -10,8 +10,6 @@ class InroleEvaluator(IEvaluator):
     @staticmethod
     def evaluate(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
         evaluated = InroleEvaluator.__check_inrole(condition_tmp, game_status_tmp)
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         return evaluated
 
     def __init__(self):
@@ -19,6 +17,8 @@ class InroleEvaluator(IEvaluator):
 
     @staticmethod
     def __check_inrole(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
+        if DEBUG:
+            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         match = False
         # check number of parameters supplied
         if len(condition_tmp.list) == 2:
