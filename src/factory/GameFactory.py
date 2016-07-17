@@ -158,7 +158,7 @@ class GameFactory(dgdlListener, dgdlVisitor):
         result = []
         if str(ctx.CONDITIONS()) in data:
             sub_str = StringParser.between(data, OPEN_BRACE, CLOSE_BRACE)
-            values = sub_str.split(str(ctx.CONDITIONS()))
+            values = sub_str.split(CLOSE_BRACKET + COMMA)
             for condition_tmp in values:
                 if condition_tmp == EMPTY:
                     continue

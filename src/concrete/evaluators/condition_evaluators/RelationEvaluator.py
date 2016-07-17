@@ -26,8 +26,8 @@ class RelationEvaluator(IEvaluator):
         return evaluated_tmp
 
     __options = {
-        "backing":  __backing,
-        "warrant":  __warrant
+        "Backing":  __backing,
+        "Warrant":  __warrant
     }
 
     @staticmethod

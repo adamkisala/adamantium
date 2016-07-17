@@ -56,10 +56,10 @@ class InspectEvaluator(IEvaluator):
         return evaluated_tmp
 
     __options = {
-        "in": __in,
-        "!in": __not_in,
-        "on": __on,
-        "!on": __not_on,
-        "top": __top,
-        "!top": __not_top
+        "In": __in,
+        "!In": __not_in,
+        "On": __on,
+        "!On": __not_on,
+        "Top": __top,
+        "!Top": __not_top
     }

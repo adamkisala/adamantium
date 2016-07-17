@@ -20,7 +20,7 @@ class SizeEvaluator(IEvaluator):
     def __check_size(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
         evaluated = False
         if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+            print("Evaluating: " + str(inspect.currentframe().f_code.co_name) + " " + str(condition_tmp.list))
         # verify size of elements in the condition
         if len(condition_tmp.list) == 3:
             first_element = condition_tmp.list[0]
@@ -64,6 +64,6 @@ class SizeEvaluator(IEvaluator):
         return evaluated_tmp
 
     __options = {
-        "empty":    __empty,
-        "!empty":   __non_empty
+        "Empty": __empty,
+        "!Empty": __non_empty
     }

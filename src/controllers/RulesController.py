@@ -52,14 +52,14 @@ class RulesController(IHandler):
 
     def __evaluate_principle(self, principles_tmp: [] = None, game_status_tmp: GameStatus = None):
         for principle in principles_tmp:
+            if DEBUG:
+                print("Checking conditions of: " + str(principle))
             if len(principle.conditions) > 0:
                 self.__evaluate_condition(principle, game_status_tmp)
             else:
                 # just effects so evaluate them
                 if len(principle.effects) > 0:
                     self.__evaluate_effect(principle, game_status_tmp)
-            if DEBUG:
-                print("Checking conditions of: " + str(principle))
         return game_status_tmp
 
     def __evaluate_condition(self, principle: Principle = None, game_status_tmp: GameStatus = None):

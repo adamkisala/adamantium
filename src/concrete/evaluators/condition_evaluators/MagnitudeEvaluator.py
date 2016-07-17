@@ -49,10 +49,10 @@ class MagnitudeEvaluator(IEvaluator):
         return evaluated_tmp
 
     __options = {
-        "greater": __greater,
-        "smaller": __smaller,
-        "equal": __equal,
-        "!equal": __non_equal
+        "Greater": __greater,
+        "Smaller": __smaller,
+        "Equal": __equal,
+        "!Equal": __non_equal
     }
 
     @staticmethod

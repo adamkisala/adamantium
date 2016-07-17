@@ -9,7 +9,7 @@ from model.GameStatus import GameStatus
 class EffectsEvaluator(IEvaluator):
     @staticmethod
     def evaluate(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        effect_tmp = str(effect_tmp.name).lower()
+        effect_tmp = str(effect_tmp.name)
         if effect_tmp in EffectsEvaluator.__options:
             EffectsEvaluator.__options[effect_tmp].__func__(effect_tmp, game_status_tmp)
         return game_status_tmp
@@ -48,9 +48,9 @@ class EffectsEvaluator(IEvaluator):
         return game_status_tmp
 
     __options = {
-        "move":         __move,
-        "store":        __store,
-        "status":       __status,
-        "assign":       __assign,
-        "extEffect":    __ext_effect
+        "Move":         __move,
+        "Store":        __store,
+        "Status":       __status,
+        "Assign":       __assign,
+        "ExtEffect":    __ext_effect
     }

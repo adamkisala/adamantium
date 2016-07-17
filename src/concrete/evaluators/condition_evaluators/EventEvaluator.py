@@ -44,8 +44,8 @@ class EventEvaluator(IEvaluator):
         return evaluated_tmp
 
     __options = {
-        "last": __last,
-        "!last": __not_last,
-        "past": __past,
-        "!past": __not_past,
+        "Last": __last,
+        "!Last": __not_last,
+        "Past": __past,
+        "!Past": __not_past,
     }

@@ -26,7 +26,7 @@ class ConditionsEvaluator(IEvaluator):
         :return: bool
         """
         evaluated = False
-        condition_name = str(condition_tmp.name).lower()
+        condition_name = str(condition_tmp.name)
         if condition_name in ConditionsEvaluator.__options:
             evaluated = ConditionsEvaluator.__options[condition_name].__func__(condition_tmp, evaluated, game_status_tmp)
         return evaluated
@@ -105,14 +105,14 @@ class ConditionsEvaluator(IEvaluator):
         return evaluated_tmp
 
     __options = {
-        "event":        __event,
-        "inspect":      __inspect,
-        "inrole":       __inrole,
-        "size":         __size,
-        "magnitude":    __magnitude,
-        "numturns":     __numturns,
-        "corresponds":  __corresponds,
-        "relation":     __relation,
-        "player":       __player,
-        "extCondition": __external
+        "Event":        __event,
+        "Inspect":      __inspect,
+        "Inrole":       __inrole,
+        "Size":         __size,
+        "Magnitude":    __magnitude,
+        "Numturns":     __numturns,
+        "Corresponds":  __corresponds,
+        "Relation":     __relation,
+        "Player":       __player,
+        "ExtCondition": __external
     }
