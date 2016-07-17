@@ -1,7 +1,7 @@
 class Effect:
     def __init__(self):
         self.__name = None
-        self._list = []
+        self.__list = []
 
     def __get_name(self) -> str:
         return self.__name
