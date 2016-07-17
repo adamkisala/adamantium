@@ -22,6 +22,7 @@ class GameStatus(Game, IObservable):
         self.__last_interaction_move = None
         self.__last_move = None
         self.__available_moves = []
+        self.__mandatory_moves = []
         self.__all_players_did_move = False
         self.__listeners = []
         self.__status = None
@@ -95,6 +96,12 @@ class GameStatus(Game, IObservable):
     def __get_status(self) -> Status:
         return self.__status
 
+    def __get_mandatory_moves(self) -> []:
+        return self.__mandatory_moves
+
+    def __set_mandatory_moves(self, mandatory_moves_tmp: [] = None):
+        self.__mandatory_moves = mandatory_moves_tmp
+
     new_turn = property(__get_new_turn, __set_new_turn, None)
     speakers = property(__get_speakers, __set_speakers, None)
     current_speaker = property(__get_current_speaker, __set_current_speaker, None)
@@ -105,6 +112,7 @@ class GameStatus(Game, IObservable):
     last_interaction_move = property(__get_last_interaction_move, __set_last_interaction_move, None)
     last_move = property(__get_last_move, __set_last_move, None)
     status = property(__get_status, __set_status, None)
+    mandatory_moves = (__get_mandatory_moves, __set_mandatory_moves, None)
 
     def get_speakers(self) -> []:
         speakers = []

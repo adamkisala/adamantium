@@ -59,7 +59,7 @@ class RulesController(IHandler):
             else:
                 # just effects so evaluate them
                 if len(principle.effects) > 0:
-                    self.__evaluate_effect(principle, game_status_tmp)
+                    game_status_tmp = self.__evaluate_effect(principle, game_status_tmp)
         return game_status_tmp
 
     def __evaluate_condition(self, principle: Principle = None, game_status_tmp: GameStatus = None):
@@ -72,10 +72,12 @@ class RulesController(IHandler):
                     # one of the conditions has not been met - break out
                     break
             if all_conditions_satisfied:
-                self.__evaluate_effect(principle, game_status_tmp)
+                game_status_tmp = self.__evaluate_effect(principle, game_status_tmp)
+        return game_status_tmp
 
     def __evaluate_effect(self, principle: Principle = None, game_status_tmp: GameStatus = None):
         if principle is not None:
             if len(principle.effects) > 0:
                 for effect in principle.effects:
-                    EffectsEvaluator.evaluate(effect, game_status_tmp)
+                    game_status_tmp = EffectsEvaluator.evaluate(effect, game_status_tmp)
+        return game_status_tmp

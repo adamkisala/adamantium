@@ -11,7 +11,7 @@ class EffectsEvaluator(IEvaluator):
     def evaluate(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         effect_tmp = str(effect_tmp.name)
         if effect_tmp in EffectsEvaluator.__options:
-            EffectsEvaluator.__options[effect_tmp].__func__(effect_tmp, game_status_tmp)
+            game_status_tmp = EffectsEvaluator.__options[effect_tmp].__func__(effect_tmp, game_status_tmp)
         return game_status_tmp
 
     def __init__(self):
