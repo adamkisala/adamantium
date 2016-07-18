@@ -18,7 +18,7 @@ class GameStatus(Game, IObservable):
         self.__new_turn = False
         self.__initial_turn = True
         self.__speakers = []
-        self.__current_speaker = None
+        self.__current_speaker = EMPTY
         self.__last_interaction_move = None
         self.__last_move = None
         self.__available_moves = []
@@ -117,7 +117,7 @@ class GameStatus(Game, IObservable):
     def get_speakers(self) -> []:
         speakers = []
         for player in self.players.list:
-            if Role.SPEAKER in player.roles:
+            if Role.SPEAKER.name.title() in player.roles:
                 speakers.append(player.name)
         return speakers
 

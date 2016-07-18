@@ -53,12 +53,12 @@ class StatusEvaluator(IEvaluator):
         return game_status_tmp
 
     __options = {
-        "active":       __active,
-        "inactive":     __inactive,
-        "complete":     __complete,
-        "incomplete":   __incomplete,
-        "initiate":     __initiate,
-        "terminate":    __terminate
+        "Active":       __active,
+        "Inactive":     __inactive,
+        "Complete":     __complete,
+        "Incomplete":   __incomplete,
+        "Initiate":     __initiate,
+        "Terminate":    __terminate
     }
 
     @staticmethod

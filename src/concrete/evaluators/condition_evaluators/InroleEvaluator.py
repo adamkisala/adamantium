@@ -21,11 +21,19 @@ class InroleEvaluator(IEvaluator):
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         match = False
         # check number of parameters supplied
-        if len(condition_tmp.list) == 2:
-            player_name = condition_tmp.list[0]
-            role = condition_tmp.list[1]
-            player = game_status_tmp.players.get_player_by_name(player_name)
+        if len(condition_tmp.list) == 1:
+            parameter = condition_tmp.list[0]
+            player = game_status_tmp.players.get_player_by_name(parameter)
             if player is not None:
+                if player.name in game_status_tmp.get_speakers():
+                    match = True
+                else:
+                    match = False
+            else:
+                player = game_status_tmp.players.get_player_by_name(game_status_tmp.current_speaker)
+                role = parameter
                 if role in player.roles:
                     match = True
+                else:
+                    match = False
         return match
