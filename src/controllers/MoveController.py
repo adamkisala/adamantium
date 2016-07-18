@@ -1,4 +1,5 @@
 from concrete.data_collectors.MoveCollector import MoveCollector
+from helpers.StringParser import StringParser
 from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
 from model.Move import Move
@@ -46,7 +47,7 @@ class MoveController(IHandler):
     def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
         # {"move_type":"permit", "content":"stufff", "player_id":"White", "role":"speaker", "final": "True"}
-        if self.__is_json(move_str):
+        if StringParser.is_json(move_str):
             move_json = json.loads(str(move_str))
             move = InteractionMove(**move_json)
         else:
@@ -56,10 +57,4 @@ class MoveController(IHandler):
             # TODO raise error
         return move
 
-    def __is_json(self, json_str: str = EMPTY):
-        try:
-            json.loads(json_str)
-        except ValueError:
-            return False
-        return True
 

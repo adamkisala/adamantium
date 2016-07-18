@@ -1,3 +1,8 @@
+import json
+
+from helpers.Constants import EMPTY
+
+
 class StringParser:
     @staticmethod
     def between(data, str_before, str_after) -> str:
@@ -35,3 +40,11 @@ class StringParser:
         if adjusted_pos_a >= len(data):
             return ""
         return data[adjusted_pos_a:]
+
+    @staticmethod
+    def is_json(self, json_str: str = EMPTY):
+        try:
+            json.loads(json_str)
+        except ValueError:
+            return False
+        return True

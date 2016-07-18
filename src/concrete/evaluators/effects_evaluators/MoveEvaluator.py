@@ -54,31 +54,13 @@ class MoveEvaluator(IEvaluator):
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         pass
 
-    @staticmethod
-    def __content(self, data_tmp: str = EMPTY):
-        artifact = Content(data_tmp)
-        return artifact
-
-    @staticmethod
-    def __argument(self, data_tmp: str = EMPTY):
-        artifact = Argument(data_tmp)
-        return artifact
-
-    @staticmethod
-    def __locution(self, data_tmp: str = EMPTY):
-        artifact = Locution(data_tmp)
-        return artifact
-
     __options = {
         "Permit": __permit,
         "Mandate": __mandate,
         "Next": __next,
         "!Next": __not_next,
         "Future": __future,
-        "!Future": __not_future,
-        "Content": __content,
-        "Argument": __argument,
-        "Locution": __locution
+        "!Future": __not_future
     }
 
     @staticmethod
@@ -91,7 +73,7 @@ class MoveEvaluator(IEvaluator):
             which_move = effect_tmp.list[1]
             move_name = effect_tmp.list[2]
             fourth_element = None
-            content = None
+            artifact = None
             player_or_role = None
             if len(effect_tmp.list) == 4:
                 fourth_element = effect_tmp.list[3]
@@ -103,9 +85,9 @@ class MoveEvaluator(IEvaluator):
                         if role == fourth_element:
                             player_or_role = fourth_element
                 if player_or_role is None:
-                    content = fourth_element
+                    artifact = fourth_element
             elif len(effect_tmp.list) == 5:
-                content = effect_tmp.list[3]
+                artifact = effect_tmp.list[3]
                 player_or_role = effect_tmp.list[4]
 
         return game_status_tmp
