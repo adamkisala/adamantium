@@ -1,5 +1,8 @@
 import inspect
 
+from concrete.artifacts.Argument import Argument
+from concrete.artifacts.Content import Content
+from concrete.artifacts.Locution import Locution
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
 from model.GameStatus import GameStatus
@@ -51,13 +54,31 @@ class MoveEvaluator(IEvaluator):
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         pass
 
+    @staticmethod
+    def __content(self, data_tmp: str = EMPTY):
+        artifact = Content(data_tmp)
+        return artifact
+
+    @staticmethod
+    def __argument(self, data_tmp: str = EMPTY):
+        artifact = Argument(data_tmp)
+        return artifact
+
+    @staticmethod
+    def __locution(self, data_tmp: str = EMPTY):
+        artifact = Locution(data_tmp)
+        return artifact
+
     __options = {
-        "permit": __permit,
-        "mandate": __mandate,
-        "next": __next,
-        "!next": __not_next,
-        "future": __future,
-        "!future": __not_future
+        "Permit": __permit,
+        "Mandate": __mandate,
+        "Next": __next,
+        "!Next": __not_next,
+        "Future": __future,
+        "!Future": __not_future,
+        "Content": __content,
+        "Argument": __argument,
+        "Locution": __locution
     }
 
     @staticmethod

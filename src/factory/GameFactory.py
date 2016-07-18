@@ -1,17 +1,15 @@
+from concrete.artifacts.Content import Content
 from enums.Role import Role
-from model.Game import Game
-from model.Player import Player
-from model.Store import Store
-from gen.dgdlListener import dgdlListener
-from antlr4 import *
-from gen.dgdlParser import dgdlParser
 from gen.dgdlLexer import dgdlLexer
-from helpers.StringParser import *
-from helpers.Constants import *
+from gen.dgdlListener import dgdlListener
 from gen.dgdlVisitor import *
-from model.Principle import *
+from helpers.Constants import *
+from helpers.StringParser import *
+from model.Game import Game
 from model.Move import Move
-from model.Content import Content
+from model.Player import Player
+from model.Principle import *
+from model.Store import Store
 
 
 class GameFactory(dgdlListener, dgdlVisitor):

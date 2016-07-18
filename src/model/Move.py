@@ -1,4 +1,4 @@
-from model.Content import Content
+from concrete.artifacts.Content import Content
 
 
 class Move:
