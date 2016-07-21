@@ -29,8 +29,8 @@ class GameFactory(dgdlListener, dgdlVisitor):
         if str(ctx.IDENT()) in data:
             self.game.name = StringParser.before(data, OPEN_BRACE)
         if ctx.roles():
-            for role in ctx.roles():
-                self.game.roles.append(self.visit(ctx.roles(0)))
+            # for role in ctx.roles():
+            self.game.roles = (self.visit(ctx.roles(0)))
 
     # Enter a parse tree produced by dgdlParser#store.
     def enterStore(self, ctx: dgdlParser.StoreContext):
