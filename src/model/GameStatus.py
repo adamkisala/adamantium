@@ -21,8 +21,8 @@ class GameStatus(Game, IObservable):
         self.__current_speaker = EMPTY
         self.__last_interaction_move = None
         self.__last_move = None
-        self.__available_moves = []
-        self.__mandatory_moves = []
+        self.__available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        self.__mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
         self.__all_players_did_move = False
         self.__listeners = []
         self.__status = None
@@ -54,10 +54,10 @@ class GameStatus(Game, IObservable):
     def __set_current_speaker(self, speaker_tmp: str = None):
         self.__current_speaker = speaker_tmp
 
-    def __get_current_speaker_moves(self) -> []:
+    def __get_current_speaker_moves(self) -> {}:
         return self.__available_moves
 
-    def __set_current_speaker_moves(self, current_speaker_moves_tmp: [] = None):
+    def __set_current_speaker_moves(self, current_speaker_moves_tmp: {} = None):
         self.__available_moves = current_speaker_moves_tmp
 
     def __set_initial_turn(self, initial_tmp: bool = None):
@@ -96,10 +96,10 @@ class GameStatus(Game, IObservable):
     def __get_status(self) -> Status:
         return self.__status
 
-    def __get_mandatory_moves(self) -> []:
+    def __get_mandatory_moves(self) -> {}:
         return self.__mandatory_moves
 
-    def __set_mandatory_moves(self, mandatory_moves_tmp: [] = None):
+    def __set_mandatory_moves(self, mandatory_moves_tmp: {} = None):
         self.__mandatory_moves = mandatory_moves_tmp
 
     new_turn = property(__get_new_turn, __set_new_turn, None)
@@ -112,7 +112,7 @@ class GameStatus(Game, IObservable):
     last_interaction_move = property(__get_last_interaction_move, __set_last_interaction_move, None)
     last_move = property(__get_last_move, __set_last_move, None)
     status = property(__get_status, __set_status, None)
-    mandatory_moves = (__get_mandatory_moves, __set_mandatory_moves, None)
+    mandatory_moves = property(__get_mandatory_moves, __set_mandatory_moves, None)
 
     def get_speakers(self) -> []:
         speakers = []
@@ -167,3 +167,11 @@ class GameStatus(Game, IObservable):
             if player.name == player_name:
                 match = True
         return match
+
+    def clear_init_moves_dicts(self):
+        self.available_moves.pop(NEXT, None)
+        self.available_moves.pop(NOT_NEXT, None)
+        self.mandatory_moves.pop(NEXT, None)
+        self.mandatory_moves.pop(NOT_NEXT, None)
+        self.__available_moves = {NEXT: [], NOT_NEXT: []}
+        self.__mandatory_moves = {NEXT: [], NOT_NEXT: []}

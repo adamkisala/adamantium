@@ -46,15 +46,13 @@ class MoveController(IHandler):
 
     def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
-        # {"move_type":"permit", "content":"stufff", "player_id":"White", "role":"speaker", "final": "True"}
+        # {"move_type":"Permit", "artifact" : {"key":"Locution", "id":"1", "data":"sky is blue"}, "player_id":"White", "role":"Speaker", "final": "True"}
         if StringParser.is_json(move_str):
-            move_json = json.loads(str(move_str))
+            move_json = json.loads(StringParser.dict_to_string(move_str))
             move = InteractionMove(**move_json)
         else:
             move = InteractionMove()
             if DEBUG:
                 print("Invalid JSON format: " + move_str)
-            # TODO raise error
+                # TODO raise error
         return move
-
-

@@ -2,9 +2,10 @@ from concrete.artifacts.Content import Content
 from enums.Role import Role
 from gen.dgdlLexer import dgdlLexer
 from gen.dgdlListener import dgdlListener
+from gen.dgdlParser import dgdlParser
 from gen.dgdlVisitor import *
 from helpers.Constants import *
-from helpers.StringParser import *
+from helpers.StringParser import StringParser
 from model.Game import Game
 from model.Move import Move
 from model.Player import Player
@@ -123,7 +124,8 @@ class GameFactory(dgdlListener, dgdlVisitor):
         if str(ctx.ROLES()) in data:
             roles = StringParser.between(data, str(ctx.ROLES()) + OPEN_BRACE, CLOSE_BRACE)
             roles_tmp = roles.split(COMMA)
-            for role in roles_tmp:
+            values = roles_tmp
+            """for role in roles_tmp:
                 if str.upper(role) == Role.LISTENER.name:
                     values.append(Role.LISTENER)
                 elif str.upper(role) == Role.SPEAKER.name:
@@ -140,6 +142,7 @@ class GameFactory(dgdlListener, dgdlVisitor):
                     values.append(Role.PROPONENT)
                 elif str.upper(role) == Role.OPPONENT.name:
                     values.append(Role.OPPONENT)
+                """
         return values
 
     # Visit a parse tree produced by dgdlParser#scope.

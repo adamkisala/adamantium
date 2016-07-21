@@ -1,12 +1,13 @@
 from factory.ArtifactFactory import ArtifactFactory
 from interface.IArtifact import IArtifact
+from helpers.Constants import *
 
 
 class InteractionMove:
     __counter = 0
 
-    def __init__(self, move_type: str = None, artifact: str = None, player_id: str = None, role: str = None,
-                 final: bool = None):
+    def __init__(self, move_type: str = EMPTY, artifact: str = EMPTY, player_id: str = EMPTY, role: str = EMPTY,
+                 final: bool = False):
         InteractionMove.__counter += 1
         self.__move_id = InteractionMove.__counter
         self.__move_type = move_type

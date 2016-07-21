@@ -14,9 +14,11 @@ class ArtifactFactory:
     def create_artifact(data_str: str = EMPTY):
         artifact = None
         if StringParser.is_json(data_str):
-            artifact_json = json.loads(str(data_str))
+            artifact_json = json.loads(StringParser.dict_to_string(data_str))
             if artifact_json["key"] in ArtifactFactory.__options:
                 artifact = ArtifactFactory.__options[artifact_json["key"]].__func__(data_str)
+        elif data_str in ArtifactFactory.__options:
+            artifact = ArtifactFactory.__options[data_str].__func__(data_str)
         return artifact
 
     @staticmethod

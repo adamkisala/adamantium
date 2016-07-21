@@ -7,11 +7,14 @@ from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
 from model.GameStatus import GameStatus
 from helpers.Constants import *
+from model.InteractionMove import InteractionMove
 
 
+# TODO content here should come from interaction move that was done before
 class MoveEvaluator(IEvaluator):
     @staticmethod
     def evaluate(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+        game_status_tmp.clear_init_moves_dicts()
         game_status_tmp = MoveEvaluator.__evaluate_move(effect_tmp, game_status_tmp)
         return game_status_tmp
 
@@ -19,40 +22,66 @@ class MoveEvaluator(IEvaluator):
         super().__init__()
 
     @staticmethod
-    def __permit(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+    def __permit(game_status_tmp: GameStatus = None, data_tmp: {} = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        pass
+        allowable_move = InteractionMove(move_type=data_tmp['move_name'], artifact=data_tmp['artifact'],
+                                         player_id=data_tmp['player'], role=data_tmp['role'])
+        if data_tmp['which_move'] in MoveEvaluator.__options:
+            game_status_tmp = MoveEvaluator.__options[data_tmp['which_move']].__func__(game_status_tmp, allowable_move,
+                                                                                       allowable=True)
+        return game_status_tmp
 
     @staticmethod
-    def __mandate(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+    def __mandate(game_status_tmp: GameStatus = None, data_tmp: {} = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        pass
+        required_move = InteractionMove(move_type=data_tmp['move_name'], artifact=data_tmp['artifact'],
+                                        player_id=data_tmp['player'], role=data_tmp['role'])
+        if data_tmp['which_move'] in MoveEvaluator.__options:
+            game_status_tmp = MoveEvaluator.__options[data_tmp['which_move']].__func__(game_status_tmp, required_move,
+                                                                                       allowable=False)
+        return game_status_tmp
 
     @staticmethod
-    def __next(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+    def __next(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        pass
+        if allowable:
+            game_status_tmp.available_moves[NEXT].append(interaction_move)
+        else:
+            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+        return game_status_tmp
 
     @staticmethod
-    def __not_next(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+    def __not_next(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        pass
+        if allowable:
+            game_status_tmp.available_moves[NEXT].append(interaction_move)
+        else:
+            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+        return game_status_tmp
 
     @staticmethod
-    def __future(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+    def __future(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        pass
+        if allowable:
+            game_status_tmp.available_moves[NEXT].append(interaction_move)
+        else:
+            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+        return game_status_tmp
 
     @staticmethod
-    def __not_future(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
+    def __not_future(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        pass
+        if allowable:
+            game_status_tmp.available_moves[NEXT].append(interaction_move)
+        else:
+            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+        return game_status_tmp
 
     __options = {
         "Permit": __permit,
@@ -74,20 +103,42 @@ class MoveEvaluator(IEvaluator):
             move_name = effect_tmp.list[2]
             fourth_element = None
             artifact = None
-            player_or_role = None
+            player = None
+            role = None
             if len(effect_tmp.list) == 4:
                 fourth_element = effect_tmp.list[3]
-                for player in game_status_tmp.players.list:
-                    if player.name == fourth_element:
-                        player_or_role = fourth_element
-                if player_or_role is None:
-                    for role in game_status_tmp.roles:
-                        if role == fourth_element:
-                            player_or_role = fourth_element
-                if player_or_role is None:
+                if MoveEvaluator.__is_player(game_status_tmp, fourth_element):
+                    player = fourth_element
+                elif MoveEvaluator.__is_role(game_status_tmp, fourth_element):
+                    role = fourth_element
+                if player is None and role is None:
                     artifact = fourth_element
             elif len(effect_tmp.list) == 5:
                 artifact = effect_tmp.list[3]
+                # TODO create artifact here
                 player_or_role = effect_tmp.list[4]
-
+                if MoveEvaluator.__is_player(game_status_tmp, player_or_role):
+                    player = fourth_element
+                elif MoveEvaluator.__is_role(game_status_tmp, player_or_role):
+                    role = fourth_element
+            data = {'permit_mandate': permit_mandate, 'which_move': which_move, 'move_name': move_name,
+                    'artifact': artifact, 'player': player, 'role': role}
+            if which_move in MoveEvaluator.__options:
+                game_status_tmp = MoveEvaluator.__options[which_move].__func__(game_status_tmp, data)
         return game_status_tmp
+
+    @staticmethod
+    def __is_player(game_status_tmp: GameStatus = None, player_or_role: str = EMPTY):
+        player = False
+        for _player in game_status_tmp.players.list:
+            if _player.name == player_or_role:
+                player = True
+        return player
+
+    @staticmethod
+    def __is_role(game_status_tmp: GameStatus = None, player_or_role: str = EMPTY):
+        role = False
+        for _role in game_status_tmp.roles:
+            if _role == player_or_role:
+                role = True
+        return role

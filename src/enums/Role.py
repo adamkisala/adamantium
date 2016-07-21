@@ -10,3 +10,4 @@ class Role(Enum):
     LOOSER = 6
     PROPONENT = 7
     OPPONENT = 8
+

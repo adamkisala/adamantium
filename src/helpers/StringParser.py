@@ -42,9 +42,16 @@ class StringParser:
         return data[adjusted_pos_a:]
 
     @staticmethod
-    def is_json(self, json_str: str = EMPTY):
+    def is_json(json_str: str = EMPTY):
+        json_str = StringParser.dict_to_string(json_str)
         try:
-            json.loads(json_str)
+            json.loads(str(json_str))
         except ValueError:
             return False
         return True
+
+    @staticmethod
+    def dict_to_string(json_str: str = EMPTY):
+        if isinstance(json_str, dict):
+            json_str = json.dumps(json_str)
+        return json_str

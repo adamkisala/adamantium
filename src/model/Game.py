@@ -8,56 +8,56 @@ from model.Move import Move
 
 class Game:
     def __init__(self):
-        self._name = None
-        self._store = []
-        self._turns = Turns()
-        self._players = Players()
-        self._roles = []
-        self._principles = []
-        self._moves = []
+        self.__name = None
+        self.__store = []
+        self.__turns = Turns()
+        self.__players = Players()
+        self.__roles = []
+        self.__principles = []
+        self.__moves = []
         self.__max_moves = None
 
-    def _set_name(self, name_tmp: str = None):
-        self._name = name_tmp
+    def __set_name(self, name_tmp: str = None):
+        self.__name = name_tmp
 
-    def _get_name(self) -> str:
-        return self._name
+    def __get_name(self) -> str:
+        return self.__name
 
-    def _set_store(self, store_tmp: [] = None):
-        self._store = store_tmp
+    def __set_store(self, store_tmp: [] = None):
+        self.__store = store_tmp
 
-    def _get_store(self) -> []:
-        return self._store
+    def __get_store(self) -> []:
+        return self.__store
 
-    def _set_turns(self, turns_tmp: Turns = None):
-        self._turns = turns_tmp
+    def __set_turns(self, turns_tmp: Turns = None):
+        self.__turns = turns_tmp
 
-    def _get_turns(self) -> Turns:
-        return self._turns
+    def __get_turns(self) -> Turns:
+        return self.__turns
 
-    def _set_players(self, players_tmp: Players = None):
-        self._players = players_tmp
+    def __set_players(self, players_tmp: Players = None):
+        self.__players = players_tmp
 
-    def _get_players(self) -> Players:
-        return self._players
+    def __get_players(self) -> Players:
+        return self.__players
 
-    def _get_roles(self) -> []:
-        return self._roles
+    def __get_roles(self) -> []:
+        return self.__roles
 
-    def _set_roles(self, roles_tmp: [] = None):
-        self._roles = roles_tmp
+    def __set_roles(self, roles_tmp: [] = None):
+        self.__roles = roles_tmp
 
-    def _get_principles(self) -> []:
-        return self._principles
+    def __get_principles(self) -> []:
+        return self.__principles
 
-    def _set_principles(self, principles_tmp: [] = None):
-        self._principles = principles_tmp
+    def __set_principles(self, principles_tmp: [] = None):
+        self.__principles = principles_tmp
 
-    def _set_moves(self, moves_tmp: [] = None):
-        self._moves = moves_tmp
+    def __set_moves(self, moves_tmp: [] = None):
+        self.__moves = moves_tmp
 
-    def _get_moves(self) -> []:
-        return self._moves
+    def __get_moves(self) -> []:
+        return self.__moves
 
     def __set_max_moves(self, max_tmp: int = None):
         self.__max_moves = max_tmp
@@ -65,13 +65,13 @@ class Game:
     def __get_max_moves(self) -> int:
         return self.__max_moves
 
-    name = property(_get_name, _set_name, None)
-    stores = property(_get_store, _set_store, None)
-    turns = property(_get_turns, _set_turns, None)
-    players = property(_get_players, _set_players, None)
-    roles = property(_get_roles, _set_roles, None)
-    principles = property(_get_principles, _set_principles, None)
-    moves = property(_get_moves, _set_moves, None)
+    name = property(__get_name, __set_name, None)
+    stores = property(__get_store, __set_store, None)
+    turns = property(__get_turns, __set_turns, None)
+    players = property(__get_players, __set_players, None)
+    roles = property(__get_roles, __set_roles, None)
+    principles = property(__get_principles, __set_principles, None)
+    moves = property(__get_moves, __set_moves, None)
     max_moves_per_turn = property(__get_max_moves, __set_max_moves, None)
 
     def print_self(self):

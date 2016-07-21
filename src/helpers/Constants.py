@@ -8,3 +8,9 @@ CLOSE_BRACKET = ")"
 EXIT = "EXIT"
 EMPTY = ""
 DEBUG = True
+
+# MoveEvaluator constants
+NEXT = 'next'
+NOT_NEXT = '!next'
+FUTURE = 'future'
+NOT_FUTURE = '!future'
