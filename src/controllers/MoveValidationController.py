@@ -9,7 +9,11 @@ class MoveValidationController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         game_status_tmp.set_did_move_flag(game_status_tmp.current_speaker)
         # TODO this is to be done after validation that the move was correct
-        game_status_tmp.set_last_move_by_name(game_status_tmp.last_interaction_move.move_name)
+        if game_status_tmp.last_interaction_move:
+            game_status_tmp.set_last_move_by_name(game_status_tmp.last_interaction_move.move_name)
+        else:
+            if DEBUG:
+                print("game_status_tmp.last_interaction_move: None\n\tLast move could not be parsed")
         return game_status_tmp
 
     def update_flag(self):

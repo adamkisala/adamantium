@@ -33,6 +33,7 @@ class GameStatus(Game, IObservable):
             self.players = game_template.players
             self.roles = game_template.roles
             self.principles = game_template.principles
+            self.moves = game_template.moves
         for player in self.players.list:
             self.__listeners.append(player)
 
@@ -145,7 +146,7 @@ class GameStatus(Game, IObservable):
     def set_last_move_by_name(self, move_name: str = None):
         if move_name is not None:
             for move in self.moves:
-                if move_name == move.id:
+                if move_name == move.name:
                     self.last_move = move
         elif DEBUG:
             print("Could not set last_move in GameStatus")

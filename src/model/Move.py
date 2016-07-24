@@ -3,35 +3,35 @@ from concrete.artifacts.Content import Content
 
 class Move:
     def __init__(self):
-        self._name = None
-        self._content = Content()
-        self._effects = []
-        self._condition = []
+        self.__name = None
+        self.__content = Content()
+        self.__effects = []
+        self.__condition = []
         self.__final = False
 
-    def _get_name(self) -> str:
-        return self._name
+    def __get_name(self) -> str:
+        return self.__name
 
-    def _set_name(self, name_tmp: str = None):
-        self._name = name_tmp
+    def __set_name(self, name_tmp: str = None):
+        self.__name = name_tmp
 
-    def _set_content(self, content_tmp: Content = None):
-        self._content = content_tmp
+    def __set_content(self, content_tmp: Content = None):
+        self.__content = content_tmp
 
-    def _get_content(self) -> Content:
-        return self._content
+    def __get_content(self) -> Content:
+        return self.__content
 
-    def _set_effect(self, effects_tmp: [] = None):
-        self._effects = effects_tmp
+    def __set_effect(self, effects_tmp: [] = None):
+        self.__effects = effects_tmp
 
-    def _get_effect(self) -> []:
-        return self._effects
+    def __get_effect(self) -> []:
+        return self.__effects
 
-    def _set_condition(self, condition_tmp: [] = None):
-        self._condition = condition_tmp
+    def __set_condition(self, condition_tmp: [] = None):
+        self.__condition = condition_tmp
 
-    def _get_condition(self) -> []:
-        return self._condition
+    def __get_condition(self) -> []:
+        return self.__condition
 
     def __get_final(self) -> bool:
         return self.__final
@@ -39,8 +39,8 @@ class Move:
     def __set_final(self, final_tmp: bool = False):
         self.__final = final_tmp
 
-    name = property(_get_name, _set_name, None)
-    effects = property(_get_effect, _set_effect, None)
-    conditions = property(_get_condition, _set_condition, None)
-    content = property(_get_content, _set_content, None)
+    name = property(__get_name, __set_name, None)
+    effects = property(__get_effect, __set_effect, None)
+    conditions = property(__get_condition, __set_condition, None)
+    content = property(__get_content, __set_content, None)
     final = property(__get_final, __set_final, None)

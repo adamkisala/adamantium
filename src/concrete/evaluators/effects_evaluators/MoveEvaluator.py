@@ -14,7 +14,7 @@ from model.InteractionMove import InteractionMove
 class MoveEvaluator(IEvaluator):
     @staticmethod
     def evaluate(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        game_status_tmp.clear_init_moves_dicts()
+        # game_status_tmp.clear_init_moves_dicts()
         game_status_tmp = MoveEvaluator.__evaluate_move(effect_tmp, game_status_tmp)
         return game_status_tmp
 
@@ -25,7 +25,7 @@ class MoveEvaluator(IEvaluator):
     def __permit(game_status_tmp: GameStatus = None, data_tmp: {} = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        allowable_move = InteractionMove(move_type=data_tmp['move_name'], artifact=data_tmp['artifact'],
+        allowable_move = InteractionMove(move_name=data_tmp['move_name'], artifact=data_tmp['artifact'],
                                          player_id=data_tmp['player'], role=data_tmp['role'])
         if data_tmp['which_move'] in MoveEvaluator.__options:
             game_status_tmp = MoveEvaluator.__options[data_tmp['which_move']].__func__(game_status_tmp, allowable_move,
@@ -36,7 +36,7 @@ class MoveEvaluator(IEvaluator):
     def __mandate(game_status_tmp: GameStatus = None, data_tmp: {} = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        required_move = InteractionMove(move_type=data_tmp['move_name'], artifact=data_tmp['artifact'],
+        required_move = InteractionMove(move_name=data_tmp['move_name'], artifact=data_tmp['artifact'],
                                         player_id=data_tmp['player'], role=data_tmp['role'])
         if data_tmp['which_move'] in MoveEvaluator.__options:
             game_status_tmp = MoveEvaluator.__options[data_tmp['which_move']].__func__(game_status_tmp, required_move,
@@ -54,13 +54,14 @@ class MoveEvaluator(IEvaluator):
         return game_status_tmp
 
     @staticmethod
-    def __not_next(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
+    def __not_next(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None,
+                   allowable: bool = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
-            game_status_tmp.available_moves[NEXT].append(interaction_move)
+            game_status_tmp.available_moves[NOT_NEXT].append(interaction_move)
         else:
-            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+            game_status_tmp.mandatory_moves[NOT_NEXT].append(interaction_move)
         return game_status_tmp
 
     @staticmethod
@@ -68,19 +69,20 @@ class MoveEvaluator(IEvaluator):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
-            game_status_tmp.available_moves[NEXT].append(interaction_move)
+            game_status_tmp.available_moves[FUTURE].append(interaction_move)
         else:
-            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+            game_status_tmp.mandatory_moves[FUTURE].append(interaction_move)
         return game_status_tmp
 
     @staticmethod
-    def __not_future(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
+    def __not_future(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None,
+                     allowable: bool = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
-            game_status_tmp.available_moves[NEXT].append(interaction_move)
+            game_status_tmp.available_moves[NOT_FUTURE].append(interaction_move)
         else:
-            game_status_tmp.mandatory_moves[NEXT].append(interaction_move)
+            game_status_tmp.mandatory_moves[NOT_FUTURE].append(interaction_move)
         return game_status_tmp
 
     __options = {
@@ -123,8 +125,8 @@ class MoveEvaluator(IEvaluator):
                     role = fourth_element
             data = {'permit_mandate': permit_mandate, 'which_move': which_move, 'move_name': move_name,
                     'artifact': artifact, 'player': player, 'role': role}
-            if which_move in MoveEvaluator.__options:
-                game_status_tmp = MoveEvaluator.__options[which_move].__func__(game_status_tmp, data)
+            if permit_mandate in MoveEvaluator.__options:
+                game_status_tmp = MoveEvaluator.__options[permit_mandate].__func__(game_status_tmp, data)
         return game_status_tmp
 
     @staticmethod

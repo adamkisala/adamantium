@@ -1,3 +1,5 @@
+import pprint
+
 from interface.IHandler import IHandler
 from enums.Scope import Scope
 from enums.HandlerType import HandlerType
@@ -28,6 +30,16 @@ class RulesController(IHandler):
         self.update_flag()
         if DEBUG:
             print("Handling in: " + str(type(self)))
+            print("Allowable moves: ")
+            for moves in game_status_tmp.available_moves:
+                print(moves)
+                for move in game_status_tmp.available_moves[moves]:
+                    pprint.pprint(vars(move))
+            print("Mandatory moves: ")
+            for moves in game_status_tmp.mandatory_moves:
+                print(moves)
+                for move in game_status_tmp.mandatory_moves[moves]:
+                    pprint.pprint(vars(move))
         return game_status_tmp
 
     def __get_principles_to_update(self, game_status_tmp: GameStatus = None) -> []:

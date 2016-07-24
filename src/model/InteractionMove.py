@@ -6,11 +6,14 @@ from helpers.Constants import *
 class InteractionMove:
     __counter = 0
 
-    def __init__(self, move_type: str = EMPTY, artifact: str = EMPTY, player_id: str = EMPTY, role: str = EMPTY,
+    def __init__(self, move_id: int = None, move_name: str = EMPTY, artifact: str = EMPTY, player_id: str = EMPTY, role: str = EMPTY,
                  final: bool = False):
-        InteractionMove.__counter += 1
-        self.__move_id = InteractionMove.__counter
-        self.__move_type = move_type
+        if move_id is None:
+            InteractionMove.__counter += 1
+            self.__move_id = InteractionMove.__counter
+        else:
+            self.__move_id = move_id
+        self.__move_type = move_name
         self.__artifact = ArtifactFactory.create_artifact(artifact)
         self.__player_id = player_id
         self.__role = role
