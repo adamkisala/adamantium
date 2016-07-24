@@ -3,6 +3,7 @@ import inspect
 from concrete.artifacts.Argument import Argument
 from concrete.artifacts.Content import Content
 from concrete.artifacts.Locution import Locution
+from helpers.Helpers import Helpers
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
 from model.GameStatus import GameStatus
@@ -109,19 +110,18 @@ class MoveEvaluator(IEvaluator):
             role = None
             if len(effect_tmp.list) == 4:
                 fourth_element = effect_tmp.list[3]
-                if MoveEvaluator.__is_player(game_status_tmp, fourth_element):
+                if Helpers.is_player(game_status_tmp, fourth_element):
                     player = fourth_element
-                elif MoveEvaluator.__is_role(game_status_tmp, fourth_element):
+                elif Helpers.is_role(game_status_tmp, fourth_element):
                     role = fourth_element
                 if player is None and role is None:
                     artifact = fourth_element
             elif len(effect_tmp.list) == 5:
                 artifact = effect_tmp.list[3]
-                # TODO create artifact here
                 player_or_role = effect_tmp.list[4]
-                if MoveEvaluator.__is_player(game_status_tmp, player_or_role):
+                if Helpers.is_player(game_status_tmp, player_or_role):
                     player = fourth_element
-                elif MoveEvaluator.__is_role(game_status_tmp, player_or_role):
+                elif Helpers.is_role(game_status_tmp, player_or_role):
                     role = fourth_element
             data = {'permit_mandate': permit_mandate, 'which_move': which_move, 'move_name': move_name,
                     'artifact': artifact, 'player': player, 'role': role}
@@ -129,18 +129,3 @@ class MoveEvaluator(IEvaluator):
                 game_status_tmp = MoveEvaluator.__options[permit_mandate].__func__(game_status_tmp, data)
         return game_status_tmp
 
-    @staticmethod
-    def __is_player(game_status_tmp: GameStatus = None, player_or_role: str = EMPTY):
-        player = False
-        for _player in game_status_tmp.players.list:
-            if _player.name == player_or_role:
-                player = True
-        return player
-
-    @staticmethod
-    def __is_role(game_status_tmp: GameStatus = None, player_or_role: str = EMPTY):
-        role = False
-        for _role in game_status_tmp.roles:
-            if _role == player_or_role:
-                role = True
-        return role
