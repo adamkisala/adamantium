@@ -4,8 +4,9 @@ from enums.Role import Role
 
 class Player(IGameObserver):
     def update(self, obj: object = None):
-        # TODO change this: if isinstance(obj, GameStatus()):
-        self.did_move_flag = False
+        # TODO delete that, not needed any more
+        # self.did_move_flag = False
+        pass
 
     def __init__(self):
         super().__init__()
