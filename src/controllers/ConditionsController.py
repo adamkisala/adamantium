@@ -10,8 +10,9 @@ from model.Move import Move
 
 
 class ConditionsController(IHandler):
-    def update_collector(self):
-        pass
+    def update_collector(self, game_status_tmp: GameStatus = None):
+        game_status_tmp.speakers = game_status_tmp.get_speakers()
+        return game_status_tmp
 
     def update_flag(self):
         pass
@@ -44,7 +45,8 @@ class ConditionsController(IHandler):
                 print(moves)
                 for move in game_status_tmp.mandatory_moves[moves]:
                     pprint.pprint(vars(move))
-        game_status_tmp = ConditionsController.evaluate_conditions_controller(game_status_tmp)
+        # game_status_tmp = ConditionsController.evaluate_conditions_controller(game_status_tmp)
+        game_status_tmp = self.update_collector(game_status_tmp)
         return game_status_tmp
 
     def __init__(self):

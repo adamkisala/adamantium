@@ -27,7 +27,7 @@ class MoveEvaluator(IEvaluator):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         allowable_move = InteractionMove(move_name=data_tmp['move_name'], artifact=data_tmp['artifact'],
-                                         player_id=data_tmp['player'], role=data_tmp['role'])
+                                         player_name=data_tmp['player'], role=data_tmp['role'])
         if data_tmp['which_move'] in MoveEvaluator.__options:
             game_status_tmp = MoveEvaluator.__options[data_tmp['which_move']].__func__(game_status_tmp, allowable_move,
                                                                                        allowable=True)
@@ -38,7 +38,7 @@ class MoveEvaluator(IEvaluator):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         required_move = InteractionMove(move_name=data_tmp['move_name'], artifact=data_tmp['artifact'],
-                                        player_id=data_tmp['player'], role=data_tmp['role'])
+                                        player_name=data_tmp['player'], role=data_tmp['role'])
         if data_tmp['which_move'] in MoveEvaluator.__options:
             game_status_tmp = MoveEvaluator.__options[data_tmp['which_move']].__func__(game_status_tmp, required_move,
                                                                                        allowable=False)

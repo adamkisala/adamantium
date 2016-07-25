@@ -31,7 +31,7 @@ class EventEvaluator(IEvaluator):
                 role = data_tmp["role"]
                 if artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() != artifact["id"]:
                     evaluated = False
-                if player is not None and game_status_tmp.last_interaction_move.player_id != player:
+                if player is not None and game_status_tmp.last_interaction_move.player_name != player:
                     evaluated = False
                 elif role is not None and game_status_tmp.last_interaction_move.role != role:
                     evaluated = False
@@ -50,7 +50,7 @@ class EventEvaluator(IEvaluator):
                 role = data_tmp["role"]
                 if artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() == artifact["id"]:
                     evaluated = False
-                if player is not None and game_status_tmp.last_interaction_move.player_id == player:
+                if player is not None and game_status_tmp.last_interaction_move.player_name == player:
                     evaluated = False
                 elif role is not None and game_status_tmp.last_interaction_move.role == role:
                     evaluated = False
@@ -71,7 +71,7 @@ class EventEvaluator(IEvaluator):
                     if artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() != artifact[
                         "id"]:
                         evaluated = False
-                    if player is not None and game_status_tmp.last_interaction_move.player_id != player:
+                    if player is not None and game_status_tmp.last_interaction_move.player_name != player:
                         evaluated = False
                     elif role is not None and game_status_tmp.last_interaction_move.role != role:
                         evaluated = False

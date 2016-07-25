@@ -30,10 +30,12 @@ class InroleEvaluator(IEvaluator):
                 else:
                     match = False
             else:
-                player = game_status_tmp.players.get_player_by_name(game_status_tmp.current_speaker)
-                role = parameter
-                if role in player.roles:
-                    match = True
-                else:
-                    match = False
+                match = True
+                speakers = game_status_tmp.get_speakers()
+                for speaker in speakers:
+                    player = game_status_tmp.players.get_player_by_name(speaker)
+                    role = parameter
+                    if role not in player.roles:
+                        match = False
+                        break
         return match

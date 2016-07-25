@@ -1,4 +1,5 @@
 from concrete.GameEndController import GameEndController
+from controllers.OutputController import OutputController
 from enums.Status import Status
 from interface.IGameDataCollector import IGameDataCollector
 from interface.IHandler import IHandler
@@ -40,10 +41,12 @@ class GameStatusCollector(IGameDataCollector):
         self.__effects_controller = EffectsController()
         self.__store_controller = StoreController()
         self.__rules_controller = RulesController()
+        self.__output_controller = OutputController()
         self.__move_controller = MoveController()
         self.__move_validation_controller = MoveValidationController()
         self.__transcript_controller = TranscriptController()
         self.__handlers = [self.__turns_controller, self.__rules_controller, self.__conditions_controller,
+                           self.__output_controller,
                            self.__move_controller,
                            self.__move_validation_controller, self.__effects_controller,
                            self.__store_controller, self.__transcript_controller]

@@ -6,8 +6,8 @@ from helpers.Constants import *
 class InteractionMove:
     __counter = 0
 
-    def __init__(self, move_id: int = None, move_name: str = EMPTY, artifact: str = EMPTY, player_id: str = EMPTY, role: str = EMPTY,
-                 final: bool = False):
+    def __init__(self, move_id: int = None, move_name: str = EMPTY, artifact: str = EMPTY, player_name: str = EMPTY,
+                 role: str = EMPTY, final: bool = False):
         if move_id is None:
             InteractionMove.__counter += 1
             self.__move_id = InteractionMove.__counter
@@ -15,7 +15,7 @@ class InteractionMove:
             self.__move_id = move_id
         self.__move_type = move_name
         self.__artifact = ArtifactFactory.create_artifact(artifact)
-        self.__player_id = player_id
+        self.__player_id = player_name
         self.__role = role
         self.__final = final
 
@@ -55,9 +55,9 @@ class InteractionMove:
     def __get_final(self) -> bool:
         return self.__final
 
-    player_id = property(__get_player_id, __set_player_id, None)
+    player_name = property(__get_player_id, __set_player_id, None)
     move_id = property(__get_move_id, __set_move_id, None)
     move_name = property(__get_move_type, __set_move_type, None)
     artifact = property(__get_artifact, __set_artifact, None)
     role = property(__get_role, __set_role, None)
-    final = property(__get_final,__set_final, None)
+    final = property(__get_final, __set_final, None)

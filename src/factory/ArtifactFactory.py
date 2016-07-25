@@ -5,7 +5,7 @@ from concrete.artifacts.Conclusion import Conclusion
 from concrete.artifacts.Content import Content
 from concrete.artifacts.Locution import Locution
 from concrete.artifacts.Premises import Premises
-from helpers.Constants import EMPTY
+from helpers.Constants import *
 from helpers.StringParser import StringParser
 
 
@@ -15,8 +15,8 @@ class ArtifactFactory:
         artifact = None
         if StringParser.is_json(data_str):
             artifact_json = json.loads(StringParser.dict_to_string(data_str))
-            if artifact_json["key"] in ArtifactFactory.__options:
-                artifact = ArtifactFactory.__options[artifact_json["key"]].__func__(data_str)
+            if artifact_json[ARTIFACT_KEY] in ArtifactFactory.__options:
+                artifact = ArtifactFactory.__options[artifact_json[ARTIFACT_KEY]].__func__(data_str)
         elif data_str in ArtifactFactory.__options:
             artifact = ArtifactFactory.__options[data_str].__func__(data_str)
         return artifact

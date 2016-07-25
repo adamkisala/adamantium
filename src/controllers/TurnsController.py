@@ -82,8 +82,12 @@ class TurnsController(IHandler):
         for player in game_status_tmp.players.list:
             if next_player == player.name:
                 if SPEAKER not in player.roles:
+                    if LISTENER in player.roles:
+                        player.roles.remove(LISTENER)
                     player.roles.append(SPEAKER)
             else:
                 if LISTENER not in player.roles:
+                    if SPEAKER in player.roles:
+                        player.roles.remove(SPEAKER)
                     player.roles.append(LISTENER)
         return game_status_tmp

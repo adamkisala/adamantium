@@ -26,6 +26,11 @@ class AssignEvaluator(IEvaluator):
             for player in game_status_tmp.players.list:
                 if player_name == player.name:
                     if role not in player.roles:
+                        # SPEAKER and LISTENER cannot be at the same time
+                        if role == SPEAKER and LISTENER in player.roles:
+                            player.roles.remove(LISTENER)
+                        elif role == LISTENER and SPEAKER in player.roles:
+                            player.roles.remove(SPEAKER)
                         player.roles.append(role)
                     break
         return game_status_tmp

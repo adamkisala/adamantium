@@ -18,3 +18,14 @@ NOT_FUTURE = '!future'
 # Basic roles
 SPEAKER = "Speaker"
 LISTENER = "Listener"
+
+# InteractionMove json attribute keys
+MOVE_ID = "move_id"
+MOVE_NAME = "move_name"
+ARTIFACT = "artifact"
+ARTIFACT_KEY = "artifact_key"
+ARTIFACT_ID = "artifact_id"
+ARTIFACT_DATA = "artifact_data"
+PLAYER_NAME = "player_name"
+ROLE = "role"
+FINAL = "final"

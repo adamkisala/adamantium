@@ -9,8 +9,7 @@ from enums.Status import Status
 
 class GameStatus(Game, IObservable):
     def notify_all(self):
-        for listener in self.__listeners:
-            listener.update(self)
+        pass
 
     def __init__(self, game_template: Game = None):
         super().__init__()
@@ -25,7 +24,6 @@ class GameStatus(Game, IObservable):
         self.__mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
         self.__past_interaction_moves = []
         self.__all_players_did_move = False
-        self.__listeners = []
         self.__status = None
         if game_template is not None:
             self.name = game_template.name
@@ -35,8 +33,7 @@ class GameStatus(Game, IObservable):
             self.roles = game_template.roles
             self.principles = game_template.principles
             self.moves = game_template.moves
-        for player in self.players.list:
-            self.__listeners.append(player)
+
 
     def __set_new_turn(self, new_turn_tmp: bool = False):
         self.__new_turn = new_turn_tmp
@@ -197,3 +194,35 @@ class GameStatus(Game, IObservable):
                     elif index == length - 1:
                         value = self.players.list[0].name
         return value
+
+    def get_interaction_move__by_id(self, move_id: int = None):
+        interaction_move = None
+        if move_id is not None:
+            found = False
+            for key in self.mandatory_moves:
+                for move in self.mandatory_moves[key]:
+                    if int(move.move_id) == int(move_id):
+                        interaction_move = move
+                        found = True
+                        break
+                if found:
+                    break
+            if interaction_move is None:
+                for key in self.available_moves:
+                    for move in self.available_moves[key]:
+                        if int(move.move_id) == int(move_id):
+                            interaction_move = move
+                            found = True
+                            break
+                    if found:
+                        break
+        return interaction_move
+
+    def remove_interaction_move_from_moves(self, interaction_move: InteractionMove = None):
+        if interaction_move is not None:
+            for key in self.mandatory_moves:
+                if interaction_move in self.mandatory_moves[key]:
+                    self.mandatory_moves[key].remove(interaction_move)
+            for key in self.available_moves:
+                if interaction_move in self.available_moves[key]:
+                    self.available_moves[key].remove(interaction_move)
