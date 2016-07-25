@@ -1,4 +1,6 @@
+from concrete.GameEndController import GameEndController
 from enums.Ordering import Ordering
+from enums.Status import Status
 from interface.IHandler import IHandler
 from helpers.Constants import *
 from model.GameStatus import GameStatus
@@ -11,6 +13,11 @@ class TurnsController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         game_status_tmp.initial_turn = self.__initial
         game_status_tmp.new_turn = self.__evaluate_next_player_by_turns(game_status_tmp)
+        if game_status_tmp.new_turn:
+            game_status_tmp.turns_counter += 1
+        if game_status_tmp.turns_counter >= game_status_tmp.turns.max:
+            game_status_tmp.status = Status.TERMINATE
+            GameEndController.finished = True
         return game_status_tmp
 
     def update_flag(self):

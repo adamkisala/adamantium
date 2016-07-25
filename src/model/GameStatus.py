@@ -34,7 +34,6 @@ class GameStatus(Game, IObservable):
             self.principles = game_template.principles
             self.moves = game_template.moves
 
-
     def __set_new_turn(self, new_turn_tmp: bool = False):
         self.__new_turn = new_turn_tmp
 
@@ -113,7 +112,7 @@ class GameStatus(Game, IObservable):
     available_moves = property(__get_current_speaker_moves, __set_current_speaker_moves, None)
     initial_turn = property(__get_initial_turn, __set_initial_turn, None)
     all_players_did_move = property(__get_all_players_did_move, __set_all_players_did_move, None)
-    turns_counter = property(__get_turns_counter)
+    turns_counter = property(__get_turns_counter, __set_turns_counter)
     last_interaction_move = property(__get_last_interaction_move, __set_last_interaction_move, None)
     last_move = property(__get_last_move, __set_last_move, None)
     status = property(__get_status, __set_status, None)
