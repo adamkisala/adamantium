@@ -39,8 +39,6 @@ class MoveController(IHandler):
             print("Handling in: " + str(type(self)))
         move_str = self.__move_collector.collect()
         self.__interaction_move = self.__parse_move(move_str)
-        # TODO this move does not match really interaction move create new class with player ID update GameStatus
-        # with current_speaker(the person who just did the move)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         return game_status_tmp
@@ -52,7 +50,7 @@ class MoveController(IHandler):
 
     def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
-        # {"move_name":"Permit", "artifact" : {"key":"Locution", "id":"1", "data":"sky is blue"}, "player_id":"White", "role":"Speaker", "final": "True"}
+        # {"move_name":"Permit", "artifact" : {"key":"Locution", "id":"1", "data":"sky is blue"}, "player_id":"Adam", "role":"Speaker", "final": "True"}
         if StringParser.is_json(move_str):
             move_json = json.loads(StringParser.dict_to_string(move_str))
             if 'move_id' in move_json:

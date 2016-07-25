@@ -54,6 +54,7 @@ class ConditionsController(IHandler):
     def evaluate_conditions_controller(game_status_tmp: GameStatus = None):
         if len(game_status_tmp.mandatory_moves) > 0:
             # check conditions for that move
+            moves_not_meeting_conditions = []
             for key in game_status_tmp.mandatory_moves:
                 interaction_move_list = game_status_tmp.mandatory_moves[key]
                 if len(interaction_move_list) > 0:
@@ -68,12 +69,16 @@ class ConditionsController(IHandler):
                         if found:
                             break
                     if move is not None:
+                        all_conditions_satisfied = True
                         if len(move.conditions) > 0:
-                            game_status_tmp = ConditionsController.__evaluate_condition(move, game_status_tmp)
-                        else:
-                            game_status_tmp = ConditionsController.__evaluate_effect(move, game_status_tmp)
+                            all_conditions_satisfied = ConditionsController.__evaluate_condition(move, game_status_tmp)
+                        if not all_conditions_satisfied:
+                            moves_not_meeting_conditions.append(move)
+                for move in moves_not_meeting_conditions:
+                    interaction_move_list.remove(move)
         if len(game_status_tmp.available_moves) > 0:
             # check conditions for that move
+            moves_not_meeting_conditions = []
             for key in game_status_tmp.mandatory_moves:
                 interaction_move_list = game_status_tmp.available_moves[key]
                 if len(interaction_move_list) > 0:
@@ -88,31 +93,23 @@ class ConditionsController(IHandler):
                         if found:
                             break
                     if move is not None:
+                        all_conditions_satisfied = True
                         if len(move.conditions) > 0:
-                            game_status_tmp = ConditionsController.__evaluate_condition(move, game_status_tmp)
-                        else:
-                            game_status_tmp = ConditionsController.__evaluate_effect(move, game_status_tmp)
-        # TODO what if first move is not defined in the principle initial scope?
+                            all_conditions_satisfied = ConditionsController.__evaluate_condition(move, game_status_tmp)
+                        if not all_conditions_satisfied:
+                            moves_not_meeting_conditions.append(move)
+                for move in moves_not_meeting_conditions:
+                    interaction_move_list.remove(move)
         return game_status_tmp
 
     @staticmethod
     def __evaluate_condition(move: Move = None, game_status_tmp: GameStatus = None):
+        all_conditions_satisfied = True
         if move is not None:
-            all_conditions_satisfied = True
             for condition in move.conditions:
                 # check condition setting all_conditions_satisfied to false if one of them fails
                 all_conditions_satisfied = ConditionsEvaluator.evaluate(condition, game_status_tmp)
                 if not all_conditions_satisfied:
                     # one of the conditions has not been met - break out
                     break
-            if all_conditions_satisfied:
-                game_status_tmp = ConditionsController.__evaluate_effect(move, game_status_tmp)
-        return game_status_tmp
-
-    @staticmethod
-    def __evaluate_effect(move: Move = None, game_status_tmp: GameStatus = None):
-        if move is not None:
-            if len(move.effects) > 0:
-                for effect in move.effects:
-                    game_status_tmp = EffectsEvaluator.evaluate(effect, game_status_tmp)
-        return game_status_tmp
+        return all_conditions_satisfied

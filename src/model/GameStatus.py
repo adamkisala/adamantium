@@ -184,3 +184,16 @@ class GameStatus(Game, IObservable):
         self.mandatory_moves.pop(NOT_NEXT, None)
         self.__available_moves = {NEXT: [], NOT_NEXT: []}
         self.__mandatory_moves = {NEXT: [], NOT_NEXT: []}
+
+    def get_next_player_name_from_the_list(self, player_name: str = EMPTY):
+        value = None
+        length = len(self.players.list)
+        if length > 0:
+            for player in self.players.list:
+                if player.name == player_name:
+                    index = self.players.list.index(player)
+                    if index < length - 1:
+                        value = self.players.list[index + 1].name
+                    elif index == length - 1:
+                        value = self.players.list[0].name
+        return value

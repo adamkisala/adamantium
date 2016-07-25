@@ -14,3 +14,7 @@ NEXT = 'next'
 NOT_NEXT = '!next'
 FUTURE = 'future'
 NOT_FUTURE = '!future'
+
+# Basic roles
+SPEAKER = "Speaker"
+LISTENER = "Listener"

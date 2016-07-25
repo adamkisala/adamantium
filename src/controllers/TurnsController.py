@@ -1,3 +1,4 @@
+from enums.Ordering import Ordering
 from interface.IHandler import IHandler
 from helpers.Constants import *
 from model.GameStatus import GameStatus
@@ -39,26 +40,50 @@ class TurnsController(IHandler):
     def __turn_count_increment(self):
         self.__multiple_moves_count += 1
 
+    # TODO in Ordering.LIBERAL there has to be a way to evaluate who is the next speaker
     def __evaluate_next_player_by_turns(self, game_status_tmp: GameStatus = None) -> bool:
         new_turn = False
         if controllers.GameController.GameController.game.turns.magnitude == Magnitude.SINGLE:
             new_turn = True
+            if game_status_tmp.turns.ordering == Ordering.STRICT:
+                game_status_tmp = self.__assign_speaker_assign_listener(game_status_tmp)
+            elif game_status_tmp.turns.ordering == Ordering.LIBERAL:
+                # TODO implement Ordering.LIBERAL
+                pass
         elif controllers.GameController.GameController.game.turns.magnitude == Magnitude.MULTIPLE:
             if game_status_tmp.max_moves_per_turn is not None:
                 if self.multiple_moves_count >= game_status_tmp.max_moves_per_turn:
                     new_turn = True
+                    if game_status_tmp.turns.ordering == Ordering.STRICT:
+                        game_status_tmp = self.__assign_speaker_assign_listener(game_status_tmp)
+                    elif game_status_tmp.turns.ordering == Ordering.LIBERAL:
+                        # TODO implement Ordering.LIBERAL
+                        pass
                     self.__multiple_moves_count = 0
-                elif self.multiple_moves_count == 0:
-                    new_turn = True
-                    self.__turn_count_increment()
                 else:
                     new_turn = False
                     self.__turn_count_increment()
             elif game_status_tmp.last_interaction_move is not None:
                 if game_status_tmp.last_interaction_move.final:
                     new_turn = True
+                    if game_status_tmp.turns.ordering == Ordering.STRICT:
+                        game_status_tmp = self.__assign_speaker_assign_listener(game_status_tmp)
+                    elif game_status_tmp.turns.ordering == Ordering.LIBERAL:
+                        # TODO implement Ordering.LIBERAL
+                        pass
                 else:
                     new_turn = False
         if game_status_tmp.all_players_did_move:
             self.__initial = False
         return new_turn
+
+    def __assign_speaker_assign_listener(self, game_status_tmp: GameStatus = None):
+        next_player = game_status_tmp.get_next_player_name_from_the_list(game_status_tmp.current_speaker)
+        for player in game_status_tmp.players.list:
+            if next_player == player.name:
+                if SPEAKER not in player.roles:
+                    player.roles.append(SPEAKER)
+            else:
+                if LISTENER not in player.roles:
+                    player.roles.append(LISTENER)
+        return game_status_tmp
