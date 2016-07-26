@@ -80,15 +80,17 @@ class ConditionsController(IHandler):
                     interaction_move_list.remove(move)
         if len(game_status_tmp.available_moves) > 0:
             # check conditions for that move
-            moves_not_meeting_conditions = []
             for key in game_status_tmp.mandatory_moves:
+                moves_not_meeting_conditions = []
                 interaction_move_list = game_status_tmp.available_moves[key]
                 if len(interaction_move_list) > 0:
                     move = None
+                    interaction_move_to_delete = None
                     found = False
                     for interaction_move in interaction_move_list:
                         for _move in game_status_tmp.moves:
                             if interaction_move.move_name == _move.name:
+                                interaction_move_to_delete = interaction_move
                                 move = _move
                                 found = True
                                 break
@@ -99,7 +101,7 @@ class ConditionsController(IHandler):
                         if len(move.conditions) > 0:
                             all_conditions_satisfied = ConditionsController.__evaluate_condition(move, game_status_tmp)
                         if not all_conditions_satisfied:
-                            moves_not_meeting_conditions.append(move)
+                            moves_not_meeting_conditions.append(interaction_move_to_delete)
                 for move in moves_not_meeting_conditions:
                     interaction_move_list.remove(move)
         return game_status_tmp
