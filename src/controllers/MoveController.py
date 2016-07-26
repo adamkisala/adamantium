@@ -53,7 +53,7 @@ class MoveController(IHandler):
 
     def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
-        # {"move_id": "2", "move_name":"Permit", "artifact" : {"artifact_key":"Locution", "artifact_id":"1", "artifact_data":"sky is blue"}, "player_name":"Adam", "final": "True"}
+        # {"move_id": "2", "move_name":"Permit", "artifact" : {"artifact_key":"Locution", "artifact_id":"1", "artifact_data":"sky is blue"}, "role":"Speaker", "final": "True"}
         if StringParser.is_json(move_str):
             move_json = json.loads(StringParser.dict_to_string(move_str))
             if 'move_id' in move_json:

@@ -14,6 +14,8 @@ class MoveValidationController(IHandler):
             game_status_tmp.past_moves.append(game_status_tmp.last_interaction_move)
             game_status_tmp.set_did_move_flag(game_status_tmp.current_speaker)
             game_status_tmp.remove_interaction_move_from_moves(game_status_tmp.last_interaction_move)
+            game_status_tmp.initial_turn = False
+            game_status_tmp.clear_init_moves_dicts()
         else:
             if DEBUG:
                 print("game_status_tmp.last_interaction_move: None\n\tLast move could not be parsed")

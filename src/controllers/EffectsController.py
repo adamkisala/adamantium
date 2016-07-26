@@ -22,11 +22,11 @@ class EffectsController(IHandler):
         super().__init__()
 
     def handle(self, game_status_tmp: GameStatus = None):
+        if DEBUG:
+            print("Handling in: " + str(type(self)))
         game_status_tmp = EffectsController.__evaluate_effects(game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
         return game_status_tmp
 
     @staticmethod

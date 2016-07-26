@@ -2,6 +2,7 @@ from interface.IHandler import IHandler
 from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
 from helpers.Constants import *
+import pprint
 
 
 class StoreController(IHandler):
@@ -22,4 +23,8 @@ class StoreController(IHandler):
         self.update_flag()
         if DEBUG:
             print("Handling in: " + str(type(self)))
+            for store in game_status_tmp.stores:
+                pprint.pprint(vars(store))
+                for artifact in store.store:
+                    pprint.pprint(vars(artifact))
         return game_status_tmp

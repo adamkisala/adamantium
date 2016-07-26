@@ -39,8 +39,8 @@ class StoreEvaluator(IEvaluator):
         return game_status_tmp
 
     __options = {
-        "add": __add,
-        "remove": __remove
+        "Add": __add,
+        "Remove": __remove
     }
 
     @staticmethod
