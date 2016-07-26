@@ -7,10 +7,7 @@ from helpers.Constants import *
 from enums.Status import Status
 
 
-class GameStatus(Game, IObservable):
-    def notify_all(self):
-        pass
-
+class GameStatus(Game):
     def __init__(self, game_template: Game = None):
         super().__init__()
         self.__turns_counter = 0
