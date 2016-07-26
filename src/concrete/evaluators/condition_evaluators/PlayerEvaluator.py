@@ -23,6 +23,7 @@ class PlayerEvaluator(IEvaluator):
         # verify size of elements in the condition
         if len(condition_tmp.list) == 1:
             player_role = condition_tmp.list[0]
+            # TODO don't think this is correct check
             if player_role == game_status_tmp.current_speaker:
                 evaluated_tmp = True
         return evaluated_tmp

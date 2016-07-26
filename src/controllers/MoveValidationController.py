@@ -1,3 +1,4 @@
+from concrete.GameEndController import GameEndController
 from interface.IHandler import IHandler
 from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
@@ -19,6 +20,7 @@ class MoveValidationController(IHandler):
         else:
             if DEBUG:
                 print("game_status_tmp.last_interaction_move: None\n\tLast move could not be parsed")
+                GameEndController.finished = True
         return game_status_tmp
 
     def update_flag(self):

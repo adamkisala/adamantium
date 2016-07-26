@@ -62,10 +62,25 @@ class EffectsController(IHandler):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         effect_tmp.list[1] = game_status_tmp.last_interaction_move.artifact
+        game_store = effect_tmp.list[2]
         player_name = game_status_tmp.last_interaction_move.player_name
         role = game_status_tmp.last_interaction_move.role
-        effect_tmp.list[3] = player_name if (player_name is not None and player_name != EMPTY) else (
-                role if (role is not None and role != EMPTY) else EMPTY)
+        player_or_role = EMPTY
+        found = False
+        for store in game_status_tmp.stores:
+            if store.name == game_store:
+                for owner in store.owner:
+                    if owner == player_name:
+                        player_or_role = player_name
+                        found = True
+                        break
+                    elif owner == role:
+                        player_or_role = role
+                        found = True
+                        break
+                if found:
+                    break
+        effect_tmp.list[3] = player_or_role
         return effect_tmp
 
     @staticmethod
