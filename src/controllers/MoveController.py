@@ -1,3 +1,4 @@
+from concrete.GameEndController import GameEndController
 from concrete.data_collectors.MoveCollector import MoveCollector
 from factory.ArtifactFactory import ArtifactFactory
 from helpers.StringParser import StringParser
@@ -27,6 +28,7 @@ class MoveController(IHandler):
             if DEBUG:
                 print("Most likely json invalid format or id returned none")
             # TODO raise error
+            GameEndController.finished = True
         return game_status_tmp
 
     def update_flag(self):
@@ -75,4 +77,5 @@ class MoveController(IHandler):
             if DEBUG:
                 print("Invalid JSON format: " + move_str)
                 # TODO raise error
+                GameEndController.finished = True
         return move

@@ -20,7 +20,10 @@ class StoreEvaluator(IEvaluator):
               player_or_role: str = EMPTY):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-
+        for store in game_status_tmp.stores:
+            if store.name == store_name:
+                if player_or_role in store.owner:
+                    store.store.append(commitment)
         return game_status_tmp
 
     @staticmethod
@@ -28,6 +31,11 @@ class StoreEvaluator(IEvaluator):
                  player_or_role: str = EMPTY):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        for store in game_status_tmp.stores:
+            if store.name == store_name:
+                if player_or_role in store.owner:
+                    if commitment in store.store:
+                        store.store.remove(commitment)
         return game_status_tmp
 
     __options = {
