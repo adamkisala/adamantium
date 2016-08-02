@@ -7,7 +7,6 @@ from model.GameStatus import GameStatus
 from helpers.Constants import *
 
 
-# TODO ask Simon if this is about move_name or move_id
 class EventEvaluator(IEvaluator):
     @staticmethod
     def evaluate(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
@@ -85,9 +84,15 @@ class EventEvaluator(IEvaluator):
         evaluated = True
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
-                if past_move.move_name == data_tmp['move_name']:
+                past_move_bool = past_move.move_name == data_tmp['move_name']
+                artifact = data_tmp["artifact"]
+                player = data_tmp["player"]
+                role = data_tmp["role"]
+                artifact_bool = artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() == artifact
+                player_bool = player is not None and game_status_tmp.last_interaction_move.player_name == player
+                role_bool = role is not None and game_status_tmp.last_interaction_move.role == role
+                if past_move_bool and artifact_bool and (player_bool or role_bool):
                     evaluated = False
-                    # TODO is that all checks that needs to be done here?
                     break
         return evaluated
 

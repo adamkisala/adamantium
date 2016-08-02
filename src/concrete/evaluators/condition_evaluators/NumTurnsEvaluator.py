@@ -25,6 +25,7 @@ class NumTurnsEvaluator(IEvaluator):
         if len(condition_tmp.list) == 2:
             system_name = condition_tmp.list[0]
             number = condition_tmp.list[1]
+            # TODO it may be reimplemented
             if system_name == game_status_tmp.name and game_status_tmp.turns_counter == number:
                 evaluated_tmp = True
         return evaluated_tmp

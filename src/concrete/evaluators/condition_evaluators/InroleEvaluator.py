@@ -18,6 +18,7 @@ class InroleEvaluator(IEvaluator):
     @staticmethod
     def __check_inrole(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
         if DEBUG:
+            # TODO change to log
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         match = False
         # check number of parameters supplied

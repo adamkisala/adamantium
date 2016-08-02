@@ -1,9 +1,12 @@
-from interface import IGameDataCollector
+from helpers.Constants import EMPTY
+from interface.IGameDataCollector import IGameDataCollector
+from model.GameStatus import GameStatus
 
 
 class TranscriptCollector(IGameDataCollector):
-    def __init__(self):
+    def collect(self, game_status_tmp: GameStatus = None):
         pass
 
-    def collect(self):
-        pass
+    def __init__(self):
+        super().__init__()
+        self.__data = EMPTY

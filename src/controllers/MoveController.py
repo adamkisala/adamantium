@@ -60,7 +60,7 @@ class MoveController(IHandler):
                 move_id = move_json[MOVE_ID]
                 move_name = move_json[MOVE_NAME] if MOVE_NAME in move_json else EMPTY
                 artifact = move_json[ARTIFACT] if ARTIFACT in move_json else EMPTY
-                # TODO should I be checking player or role here as well if match? move_id should be enough
+                # TODO should I be checking player or role here as well if match?
                 player_name = move_json[PLAYER_NAME] if PLAYER_NAME in move_json else EMPTY
                 role = move_json[ROLE] if ROLE in move_json else EMPTY
                 final = move_json[FINAL] if FINAL in move_json else EMPTY

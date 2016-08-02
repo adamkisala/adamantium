@@ -87,21 +87,21 @@ class EffectsController(IHandler):
     def __status(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        # TODO is implementation here needed?
+        # this implementation is only needed if ever contents of 'status' would change
         return effect_tmp
 
     @staticmethod
     def __assign(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        # TODO is implementation here needed?
+            # this implementation is only needed if ever contents of 'status' would change
         return effect_tmp
 
     @staticmethod
     def __ext_effect(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         if DEBUG:
             print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
-        # TODO no implementation here yet
+            # this implementation is only needed if ever contents of 'status' would change
         return effect_tmp
 
     __options = {

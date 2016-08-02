@@ -11,7 +11,6 @@ from helpers.Constants import *
 from model.InteractionMove import InteractionMove
 
 
-# TODO content here should come from interaction move that was done before
 class MoveEvaluator(IEvaluator):
     @staticmethod
     def evaluate(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
