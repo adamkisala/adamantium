@@ -1,4 +1,7 @@
+import logging
+
 from concrete.GameEndController import GameEndController
+from controllers.LoggingController import LoggingController
 from interface.IHandler import IHandler
 from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
@@ -17,9 +20,8 @@ class MoveValidationController(IHandler):
             game_status_tmp.initial_turn = False
             game_status_tmp.clear_init_moves_dicts()
         else:
-            if DEBUG:
-                print("game_status_tmp.last_interaction_move: None\n\tLast move could not be parsed")
-                GameEndController.finished = True
+            LoggingController.logger.warning("game_status_tmp.last_interaction_move: None\n\tLast move could not be parsed")
+            GameEndController.finished = True
         return game_status_tmp
 
     def update_flag(self):
@@ -33,8 +35,7 @@ class MoveValidationController(IHandler):
         if valid:
             game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
+        LoggingController.logger.debug("Handling in: " + str(type(self)))
         return game_status_tmp
 
     def __init__(self):

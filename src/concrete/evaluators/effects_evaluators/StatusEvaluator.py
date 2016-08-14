@@ -1,5 +1,7 @@
 import inspect
+import logging
 
+from controllers.LoggingController import LoggingController
 from enums.Status import Status
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
@@ -63,8 +65,7 @@ class StatusEvaluator(IEvaluator):
 
     @staticmethod
     def __evaluate_status(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         # verify size of elements in the condition
         if len(effect_tmp.list) == 2:
             status = effect_tmp.list[0]

@@ -1,5 +1,6 @@
 from concrete.GameEndController import GameEndController
 from concrete.data_collectors.MoveCollector import MoveCollector
+from controllers.LoggingController import LoggingController
 from factory.ArtifactFactory import ArtifactFactory
 from helpers.StringParser import StringParser
 from interface.IHandler import IHandler
@@ -9,6 +10,7 @@ from enums.HandlerType import HandlerType
 from helpers.Constants import *
 from model.InteractionMove import InteractionMove
 import json
+import logging
 
 
 class MoveController(IHandler):
@@ -20,13 +22,11 @@ class MoveController(IHandler):
         :return: GameStatus
         """
         if self.__interaction_move is not None:
-            if DEBUG:
-                print(str(self.__interaction_move) + " Move id: " + str(self.__interaction_move.move_id))
+            LoggingController.logger.debug(str(self.__interaction_move) + " Move id: " + str(self.__interaction_move.move_id))
             game_status_tmp.current_speaker = self.__interaction_move.player_name
             game_status_tmp.last_interaction_move = self.__interaction_move
         else:
-            if DEBUG:
-                print("Most likely json invalid format or id returned none")
+            LoggingController.logger.warning("Most likely json invalid format or id returned none")
             # TODO raise error
             GameEndController.finished = True
         return game_status_tmp
@@ -38,8 +38,7 @@ class MoveController(IHandler):
         return HandlerType.MOVE
 
     def handle(self, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
+        LoggingController.logger.debug("Handling in: " + str(type(self)))
         move_str = self.__move_collector.collect()
         self.__interaction_move = self.__parse_move(move_str, game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
@@ -74,8 +73,7 @@ class MoveController(IHandler):
                 move = None
         else:
             move = None
-            if DEBUG:
-                print("Invalid JSON format: " + move_str)
-                # TODO raise error
-                GameEndController.finished = True
+            LoggingController.logger.warning("Invalid JSON format: " + move_str)
+            # TODO raise error
+            GameEndController.finished = True
         return move

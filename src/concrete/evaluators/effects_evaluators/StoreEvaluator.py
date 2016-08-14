@@ -1,5 +1,7 @@
 import inspect
+import logging
 
+from controllers.LoggingController import LoggingController
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
 from model.GameStatus import GameStatus
@@ -18,8 +20,7 @@ class StoreEvaluator(IEvaluator):
     @staticmethod
     def __add(game_status_tmp: GameStatus = None, commitment: str = EMPTY, store_name: str = EMPTY,
               player_or_role: str = EMPTY):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         for store in game_status_tmp.stores:
             if store.name == store_name:
                 if player_or_role in store.owner:
@@ -29,8 +30,7 @@ class StoreEvaluator(IEvaluator):
     @staticmethod
     def __remove(game_status_tmp: GameStatus = None, commitment: str = EMPTY, store_name: str = EMPTY,
                  player_or_role: str = EMPTY):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         for store in game_status_tmp.stores:
             if store.name == store_name:
                 if player_or_role in store.owner:
@@ -45,8 +45,7 @@ class StoreEvaluator(IEvaluator):
 
     @staticmethod
     def __evaluate_store(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         # verify size of elements in the condition
         if len(effect_tmp.list) == 4:
             action = effect_tmp.list[0]

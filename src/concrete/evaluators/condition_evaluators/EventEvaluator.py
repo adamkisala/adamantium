@@ -1,5 +1,7 @@
 import inspect
+import logging
 
+from controllers.LoggingController import LoggingController
 from helpers.Helpers import Helpers
 from interface.IEvaluator import IEvaluator
 from model.Condition import Condition
@@ -19,8 +21,7 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __last(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if game_status_tmp.last_interaction_move is not None:
             if game_status_tmp.last_interaction_move.move_name == data_tmp['move_name']:
@@ -38,8 +39,7 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __not_last(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if game_status_tmp.last_interaction_move is not None:
             if game_status_tmp.last_interaction_move.move_name != data_tmp['move_name']:
@@ -57,8 +57,7 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __past(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
@@ -79,8 +78,7 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __not_past(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = True
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
@@ -106,8 +104,7 @@ class EventEvaluator(IEvaluator):
     @staticmethod
     def __evaluate_event(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
         evaluated = False
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         # verify size of elements in the condition
         if len(condition_tmp.list) >= 2:
             even_type = condition_tmp.list[0]

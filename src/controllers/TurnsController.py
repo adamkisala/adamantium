@@ -1,4 +1,7 @@
+import logging
+
 from concrete.GameEndController import GameEndController
+from controllers.LoggingController import LoggingController
 from enums.Ordering import Ordering
 from enums.Status import Status
 from interface.IHandler import IHandler
@@ -25,9 +28,8 @@ class TurnsController(IHandler):
     def handle(self, game_status_tmp: GameStatus = None):
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
-            print("Next player: " + str(game_status_tmp.new_turn))
+        LoggingController.logger.debug("Handling in: " + str(type(self)))
+        LoggingController.logger.debug("Next player: " + str(game_status_tmp.new_turn))
         return game_status_tmp
 
     def type(self):

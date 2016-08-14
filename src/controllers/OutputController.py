@@ -1,4 +1,7 @@
+import logging
+
 from concrete.ConsoleOutputController import ConsoleOutputController
+from controllers.LoggingController import LoggingController
 from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
 from helpers.Constants import DEBUG
@@ -10,10 +13,10 @@ class OutputController(IHandler):
         super().__init__()
 
     def handle(self, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
-            print("Game status: ")
+        LoggingController.logger.debug("Handling in: " + str(type(self)))
+        LoggingController.logger.debug("Game status: ")
         data = pprint.pformat(vars(game_status_tmp))
+        # LoggingController.logger.info(data)
         output = ConsoleOutputController()
         output.send_output(data)
         return game_status_tmp

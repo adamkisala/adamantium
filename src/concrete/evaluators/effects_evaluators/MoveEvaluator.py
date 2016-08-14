@@ -1,8 +1,10 @@
 import inspect
+import logging
 
 from concrete.artifacts.Argument import Argument
 from concrete.artifacts.Content import Content
 from concrete.artifacts.Locution import Locution
+from controllers.LoggingController import LoggingController
 from helpers.Helpers import Helpers
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
@@ -23,8 +25,7 @@ class MoveEvaluator(IEvaluator):
 
     @staticmethod
     def __permit(game_status_tmp: GameStatus = None, data_tmp: {} = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         allowable_move = InteractionMove(move_name=data_tmp['move_name'], artifact=data_tmp['artifact'],
                                          player_name=data_tmp['player'], role=data_tmp['role'])
         if data_tmp['which_move'] in MoveEvaluator.__options:
@@ -34,8 +35,7 @@ class MoveEvaluator(IEvaluator):
 
     @staticmethod
     def __mandate(game_status_tmp: GameStatus = None, data_tmp: {} = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         required_move = InteractionMove(move_name=data_tmp['move_name'], artifact=data_tmp['artifact'],
                                         player_name=data_tmp['player'], role=data_tmp['role'])
         if data_tmp['which_move'] in MoveEvaluator.__options:
@@ -45,8 +45,7 @@ class MoveEvaluator(IEvaluator):
 
     @staticmethod
     def __next(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
             game_status_tmp.available_moves[NEXT].append(interaction_move)
         else:
@@ -56,8 +55,7 @@ class MoveEvaluator(IEvaluator):
     @staticmethod
     def __not_next(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None,
                    allowable: bool = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
             game_status_tmp.available_moves[NOT_NEXT].append(interaction_move)
         else:
@@ -66,8 +64,7 @@ class MoveEvaluator(IEvaluator):
 
     @staticmethod
     def __future(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None, allowable: bool = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
             game_status_tmp.available_moves[FUTURE].append(interaction_move)
         else:
@@ -77,8 +74,7 @@ class MoveEvaluator(IEvaluator):
     @staticmethod
     def __not_future(game_status_tmp: GameStatus = None, interaction_move: InteractionMove = None,
                      allowable: bool = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         if allowable:
             game_status_tmp.available_moves[NOT_FUTURE].append(interaction_move)
         else:
@@ -96,8 +92,7 @@ class MoveEvaluator(IEvaluator):
 
     @staticmethod
     def __evaluate_move(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         # verify size of elements in the condition
         if len(effect_tmp.list) >= 3:
             permit_mandate = effect_tmp.list[0]

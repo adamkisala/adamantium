@@ -1,3 +1,5 @@
+import os
+
 NO_GAME_DESCRIPTION = "Please provide game description"
 COLON = ":"
 OPEN_BRACE = "{"
@@ -29,3 +31,5 @@ ARTIFACT_DATA = "artifact_data"
 PLAYER_NAME = "player_name"
 ROLE = "role"
 FINAL = "final"
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))

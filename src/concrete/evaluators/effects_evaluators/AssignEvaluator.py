@@ -1,5 +1,7 @@
 import inspect
+import logging
 
+from controllers.LoggingController import LoggingController
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
 from model.GameStatus import GameStatus
@@ -17,8 +19,7 @@ class AssignEvaluator(IEvaluator):
 
     @staticmethod
     def __evaluate_assign(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         # verify size of elements in the effect
         if len(effect_tmp.list) == 2:
             player_name = effect_tmp.list[0]

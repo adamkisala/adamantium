@@ -1,4 +1,7 @@
+import logging
+
 from concrete.GameEndController import GameEndController
+from controllers.LoggingController import LoggingController
 from controllers.OutputController import OutputController
 from enums.Status import Status
 from interface.IGameDataCollector import IGameDataCollector
@@ -26,8 +29,7 @@ class GameStatusCollector(IGameDataCollector):
         else:
             for handler in self.__handlers:
                 if isinstance(handler, i_handler):
-                    if DEBUG:
-                        print(str(type(handler)) + " is " + str(type(i_handler)))
+                    LoggingController.logger.debug(str(type(handler)) + " is " + str(type(i_handler)))
                     self.game_status = handler.handle(self.game_status)
                     self.game_status.evaluate_game_status()
         if self.game_status.status == Status.TERMINATE:

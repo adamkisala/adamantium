@@ -1,3 +1,6 @@
+import logging
+
+from controllers.LoggingController import LoggingController
 from interface.IHandler import IHandler
 from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
@@ -21,10 +24,14 @@ class StoreController(IHandler):
     def handle(self, game_status_tmp: GameStatus = None):
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
-            for store in game_status_tmp.stores:
-                pprint.pprint(vars(store))
-                for artifact in store.store:
-                    pprint.pprint(vars(artifact))
+        self.__log_details(game_status_tmp)
         return game_status_tmp
+
+    def __log_details(self, game_status_tmp: GameStatus = None):
+        logger = ''
+        logger += ("Handling in: " + str(type(self))) + "\n"
+        for store in game_status_tmp.stores:
+            logger += pprint.pformat(vars(store)) + "\n"
+            for artifact in store.store:
+                logger += pprint.pformat(vars(artifact)) + "\n"
+        LoggingController.logger.debug(logger)

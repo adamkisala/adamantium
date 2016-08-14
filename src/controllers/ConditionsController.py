@@ -1,5 +1,8 @@
+import logging
+
 from concrete.evaluators.ConditionsEvaluator import ConditionsEvaluator
 from concrete.evaluators.EffectsEvaluator import EffectsEvaluator
+from controllers.LoggingController import LoggingController
 from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
 from enums.HandlerType import HandlerType
@@ -21,31 +24,20 @@ class ConditionsController(IHandler):
         return HandlerType.PRE_MOVE_CHECK
 
     def handle(self, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
-            print("Allowable moves: ")
-            for moves in game_status_tmp.available_moves:
-                print(moves)
-                for move in game_status_tmp.available_moves[moves]:
-                    pprint.pprint(vars(move))
-            print("Mandatory moves: ")
-            for moves in game_status_tmp.mandatory_moves:
-                print(moves)
-                for move in game_status_tmp.mandatory_moves[moves]:
-                    pprint.pprint(vars(move))
         game_status_tmp = ConditionsController.evaluate_conditions_controller(game_status_tmp)
-        if DEBUG:
-            print("Allowable moves: ")
-            for moves in game_status_tmp.available_moves:
-                print(moves)
-                for move in game_status_tmp.available_moves[moves]:
-                    pprint.pprint(vars(move))
-            print("Mandatory moves: ")
-            for moves in game_status_tmp.mandatory_moves:
-                print(moves)
-                for move in game_status_tmp.mandatory_moves[moves]:
-                    pprint.pprint(vars(move))
-        # game_status_tmp = ConditionsController.evaluate_conditions_controller(game_status_tmp)
+        logger = ''
+        logger += ("Handling in: " + str(type(self)) + "\n")
+        logger += "Allowable moves: " + "\n"
+        for moves in game_status_tmp.available_moves:
+            logger += str(moves) + "\n"
+            for move in game_status_tmp.available_moves[moves]:
+                logger += pprint.pformat(vars(move)) + "\n"
+        logger += "Mandatory moves: " + "\n"
+        for moves in game_status_tmp.mandatory_moves:
+            logger += str(moves) + "\n"
+            for move in game_status_tmp.mandatory_moves[moves]:
+                logger += pprint.pformat(vars(move)) + "\n"
+        LoggingController.logger.debug(logger)
         game_status_tmp = self.update_collector(game_status_tmp)
         return game_status_tmp
 

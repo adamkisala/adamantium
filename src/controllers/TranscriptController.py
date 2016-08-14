@@ -1,3 +1,7 @@
+import logging
+import logging.config
+
+from controllers.LoggingController import LoggingController
 from interface.IHandler import IHandler
 from enums.HandlerType import HandlerType
 from model.GameStatus import GameStatus
@@ -17,8 +21,7 @@ class TranscriptController(IHandler):
     def handle(self, game_status_tmp: GameStatus = None):
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
+        LoggingController.logger.debug("Handling in: " + str(type(self)))
         return game_status_tmp
 
     def __init__(self):

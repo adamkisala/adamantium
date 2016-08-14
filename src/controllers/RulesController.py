@@ -1,5 +1,7 @@
+import logging
 import pprint
 
+from controllers.LoggingController import LoggingController
 from interface.IHandler import IHandler
 from enums.Scope import Scope
 from enums.HandlerType import HandlerType
@@ -28,44 +30,28 @@ class RulesController(IHandler):
         game_status_tmp = self.__evaluate_principle(principles, game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        if DEBUG:
-            print("Handling in: " + str(type(self)))
-            print("Allowable moves: ")
-            for moves in game_status_tmp.available_moves:
-                print(moves)
-                for move in game_status_tmp.available_moves[moves]:
-                    pprint.pprint(vars(move))
-            print("Mandatory moves: ")
-            for moves in game_status_tmp.mandatory_moves:
-                print(moves)
-                for move in game_status_tmp.mandatory_moves[moves]:
-                    pprint.pprint(vars(move))
+        self.__log_details(game_status_tmp)
         return game_status_tmp
 
     def __get_principles_to_update(self, game_status_tmp: GameStatus = None) -> []:
         values = []
         for principle in game_status_tmp.principles:
             if principle.scope == Scope.MOVEWISE:
-                if DEBUG:
-                    print("Evaluating: " + str(principle))
+                LoggingController.logger.debug("Evaluating: " + str(principle))
                 values.append(principle)
             elif principle.scope == Scope.TURNWISE and game_status_tmp.new_turn:
-                if DEBUG:
-                    print("Evaluating: " + str(principle))
+                LoggingController.logger.debug("Evaluating: " + str(principle))
                 values.append(principle)
             elif principle.scope == Scope.INITIAL and game_status_tmp.initial_turn:
-                if DEBUG:
-                    print("Evaluating: " + str(principle))
+                LoggingController.logger.debug("Evaluating: " + str(principle))
                 values.append(principle)
             else:
-                if DEBUG:
-                    print("Not evaluating: " + str(principle))
+                LoggingController.logger.debug("Not evaluating: " + str(principle))
         return values
 
     def __evaluate_principle(self, principles_tmp: [] = None, game_status_tmp: GameStatus = None):
         for principle in principles_tmp:
-            if DEBUG:
-                print("Checking conditions of: " + str(principle))
+            LoggingController.logger.debug("Checking conditions of: " + str(principle))
             if len(principle.conditions) > 0:
                 self.__evaluate_condition(principle, game_status_tmp)
             else:
@@ -93,3 +79,18 @@ class RulesController(IHandler):
                 for effect in principle.effects:
                     game_status_tmp = EffectsEvaluator.evaluate(effect, game_status_tmp)
         return game_status_tmp
+
+    def __log_details(self, game_status_tmp: GameStatus = None):
+        logger = ''
+        logger += ("Handling in: " + str(type(self))) + "\n"
+        logger += "Allowable moves: " + "\n"
+        for moves in game_status_tmp.available_moves:
+            logger += str(moves) + "\n"
+            for move in game_status_tmp.available_moves[moves]:
+                logger += pprint.pformat(vars(move)) + "\n"
+        logger += "Mandatory moves: " + "\n"
+        for moves in game_status_tmp.mandatory_moves:
+            logger += str(moves) + "\n"
+            for move in game_status_tmp.mandatory_moves[moves]:
+                logger += pprint.pformat(vars(move)) + "\n"
+        LoggingController.logger.debug(logger)

@@ -1,5 +1,7 @@
 import inspect
+import logging
 
+from controllers.LoggingController import LoggingController
 from interface.IEvaluator import IEvaluator
 from model.Condition import Condition
 from model.GameStatus import GameStatus
@@ -17,7 +19,6 @@ class ExternalConditionEvaluator(IEvaluator):
 
     @staticmethod
     def __check_external_condition(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = False
         return evaluated_tmp

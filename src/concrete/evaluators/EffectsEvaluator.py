@@ -1,10 +1,12 @@
 import inspect
+import logging
 
 from concrete.evaluators.effects_evaluators.AssignEvaluator import AssignEvaluator
 from concrete.evaluators.effects_evaluators.ExternalEffectEvaluator import ExternalEffectEvaluator
 from concrete.evaluators.effects_evaluators.MoveEvaluator import MoveEvaluator
 from concrete.evaluators.effects_evaluators.StatusEvaluator import StatusEvaluator
 from concrete.evaluators.effects_evaluators.StoreEvaluator import StoreEvaluator
+from controllers.LoggingController import LoggingController
 from interface.IEvaluator import IEvaluator
 from model.Effect import Effect
 from helpers.Constants import *
@@ -24,36 +26,31 @@ class EffectsEvaluator(IEvaluator):
 
     @staticmethod
     def __move(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         game_status_tmp = MoveEvaluator.evaluate(effect_tmp, game_status_tmp)
         return game_status_tmp
 
     @staticmethod
     def __store(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         game_status_tmp = StoreEvaluator.evaluate(effect_tmp, game_status_tmp)
         return game_status_tmp
 
     @staticmethod
     def __status(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         game_status_tmp = StatusEvaluator.evaluate(effect_tmp, game_status_tmp)
         return game_status_tmp
 
     @staticmethod
     def __assign(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         game_status_tmp = AssignEvaluator.evaluate(effect_tmp, game_status_tmp)
         return game_status_tmp
 
     @staticmethod
     def __ext_effect(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         game_status_tmp = ExternalEffectEvaluator.evaluate(effect_tmp, game_status_tmp)
         return game_status_tmp
 

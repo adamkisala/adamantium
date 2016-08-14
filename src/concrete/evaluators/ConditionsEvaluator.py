@@ -1,4 +1,5 @@
 import inspect
+import logging
 
 from concrete.evaluators.condition_evaluators.CorrespondsEvaluator import CorrespondsEvaluator
 from concrete.evaluators.condition_evaluators.EventEvaluator import EventEvaluator
@@ -10,6 +11,7 @@ from concrete.evaluators.condition_evaluators.NumTurnsEvaluator import NumTurnsE
 from concrete.evaluators.condition_evaluators.PlayerEvaluator import PlayerEvaluator
 from concrete.evaluators.condition_evaluators.RelationEvaluator import RelationEvaluator
 from concrete.evaluators.condition_evaluators.SizeEvaluator import SizeEvaluator
+from controllers.LoggingController import LoggingController
 from interface.IEvaluator import IEvaluator
 from model.Condition import Condition
 from helpers.Constants import *
@@ -36,71 +38,61 @@ class ConditionsEvaluator(IEvaluator):
 
     @staticmethod
     def __event(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = EventEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __inspect(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = InspectEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __inrole(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = InroleEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __size(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = SizeEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __magnitude(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = MagnitudeEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __numturns(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = NumTurnsEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __corresponds(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = CorrespondsEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __relation(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = RelationEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __player(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = PlayerEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
     @staticmethod
     def __external(condition_tmp: Condition = None, evaluated_tmp: bool = False, game_status_tmp: GameStatus = None):
-        if DEBUG:
-            print("Evaluating: " + str(inspect.currentframe().f_code.co_name))
+        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated_tmp = ExternalConditionEvaluator.evaluate(condition_tmp, game_status_tmp)
         return evaluated_tmp
 
