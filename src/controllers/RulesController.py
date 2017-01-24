@@ -37,21 +37,21 @@ class RulesController(IHandler):
         values = []
         for principle in game_status_tmp.principles:
             if principle.scope == Scope.MOVEWISE:
-                LoggingController.logger.debug("Evaluating: " + str(principle))
+                LoggingController.logger.debug("Evaluating: " + str(principle.name))
                 values.append(principle)
             elif principle.scope == Scope.TURNWISE and game_status_tmp.new_turn:
-                LoggingController.logger.debug("Evaluating: " + str(principle))
+                LoggingController.logger.debug("Evaluating: " + str(principle.name))
                 values.append(principle)
             elif principle.scope == Scope.INITIAL and game_status_tmp.initial_turn:
-                LoggingController.logger.debug("Evaluating: " + str(principle))
+                LoggingController.logger.debug("Evaluating: " + str(principle.name))
                 values.append(principle)
             else:
-                LoggingController.logger.debug("Not evaluating: " + str(principle))
+                LoggingController.logger.debug("Not evaluating: " + str(principle.name))
         return values
 
     def __evaluate_principle(self, principles_tmp: [] = None, game_status_tmp: GameStatus = None):
         for principle in principles_tmp:
-            LoggingController.logger.debug("Checking conditions of: " + str(principle))
+            LoggingController.logger.debug("Checking conditions of: " + str(principle.name))
             if len(principle.conditions) > 0:
                 self.__evaluate_condition(principle, game_status_tmp)
             else:
