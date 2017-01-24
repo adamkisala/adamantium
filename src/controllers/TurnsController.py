@@ -17,9 +17,10 @@ class TurnsController(IHandler):
         game_status_tmp.new_turn = self.__evaluate_next_player_by_turns(game_status_tmp)
         if game_status_tmp.all_players_did_move:
             game_status_tmp.turns_counter += 1
-        if game_status_tmp.turns_counter >= game_status_tmp.turns.max:
-            game_status_tmp.status = Status.TERMINATE
-            GameEndController.finished = True
+        if hasattr(game_status_tmp.turns, 'max'):
+            if game_status_tmp.turns_counter >= game_status_tmp.turns.max:
+                game_status_tmp.status = Status.TERMINATE
+                GameEndController.finished = True
         return game_status_tmp
 
     def update_flag(self):

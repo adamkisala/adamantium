@@ -2,6 +2,7 @@ from enums.Magnitude import *
 from enums.Ordering import *
 
 
+# TODO !!! max is NULL you bum! where it doesn't have to be defined in the description
 class Turns:
     def __init__(self):
         self.__magnitude = None

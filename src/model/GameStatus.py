@@ -154,9 +154,10 @@ class GameStatus(Game):
 
     def __is_max_turns(self) -> bool:
         value = False
-        if self.turns.max is not None and self.turns.max > 0:
-            value = True if (
-                self.turns.max - self.turns_counter <= 0) else False
+        if hasattr(self.turns, 'max'):
+            if self.turns.max is not None and self.turns.max > 0:
+                value = True if (
+                    self.turns.max - self.turns_counter <= 0) else False
         return value
 
     def evaluate_game_status(self):

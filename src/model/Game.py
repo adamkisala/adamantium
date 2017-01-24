@@ -80,7 +80,8 @@ class Game:
         print("Turns")
         print("\t" + str(self.turns.ordering))
         print("\t" + str(self.turns.magnitude))
-        print("\t" + "Max: " + str(self.turns.max))
+        if hasattr(self.turns, 'max'):
+            print("\t" + "Max: " + str(self.turns.max))
 
         print("Players min: " + str(self.players.min))
         print("Players max: " + str(self.players.max))
