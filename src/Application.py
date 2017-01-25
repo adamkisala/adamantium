@@ -20,14 +20,14 @@ def handle_invalid_usage(error):
     return response
 
 
-@app.route("/")
+@app.route("/", methods=['POST'])
 def receive():
     if game_controller is None:
         raise ExceptionHandler("GAME_INSTANCE_NOT_RUNNING", 500)
     try:
         game_controller.play()
-    except Exception:
-        raise ExceptionHandler("UUUPS", 500)
+    except Exception as err:
+        raise ExceptionHandler(err.args[0], 500)
 
 
 def main(argv):
