@@ -13,6 +13,7 @@ import pprint
 from model.Move import Move
 
 
+# TODO gather not evaluated and return them
 class ConditionsController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         game_status_tmp.speakers = game_status_tmp.get_speakers()
@@ -50,8 +51,9 @@ class ConditionsController(IHandler):
         if len(game_status_tmp.mandatory_moves) > 0:
             # check conditions for that move
             for key in game_status_tmp.mandatory_moves:
-                game_status_tmp.mandatory_moves[key] = ConditionsController.\
-                    __get_interaction_moves_with_failed_conditions(game_status_tmp.mandatory_moves[key], game_status_tmp)
+                game_status_tmp.mandatory_moves[key] = ConditionsController. \
+                    __get_interaction_moves_with_failed_conditions(game_status_tmp.mandatory_moves[key],
+                                                                   game_status_tmp)
         if len(game_status_tmp.available_moves) > 0:
             # check conditions for that move
             for key in game_status_tmp.available_moves:
