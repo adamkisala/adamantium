@@ -215,11 +215,10 @@ class GameStatus(Game):
                         break
         return interaction_move
 
-    def remove_interaction_move_from_moves(self, interaction_move: InteractionMove = None):
-        if interaction_move is not None:
-            for key in self.mandatory_moves:
-                if interaction_move in self.mandatory_moves[key]:
-                    self.mandatory_moves[key].remove(interaction_move)
-            for key in self.available_moves:
-                if interaction_move in self.available_moves[key]:
-                    self.available_moves[key].remove(interaction_move)
+    def remove_interaction_move_from_moves(self, interaction_move: InteractionMove):
+        for key in self.mandatory_moves:
+            if interaction_move in self.mandatory_moves[key]:
+                self.mandatory_moves[key].remove(interaction_move)
+        for key in self.available_moves:
+            if interaction_move in self.available_moves[key]:
+                self.available_moves[key].remove(interaction_move)

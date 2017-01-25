@@ -1,3 +1,5 @@
+from model import Game
+from model import InteractionMove
 from model.GameStatus import GameStatus
 from helpers.Constants import *
 
@@ -18,3 +20,10 @@ class Helpers:
             if _role == player_or_role:
                 role = True
         return role
+
+    @staticmethod
+    def get_move_from_interaction_move(interaction_move: InteractionMove, game_status_tmp: GameStatus) -> Game:
+        for move in game_status_tmp.moves:
+            if interaction_move.move_name == move.name:
+                return move
+        return None
