@@ -2,6 +2,7 @@ from concrete.GameEndController import GameEndController
 from concrete.data_collectors.MoveCollector import MoveCollector
 from controllers.LoggingController import LoggingController
 from factory.ArtifactFactory import ArtifactFactory
+from helpers import Constants
 from helpers.StringParser import StringParser
 from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
@@ -22,13 +23,12 @@ class MoveController(IHandler):
         :return: GameStatus
         """
         if self.__interaction_move is not None:
-            LoggingController.logger.debug(str(self.__interaction_move) + " Move id: " + str(self.__interaction_move.move_id))
             game_status_tmp.current_speaker = self.__interaction_move.player_name
             game_status_tmp.last_interaction_move = self.__interaction_move
         else:
             LoggingController.logger.warning("Most likely json invalid format or id returned none")
-            # TODO raise error
             GameEndController.finished = True
+            raise Exception(Constants.WRONG_MESSAGE_FORMAT)
         return game_status_tmp
 
     def update_flag(self):
@@ -38,7 +38,6 @@ class MoveController(IHandler):
         return HandlerType.MOVE
 
     def handle(self, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug("Handling in: " + str(type(self)))
         move_str = self.__move_collector.collect()
         self.__interaction_move = self.__parse_move(move_str, game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
@@ -50,12 +49,20 @@ class MoveController(IHandler):
         self.__move_collector = MoveCollector()
         self.__interaction_move = InteractionMove()
 
-    def __parse_move(self, move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
+    @staticmethod
+    def __parse_move(move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
         # {"move_id": "2", "move_name":"Permit", "artifact" : {"artifact_key":"Locution", "artifact_id":"1", "artifact_data":"sky is blue"}, "role":"Speaker", "final": "True"}
-        if StringParser.is_json(move_str):
+        if not StringParser.is_json(move_str):
+            LoggingController.logger.warning("Invalid JSON format: " + move_str)
+            GameEndController.finished = True
+            raise Exception(Constants.WRONG_MESSAGE_FORMAT)
+        else:
             move_json = json.loads(StringParser.dict_to_string(move_str))
-            if 'move_id' in move_json:
+            if 'move_id' not in move_json:
+                LoggingController.logger.warning(Constants.MESSAGE_HAS_NO_ID + ": " + move_str)
+                raise Exception(Constants.MESSAGE_HAS_NO_ID)
+            else:
                 move_id = move_json[MOVE_ID]
                 move_name = move_json[MOVE_NAME] if MOVE_NAME in move_json else EMPTY
                 artifact = move_json[ARTIFACT] if ARTIFACT in move_json else EMPTY
@@ -69,11 +76,4 @@ class MoveController(IHandler):
                     move.final = final
                     move.player_name = player_name
                     move.role = role
-            else:
-                move = None
-        else:
-            move = None
-            LoggingController.logger.warning("Invalid JSON format: " + move_str)
-            # TODO raise error
-            GameEndController.finished = True
         return move

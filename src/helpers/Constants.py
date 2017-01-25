@@ -33,3 +33,7 @@ ROLE = "role"
 FINAL = "final"
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+# Errors
+WRONG_MESSAGE_FORMAT = "WRONG_MESSAGE_FORMAT"
+MESSAGE_HAS_NO_ID = "MESSAGE_HAS_NO_ID"
