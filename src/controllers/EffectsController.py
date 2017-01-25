@@ -26,14 +26,15 @@ class EffectsController(IHandler):
         super().__init__()
 
     def handle(self, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug(print("Handling in: " + str(type(self))))
+        if game_status_tmp is None:
+            return game_status_tmp
         game_status_tmp = EffectsController.__evaluate_effects(game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         return game_status_tmp
 
     @staticmethod
-    def __evaluate_effects(game_status_tmp: GameStatus = None):
+    def __evaluate_effects(game_status_tmp: GameStatus):
         if game_status_tmp.last_move:
             if len(game_status_tmp.last_move.effects) > 0:
                 for effect in game_status_tmp.last_move.effects:
@@ -43,8 +44,7 @@ class EffectsController(IHandler):
         return game_status_tmp
 
     @staticmethod
-    def __move(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug(("Evaluating: " + str(inspect.currentframe().f_code.co_name)))
+    def __move(effect_tmp: Effect, game_status_tmp: GameStatus):
         player_name = game_status_tmp.last_interaction_move.player_name
         role = game_status_tmp.last_interaction_move.role
         artifact = game_status_tmp.last_interaction_move.artifact
@@ -61,7 +61,6 @@ class EffectsController(IHandler):
 
     @staticmethod
     def __store(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug(("Evaluating: " + str(inspect.currentframe().f_code.co_name)))
         effect_tmp.list[1] = game_status_tmp.last_interaction_move.artifact
         game_store = effect_tmp.list[2]
         player_name = game_status_tmp.last_interaction_move.player_name
