@@ -1,4 +1,17 @@
-class Effect:
+from sqlalchemy import Column
+from sqlalchemy import Integer
+from sqlalchemy import Sequence
+from sqlalchemy import String
+
+from settings.db_settings import Base
+
+
+class Effect(Base):
+
+    __tablename__ = 'Effect'
+    id = Column(Integer, Sequence('effect_id_seq'), primary_key=True)
+    effect_name = Column(String(100))
+
     def __init__(self):
         self.__name = None
         self.__list = []

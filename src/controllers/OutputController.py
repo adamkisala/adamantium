@@ -1,4 +1,4 @@
-from concrete.HTTPOutputController import HTTPOutputController
+from concrete.ConsoleOutputController import ConsoleOutputController
 from interface.IHandler import IHandler
 from model.GameStatus import GameStatus
 
@@ -9,7 +9,7 @@ class OutputController(IHandler):
         super().__init__()
 
     def handle(self, game_status_tmp: GameStatus = None):
-        output = HTTPOutputController()
+        output = ConsoleOutputController()
         # TODO serialisation
         output.send_output(game_status_tmp.last_interaction_move.__dict__)
         return game_status_tmp

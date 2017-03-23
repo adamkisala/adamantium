@@ -27,7 +27,7 @@ class MoveController(IHandler):
             game_status_tmp.last_interaction_move = self.__interaction_move
         else:
             LoggingController.logger.warning("Most likely json invalid format or id returned none")
-            GameEndController.finished = True
+            #GameEndController.finished = True
             raise Exception(Constants.WRONG_MESSAGE_FORMAT)
         return game_status_tmp
 
@@ -47,7 +47,7 @@ class MoveController(IHandler):
     def __init__(self):
         super().__init__()
         self.__move_collector = MoveCollector()
-        self.__interaction_move = InteractionMove()
+        self.__interaction_move = None
 
     @staticmethod
     def __parse_move(move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
@@ -76,4 +76,6 @@ class MoveController(IHandler):
                     move.final = final
                     move.player_name = player_name
                     move.role = role
+                else:
+                    move = InteractionMove(move_id, move_name, artifact, player_name, role, final)
         return move
