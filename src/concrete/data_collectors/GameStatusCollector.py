@@ -27,13 +27,12 @@ class GameStatusCollector(IGameDataCollector):
                 self.game_status = handler.handle(self.game_status)
                 self.game_status.evaluate_game_status()
         else:
-            for handler in self.__handlers:
-                if isinstance(handler, i_handler):
-                    LoggingController.logger.debug(str(type(handler)) + " is " + str(type(i_handler)))
-                    self.game_status = handler.handle(self.game_status)
-                    self.game_status.evaluate_game_status()
+            if isinstance(i_handler, IHandler):
+                self.game_status = i_handler.handle(self.game_status)
+                self.game_status.evaluate_game_status()
         if self.game_status.status == Status.TERMINATE:
             GameEndController.finished = True
+        return self.game_status
 
     def __init__(self, game_tmp: Game = None):
         super().__init__()
@@ -48,10 +47,9 @@ class GameStatusCollector(IGameDataCollector):
         self.__move_validation_controller = MoveValidationController()
         self.__transcript_controller = TranscriptController()
         self.__handlers = [self.__turns_controller, self.__rules_controller, self.__conditions_controller,
-                           self.__output_controller,
                            self.__move_controller,
                            self.__move_validation_controller, self.__effects_controller,
-                           self.__store_controller, self.__transcript_controller]
+                           self.__store_controller, self.__transcript_controller, self.__output_controller]
 
     def __get_game_status(self) -> GameStatus:
         return self.__game_status

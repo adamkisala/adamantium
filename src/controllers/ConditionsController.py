@@ -27,19 +27,6 @@ class ConditionsController(IHandler):
 
     def handle(self, game_status_tmp: GameStatus = None):
         game_status_tmp = ConditionsController.evaluate_conditions_controller(game_status_tmp)
-        logger = ''
-        logger += ("Handling in: " + str(type(self)) + "\n")
-        logger += "Allowable moves: " + "\n"
-        for moves in game_status_tmp.available_moves:
-            logger += str(moves) + "\n"
-            for move in game_status_tmp.available_moves[moves]:
-                logger += pprint.pformat(vars(move)) + "\n"
-        logger += "Mandatory moves: " + "\n"
-        for moves in game_status_tmp.mandatory_moves:
-            logger += str(moves) + "\n"
-            for move in game_status_tmp.mandatory_moves[moves]:
-                logger += pprint.pformat(vars(move)) + "\n"
-        LoggingController.logger.debug(logger)
         game_status_tmp = self.update_collector(game_status_tmp)
         return game_status_tmp
 
@@ -57,7 +44,7 @@ class ConditionsController(IHandler):
         if len(game_status_tmp.available_moves) > 0:
             # check conditions for that move
             for key in game_status_tmp.available_moves:
-                game_status_tmp.mandatory_moves[key] = ConditionsController. \
+                game_status_tmp.available_moves[key] = ConditionsController. \
                     __get_interaction_moves_with_failed_conditions(game_status_tmp.available_moves[key],
                                                                    game_status_tmp)
         return game_status_tmp
