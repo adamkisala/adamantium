@@ -25,6 +25,15 @@ with app.app_context():
         response.status_code = error.status_code
         return response
 
+    @app.route("/utterance", methods=['POST'])
+    def locution():
+        data = request.get_json()
+        if 'dialogueId' not in data:
+            raise ExceptionHandler("DIALOGUE_ID_MUST_BE_SUPPLIED", 400)
+        if 'utterance' not in data:
+            raise ExceptionHandler("UTTERANCE_MUST_BE_SUPPLIED", 400)
+        return jsonify(data)
+
 
     @app.route("/", methods=['POST'])
     def receive():
