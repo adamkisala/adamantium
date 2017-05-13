@@ -50,18 +50,17 @@ class MoveController(IHandler):
         self.__interaction_move = None
 
     @staticmethod
-    def __parse_move(move_str: str = None, game_status_tmp: GameStatus = None) -> InteractionMove:
+    def __parse_move(move_str: dict = None, game_status_tmp: GameStatus = None) -> InteractionMove:
         # decode json and create Move
         # {"move_id": "2", "move_name":"Permit", "artifact" : {"artifact_key":"Locution", "artifact_id":"1", "artifact_data":"sky is blue"}, "role":"Speaker", "final": "True"}
-        if not StringParser.is_json(move_str):
-            LoggingController.logger.warning("Invalid JSON format: " + move_str)
-            GameEndController.finished = True
-            raise Exception(Constants.WRONG_MESSAGE_FORMAT)
+        if type(move_str) is not dict:
+            LoggingController.logger.warning("Invalid JSON format: " + str(move_str))
+            raise Exception(400, Constants.WRONG_MESSAGE_FORMAT)
         else:
-            move_json = json.loads(StringParser.dict_to_string(move_str))
-            if 'move_id' not in move_json:
-                LoggingController.logger.warning(Constants.MESSAGE_HAS_NO_ID + ": " + move_str)
-                raise Exception(Constants.MESSAGE_HAS_NO_ID)
+            move_json = move_str
+            if MOVE_ID not in move_json:
+                LoggingController.logger.warning(Constants.MESSAGE_HAS_NO_ID + ": " + str(move_str))
+                raise Exception(400, Constants.MESSAGE_HAS_NO_ID)
             else:
                 move_id = move_json[MOVE_ID]
                 move_name = move_json[MOVE_NAME] if MOVE_NAME in move_json else EMPTY
@@ -70,6 +69,7 @@ class MoveController(IHandler):
                 player_name = move_json[PLAYER_NAME] if PLAYER_NAME in move_json else EMPTY
                 role = move_json[ROLE] if ROLE in move_json else EMPTY
                 final = move_json[FINAL] if FINAL in move_json else EMPTY
+                # TODO get move from DB not from memory
                 move = game_status_tmp.get_interaction_move__by_id(move_id)
                 if move is not None:
                     move.artifact = ArtifactFactory.create_artifact(artifact)

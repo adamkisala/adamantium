@@ -34,8 +34,8 @@ with app.app_context():
             # TODO return interaction move
             return Response("OK", 200)
         except Exception as err:
-            code = err.args[0]
-            message = err.args[1] if len(err.args) > 1 else 500
+            code = err.args[0] if len(err.args) > 1 else 500
+            message = err.args[1] if len(err.args) > 1 else err.args[0]
             raise ExceptionHandler(message, code)
 
 
