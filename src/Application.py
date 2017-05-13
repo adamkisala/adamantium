@@ -70,6 +70,16 @@ with app.app_context():
         return jsonify(id=game.id, description=game.dialogueDescription)
 
 
+    @app.route("/dialogue/<id>", methods=['DELETE'])
+    def delete_dialogue(id):
+        game = db_controller.session.query(Dialogue).filter(Dialogue.id == id).first()
+        if game is None:
+            raise ExceptionHandler('ENTITY_NOT_FOUND', 404)
+        db_controller.session.delete(game)
+        db_controller.session.commit()
+        return jsonify()
+
+
     def main():
         try:
             app.run()
