@@ -18,6 +18,7 @@ with app.app_context():
     game_controller = None
     db_controller = DatabaseController()
 
+
     @app.errorhandler(ExceptionHandler)
     def handle_invalid_usage(error):
         response = jsonify(error.to_dict())
@@ -29,7 +30,7 @@ with app.app_context():
     def receive():
         data = request.json
         if 'dialogueId' not in data:
-            raise ExceptionHandler("GAME_ID_NOT_FOUND", 500)
+            raise ExceptionHandler("GAME_ID_NOT_FOUND", 404)
         try:
             start_dialogue(data.get('dialogueId'))
             # TODO return interaction move
@@ -38,6 +39,7 @@ with app.app_context():
             code = err.args[0] if len(err.args) > 1 else 500
             message = err.args[1] if len(err.args) > 1 else err.args[0]
             raise ExceptionHandler(message, code)
+
 
     @app.route("/dialogue", methods=['POST', 'GET'])
     def dialogue():
@@ -48,16 +50,33 @@ with app.app_context():
                 response.append(DialogueSerializer().serialize(dg))
             return jsonify(dialogues=response)
         elif request.method == 'POST':
-            # TODO save to DB
-            pass
+            data = request.json
+            if 'id' not in data or 'dialogueDescription' not in data:
+                raise ExceptionHandler("PARAMS_MISSING", 400)
+            # check if exists already
+            dg = db_controller.session.query(Dialogue).filter(Dialogue.id == data.get('id')).first()
+            if dg is not None:
+                raise ExceptionHandler("ENTITY_EXISTS_CANNOT_CREATE", 400)
+            dg = DialogueSerializer().deserialize(data)
+            db_controller.session.add(dg)
+            db_controller.session.commit()
+            resp = DialogueSerializer().serialize(dg)
+            return jsonify({'response': resp})
+
 
     @app.route("/dialogue/<id>", methods=['GET'])
     def check_dialogue(id):
         game = get_game_from_db(id)
         return jsonify(id=game.id, description=game.dialogueDescription)
 
+
     def main():
-        app.run()
+        try:
+            app.run()
+        except Exception as err:
+            code = err.args[0] if len(err.args) > 1 else 500
+            message = err.args[1] if len(err.args) > 1 else err.args[0]
+            raise ExceptionHandler(message, code)
 
 
     def start_dialogue(game_id: str):
