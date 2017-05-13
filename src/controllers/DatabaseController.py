@@ -15,7 +15,7 @@ class DatabaseController:
             self.__engine = engine
         session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=self.__engine))
         Base.query = session.query_property()
-        import model.Dialogue
+        import model
         Base.metadata.create_all(bind=self.__engine)
         self.__session = session()
 

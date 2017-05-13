@@ -9,3 +9,7 @@ class Dialogue(Base):
 
     id = Column(String, primary_key=True)
     dialogueDescription = Column(String)
+
+    def __init__(self, id: str, dialogueDescription: str):
+        self.id = id
+        self.dialogueDescription = dialogueDescription

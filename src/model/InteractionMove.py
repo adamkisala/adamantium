@@ -1,10 +1,25 @@
+from sqlalchemy import Boolean
+from sqlalchemy import Column
+from sqlalchemy import Integer
+from sqlalchemy import String
+
 from factory.ArtifactFactory import ArtifactFactory
 from interface.IArtifact import IArtifact
 from helpers.Constants import *
+from settings.db_settings import Base
 
 
-class InteractionMove:
+class InteractionMove(Base):
     __counter = 0
+
+    __tablename__ = 'InteractionMove'
+
+    player_name = Column(String(100))
+    move_id = Column(Integer, primary_key=True)
+    move_name = Column(String(100))
+    artifact = Column(String(100))
+    role = Column(String(100))
+    final = Column(Boolean)
 
     def __init__(self, move_id: int = None, move_name: str = EMPTY, artifact: str = EMPTY, player_name: str = EMPTY,
                  role: str = EMPTY, final: bool = False):
@@ -55,9 +70,3 @@ class InteractionMove:
     def __get_final(self) -> bool:
         return self.__final
 
-    player_name = property(__get_player_id, __set_player_id, None)
-    move_id = property(__get_move_id, __set_move_id, None)
-    move_name = property(__get_move_type, __set_move_type, None)
-    artifact = property(__get_artifact, __set_artifact, None)
-    role = property(__get_role, __set_role, None)
-    final = property(__get_final, __set_final, None)
