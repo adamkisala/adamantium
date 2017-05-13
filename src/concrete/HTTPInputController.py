@@ -1,5 +1,6 @@
 from flask import request
 
+from helpers.Constants import UTTERANCE
 from interface.IInputController import IInputController
 
 
@@ -8,4 +9,4 @@ class HTTPInputController(IInputController):
         super().__init__()
 
     def get_input(self):
-        return request.get_json()
+        return request.get_json()[UTTERANCE]
