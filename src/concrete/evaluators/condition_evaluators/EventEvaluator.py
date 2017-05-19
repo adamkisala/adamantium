@@ -24,14 +24,14 @@ class EventEvaluator(IEvaluator):
         LoggingController.logger("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if game_status_tmp.last_interaction_move is not None:
-            if game_status_tmp.last_interaction_move.move_name == data_tmp['move_name']:
+            if game_status_tmp.last_interaction_move.moveName == data_tmp['move_name']:
                 evaluated = True
                 artifact = data_tmp["artifact"]
                 player = data_tmp["player"]
                 role = data_tmp["role"]
                 if artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() != artifact["id"]:
                     evaluated = False
-                if player is not None and game_status_tmp.last_interaction_move.player_name != player:
+                if player is not None and game_status_tmp.last_interaction_move.playerName != player:
                     evaluated = False
                 elif role is not None and game_status_tmp.last_interaction_move.role != role:
                     evaluated = False
@@ -42,14 +42,14 @@ class EventEvaluator(IEvaluator):
         LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if game_status_tmp.last_interaction_move is not None:
-            if game_status_tmp.last_interaction_move.move_name != data_tmp['move_name']:
+            if game_status_tmp.last_interaction_move.moveName != data_tmp['move_name']:
                 evaluated = True
                 artifact = data_tmp["artifact"]
                 player = data_tmp["player"]
                 role = data_tmp["role"]
                 if artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() == artifact["id"]:
                     evaluated = False
-                if player is not None and game_status_tmp.last_interaction_move.player_name == player:
+                if player is not None and game_status_tmp.last_interaction_move.playerName == player:
                     evaluated = False
                 elif role is not None and game_status_tmp.last_interaction_move.role == role:
                     evaluated = False
@@ -61,7 +61,7 @@ class EventEvaluator(IEvaluator):
         evaluated = False
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
-                if past_move.move_name == data_tmp['move_name']:
+                if past_move.moveName == data_tmp['move_name']:
                     evaluated = True
                     artifact = data_tmp["artifact"]
                     player = data_tmp["player"]
@@ -69,7 +69,7 @@ class EventEvaluator(IEvaluator):
                     if artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() != artifact[
                         "id"]:
                         evaluated = False
-                    if player is not None and game_status_tmp.last_interaction_move.player_name != player:
+                    if player is not None and game_status_tmp.last_interaction_move.playerName != player:
                         evaluated = False
                     elif role is not None and game_status_tmp.last_interaction_move.role != role:
                         evaluated = False
@@ -82,12 +82,12 @@ class EventEvaluator(IEvaluator):
         evaluated = True
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
-                past_move_bool = past_move.move_name == data_tmp['move_name']
+                past_move_bool = past_move.moveName == data_tmp['move_name']
                 artifact = data_tmp["artifact"]
                 player = data_tmp["player"]
                 role = data_tmp["role"]
                 artifact_bool = artifact is not None and game_status_tmp.last_interaction_move.artifact.get_id() == artifact
-                player_bool = player is not None and game_status_tmp.last_interaction_move.player_name == player
+                player_bool = player is not None and game_status_tmp.last_interaction_move.playerName == player
                 role_bool = role is not None and game_status_tmp.last_interaction_move.role == role
                 if past_move_bool and artifact_bool and (player_bool or role_bool):
                     evaluated = False

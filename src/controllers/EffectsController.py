@@ -45,7 +45,7 @@ class EffectsController(IHandler):
 
     @staticmethod
     def __move(effect_tmp: Effect, game_status_tmp: GameStatus):
-        player_name = game_status_tmp.last_interaction_move.player_name
+        player_name = game_status_tmp.last_interaction_move.playerName
         role = game_status_tmp.last_interaction_move.role
         artifact = game_status_tmp.last_interaction_move.artifact
         length = len(effect_tmp.list)
@@ -63,7 +63,7 @@ class EffectsController(IHandler):
     def __store(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         effect_tmp.list[1] = game_status_tmp.last_interaction_move.artifact
         game_store = effect_tmp.list[2]
-        player_name = game_status_tmp.last_interaction_move.player_name
+        player_name = game_status_tmp.last_interaction_move.playerName
         role = game_status_tmp.last_interaction_move.role
         player_or_role = EMPTY
         found = False

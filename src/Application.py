@@ -25,14 +25,15 @@ with app.app_context():
         response.status_code = error.status_code
         return response
 
-
-    @app.route("/", methods=['POST'])
-    def receive():
-        data = request.json
+    @app.route("/utterance", methods=['POST'])
+    def locution():
+        data = request.get_json()
         if 'dialogueId' not in data:
-            raise ExceptionHandler("GAME_ID_NOT_FOUND", 404)
+            raise ExceptionHandler("DIALOGUE_ID_MUST_BE_SUPPLIED", 400)
+        if 'utterance' not in data:
+            raise ExceptionHandler("UTTERANCE_MUST_BE_SUPPLIED", 400)
         try:
-            start_dialogue(data.get('dialogueId'))
+            utterance = start_dialogue(data.get('dialogueId'))
             # TODO return interaction move
             return Response("OK", 200)
         except Exception as err:

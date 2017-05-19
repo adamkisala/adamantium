@@ -34,9 +34,12 @@ class GameStatusCollector(IGameDataCollector):
             GameEndController.finished = True
         return self.game_status
 
-    def __init__(self, game_tmp: Game = None):
+    def __init__(self, game_tmp: Game = None, game_status: GameStatus = None):
         super().__init__()
-        self.__game_status = GameStatus(game_tmp)
+        if game_status is not None:
+            self.__game_status = game_status
+        else:
+            self.__game_status = GameStatus(game_tmp)
         self.__turns_controller = TurnsController()
         self.__conditions_controller = ConditionsController()
         self.__effects_controller = EffectsController()

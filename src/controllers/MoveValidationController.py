@@ -12,8 +12,8 @@ from controllers.MoveController import MoveController
 class MoveValidationController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         if game_status_tmp.last_interaction_move:
-            game_status_tmp.current_speaker = game_status_tmp.last_interaction_move.player_name
-            game_status_tmp.set_last_move_by_name(game_status_tmp.last_interaction_move.move_name)
+            game_status_tmp.current_speaker = game_status_tmp.last_interaction_move.playerName
+            game_status_tmp.set_last_move_by_name(game_status_tmp.last_interaction_move.moveName)
             game_status_tmp.past_moves.append(game_status_tmp.last_interaction_move)
             game_status_tmp.set_did_move_flag(game_status_tmp.current_speaker)
             game_status_tmp.remove_interaction_move_from_moves(game_status_tmp.last_interaction_move)
@@ -50,9 +50,9 @@ class MoveValidationController(IHandler):
                 # check by move_id
                 for key in game_status_tmp.mandatory_moves:
                     for interaction_move in game_status_tmp.mandatory_moves[key]:
-                        if interaction_move.move_id == game_status_tmp.last_interaction_move.move_id:
+                        if interaction_move.id == game_status_tmp.last_interaction_move.id:
                             # need to check if Speaker or player_name correct just to be sure
-                            if interaction_move.player_name in game_status_tmp.get_speakers():
+                            if interaction_move.playerName in game_status_tmp.get_speakers():
                                 valid = True
                                 break
                     if valid:
@@ -62,9 +62,9 @@ class MoveValidationController(IHandler):
                 # check by move_id
                 for key in game_status_tmp.available_moves:
                     for interaction_move in game_status_tmp.available_moves[key]:
-                        if interaction_move.move_id == game_status_tmp.last_interaction_move.move_id:
+                        if interaction_move.id == game_status_tmp.last_interaction_move.id:
                             # need to check if Speaker or player_name correct just to be sure
-                            if interaction_move.player_name in game_status_tmp.get_speakers():
+                            if interaction_move.playerName in game_status_tmp.get_speakers():
                                 valid = True
                                 break
                     if valid:
