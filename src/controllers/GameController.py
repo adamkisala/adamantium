@@ -7,14 +7,14 @@ from concrete.data_collectors.GameStatusCollector import GameStatusCollector
 class GameController(IObservable):
     game = None
 
-    def __init__(self, game_tmp: Game = None):
+    def __init__(self, game_tmp: Game = None, dialogueId: str = None):
         super().__init__()
         GameController.game = game_tmp
         self._listeners = []
         for player in GameController.game.players.list:
             self._listeners.append(player)
         self._game_end_controller = GameEndController()
-        self._game_status_collector = GameStatusCollector(game_tmp)
+        self._game_status_collector = GameStatusCollector(game_tmp, dialogueId=dialogueId)
 
     def _set_listeners(self, listeners_tmp: [] = None):
         self._listeners = listeners_tmp
@@ -28,6 +28,6 @@ class GameController(IObservable):
         for listener in self.listeners:
             listener.update()
 
-    def play(self):
+    def play(self, dialogueId: str = None):
         GameController.game.print_self()
         return self._game_status_collector.collect()

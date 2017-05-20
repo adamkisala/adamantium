@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from flask import Response
 from flask import request
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
@@ -8,8 +7,7 @@ from controllers.DatabaseController import DatabaseController
 from exception.ExceptionHandler import ExceptionHandler
 from factory.GameFactory import *
 from model.Dialogue import Dialogue
-from serializers.Serializer import DialogueSerializer
-from settings.db_settings import Base
+from serializers.Serializer import DialogueSerializer, GameStatusSerializer
 
 app = Flask(__name__)
 
@@ -25,6 +23,7 @@ with app.app_context():
         response.status_code = error.status_code
         return response
 
+
     @app.route("/utterance", methods=['POST'])
     def locution():
         data = request.get_json()
@@ -35,7 +34,8 @@ with app.app_context():
         try:
             utterance = start_dialogue(data.get('dialogueId'))
             # TODO return interaction move
-            return Response("OK", 200)
+            resp = GameStatusSerializer().serialize(utterance)
+            return jsonify({'gameStatus': resp})
         except Exception as err:
             code = err.args[0] if len(err.args) > 1 else 500
             message = err.args[1] if len(err.args) > 1 else err.args[0]
@@ -96,7 +96,7 @@ with app.app_context():
         input_stream = InputStream(game.dialogueDescription)
         game = game_fac.create_game(input_stream)
         global game_controller
-        game_controller = controllers.GameController.GameController(game)
+        game_controller = controllers.GameController.GameController(game, game_id)
         return game_controller.play()
 
 
