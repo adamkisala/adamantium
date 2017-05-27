@@ -1,10 +1,31 @@
 from concrete.artifacts import Artifact
 from helpers.JsonSerializer import JsonSerializer
-from model import Dialogue, InteractionMove, GameStatus
+from model import Dialogue, InteractionMove, GameStatus, Move, Condition
+
+
+class MoveSerializer(JsonSerializer):
+    __attributes__ = ['name', 'final']
+    __required__ = []
+    __attribute_serializer__ = dict(conditions='conditions', effects='effects')
+    __object_class__ = Move.Move
+
+    def __init__(self):
+        self.serializers['effects'] = dict(
+            serialize=lambda x:
+            [EffectSerializer().serialize(xx) for xx in x],
+            deserialize=lambda x:
+            [EffectSerializer().deserialize(xx) for xx in x]
+        )
+        self.serializers['conditions'] = dict(
+            serialize=lambda x:
+            [ConditionSerializer().serialize(xx) for xx in x],
+            deserialize=lambda x:
+            [ConditionSerializer().deserialize(xx) for xx in x]
+        )
 
 
 class ArtifactSerializer(JsonSerializer):
-    __attributes__ = ['data']
+    __attributes__ = ['data', 'artifactKey']
     __required__ = []
     __attribute_serializer__ = dict()
     __object_class__ = Artifact.Artifact
@@ -38,7 +59,7 @@ class GameStatusSerializer(JsonSerializer):
                       'all_players_did_move', 'status']
     __required__ = ['id', 'dialogueId']
     __attribute_serializer__ = dict(last_interaction_move='last_interaction_move', mandatory_moves='mandatory_moves',
-                                    available_moves='available_moves')
+                                    available_moves='available_moves', past_moves='past_moves', last_move='last_move')
     __object_class__ = GameStatus.GameStatus
 
     def __init__(self):
@@ -60,3 +81,29 @@ class GameStatusSerializer(JsonSerializer):
             deserialize=lambda d:
             {key: [InteractionMoveSerializer().deserialize(v) for v in d[key]] for key in d.keys()},
         )
+        self.serializers['past_moves'] = dict(
+            serialize=lambda x:
+            [InteractionMoveSerializer().serialize(xx) for xx in x],
+            deserialize=lambda x:
+            [InteractionMoveSerializer().deserialize(xx) for xx in x]
+        )
+        self.serializers['last_move'] = dict(
+            serialize=lambda x:
+            MoveSerializer().serialize(x),
+            deserialize=lambda x:
+            MoveSerializer().deserialize(x)
+        )
+
+
+class ConditionSerializer(JsonSerializer):
+    __attributes__ = ['name', 'list']
+    __required__ = []
+    __attribute_serializer__ = dict()
+    __object_class__ = Condition.Condition
+
+
+class EffectSerializer(JsonSerializer):
+    __attributes__ = ['name', 'list']
+    __required__ = []
+    __attribute_serializer__ = dict()
+    __object_class__ = Condition.Condition

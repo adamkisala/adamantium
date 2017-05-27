@@ -52,7 +52,7 @@ class GameStatusCollector(IGameDataCollector):
         self.__handlers = [self.__turns_controller, self.__rules_controller, self.__conditions_controller,
                            self.__move_controller,
                            self.__move_validation_controller, self.__effects_controller,
-                           self.__turns_controller, self.__rules_controller, self.__conditions_controller,
+
                            self.__store_controller, self.__transcript_controller, self.__output_controller]
 
     def __get_game_status(self) -> GameStatus:

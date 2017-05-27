@@ -197,8 +197,8 @@ class GameStatus(Game, Base):
         self.available_moves.pop(NOT_NEXT, None)
         self.mandatory_moves.pop(NEXT, None)
         self.mandatory_moves.pop(NOT_NEXT, None)
-        self.__available_moves = {NEXT: [], NOT_NEXT: []}
-        self.__mandatory_moves = {NEXT: [], NOT_NEXT: []}
+        self.__available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        self.__mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
 
     def get_next_player_name_from_the_list(self, player_name: str = EMPTY):
         value = None
