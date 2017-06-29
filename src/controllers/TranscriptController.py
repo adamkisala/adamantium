@@ -15,7 +15,7 @@ from serializers.Serializer import GameStatusSerializer
 class TranscriptController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         dId = str(game_status_tmp.id)
-        game_status_db = db_controller.session.query(GameStatus).filter(GameStatus.id == dId).first()
+        game_status_db = db_controller.session.query(GameStatus).filter_by(id=dId).first()
         serialized = GameStatusSerializer().serialize(game_status_tmp)
         game_status_tmp.gameStatusSerialized = json.dumps(serialized)
         if game_status_db is None:
@@ -23,7 +23,7 @@ class TranscriptController(IHandler):
             db_controller.session.commit()
             return game_status_tmp
         # else update db model
-        game_status_db = game_status_tmp
+        game_status_db.gameStatusSerialized = game_status_tmp.gameStatusSerialized
         db_controller.session.add(game_status_db)
         db_controller.session.commit()
         return game_status_tmp

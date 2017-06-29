@@ -52,6 +52,15 @@ class GameStatus(Game, Base):
             self.principles = game_template.principles
             self.moves = game_template.moves
 
+    def set_game_template(self, game_template: Game):
+        self.name = game_template.name
+        self.stores = game_template.stores
+        self.turns = game_template.turns
+        self.players = game_template.players
+        self.roles = game_template.roles
+        self.principles = game_template.principles
+        self.moves = game_template.moves
+
     def __set_new_turn(self, new_turn_tmp: bool = False):
         self.__new_turn = new_turn_tmp
 

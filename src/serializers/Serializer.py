@@ -40,7 +40,7 @@ class DialogueSerializer(JsonSerializer):
 
 class InteractionMoveSerializer(JsonSerializer):
     __attributes__ = ['relativeId', 'playerName', 'moveName', 'artifact', 'role', 'final']
-    __required__ = ['playerName', 'moveName']
+    __required__ = []
     __attribute_serializer__ = dict(artifact='artifact')
     __object_class__ = InteractionMove.InteractionMove
 

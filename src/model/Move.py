@@ -2,12 +2,13 @@ from concrete.artifacts.Content import Content
 
 
 class Move:
-    def __init__(self):
-        self.__name = None
-        self.__content = Content()
-        self.__effects = []
-        self.__condition = []
-        self.__final = False
+    def __init__(self, name: str = None, content: Content = None, effects: [] = [], condition: [] = [],
+                 final: bool = False):
+        self.__name = name
+        self.__content = content
+        self.__effects = effects
+        self.__condition = condition
+        self.__final = final
 
     def __get_name(self) -> str:
         return self.__name
