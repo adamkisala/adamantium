@@ -40,10 +40,7 @@ with app.app_context():
                 game_status = data.get('gameStatus')
                 game_status = GameStatusSerializer().deserialize(game_status)
             utterance = start_dialogue(data.get('dialogueId'), game_status)
-            if utterance is not GameStatus:
-                return utterance
-            resp = GameStatusSerializer().serialize(utterance)
-            return jsonify({'gameStatus': resp})
+            return utterance.gameStatusSerialized
         except Exception as err:
             code = err.args[0] if len(err.args) > 1 else 500
             message = err.args[1] if len(err.args) > 1 else err.args[0]
@@ -113,7 +110,7 @@ with app.app_context():
             code = err.args[0] if len(err.args) > 1 else 500
             message = err.args[1] if len(err.args) > 1 else err.args[0]
             response = jsonify(code=code, message=message), code
-        return response.gameStatusSerialized
+        return response
 
 
     def get_game_from_db(game_id: str):
