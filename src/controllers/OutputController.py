@@ -12,7 +12,7 @@ class OutputController(IHandler):
         output = ConsoleOutputController()
         # TODO serialisation
         output.send_output(game_status_tmp.last_interaction_move.__dict__)
-        return game_status_tmp
+        return game_status_tmp, None
 
     def update_collector(self):
         pass

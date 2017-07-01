@@ -30,5 +30,4 @@ class GameController(IObservable):
             listener.update()
 
     def play(self, dialogueId: str = None):
-        GameController.game.print_self()
         return self._game_status_collector.collect()

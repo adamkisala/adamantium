@@ -39,7 +39,9 @@ with app.app_context():
             if 'gameStatus' in data:
                 game_status = data.get('gameStatus')
                 game_status = GameStatusSerializer().deserialize(game_status)
-            utterance = start_dialogue(data.get('dialogueId'), game_status)
+            utterance, error = start_dialogue(data.get('dialogueId'), game_status)
+            if error is not None:
+                return jsonify(message=error.message, payload=error.payload), error.status_code
             return utterance.gameStatusSerialized
         except Exception as err:
             code = err.args[0] if len(err.args) > 1 else 500
@@ -95,6 +97,7 @@ with app.app_context():
             raise ExceptionHandler(message, code)
 
     def start_dialogue(game_id: str, game_status: GameStatus = None):
+        error = None
         game_fac = GameFactory()
         game = get_game_from_db(game_id)
         input_stream = InputStream(game.dialogueDescription)
@@ -103,14 +106,14 @@ with app.app_context():
             game_status.set_game_template(game)
         game_controller = controllers.GameController.GameController(game_tmp=game, dialogueId=game_id, game_status=game_status)
         try:
-            response = game_controller.play()
+            response, error = game_controller.play()
         except Exception as err:
             game_fac = None
             game = None
             code = err.args[0] if len(err.args) > 1 else 500
             message = err.args[1] if len(err.args) > 1 else err.args[0]
             response = jsonify(code=code, message=message), code
-        return response
+        return response, error
 
 
     def get_game_from_db(game_id: str):

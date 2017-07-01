@@ -31,7 +31,7 @@ class TurnsController(IHandler):
         self.update_flag()
         LoggingController.logger.debug("Handling in: " + str(type(self)))
         LoggingController.logger.debug("Next player: " + str(game_status_tmp.new_turn))
-        return game_status_tmp
+        return game_status_tmp, None
 
     def type(self):
         return HandlerType.PRE_MOVE_CHECK

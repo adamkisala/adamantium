@@ -31,7 +31,7 @@ class EffectsController(IHandler):
         game_status_tmp = EffectsController.__evaluate_effects(game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        return game_status_tmp
+        return game_status_tmp, None
 
     @staticmethod
     def __evaluate_effects(game_status_tmp: GameStatus):

@@ -28,7 +28,7 @@ class ConditionsController(IHandler):
     def handle(self, game_status_tmp: GameStatus = None):
         game_status_tmp = ConditionsController.evaluate_conditions_controller(game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
-        return game_status_tmp
+        return game_status_tmp, None
 
     def __init__(self):
         super().__init__()

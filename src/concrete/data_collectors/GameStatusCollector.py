@@ -21,10 +21,13 @@ from controllers.TurnsController import TurnsController
 
 class GameStatusCollector(IGameDataCollector):
     def collect(self, i_handler: IHandler = None):
+        err = None
         if i_handler is None:
             # TODO differentiate between HandlerTypes
             for handler in self.__handlers:
-                self.game_status = handler.handle(self.game_status)
+                self.game_status, err = handler.handle(self.game_status)
+                if self.game_status is None and err is not None:
+                    return self.game_status, err
                 self.game_status.evaluate_game_status()
         else:
             if isinstance(i_handler, IHandler):
@@ -32,7 +35,7 @@ class GameStatusCollector(IGameDataCollector):
                 self.game_status.evaluate_game_status()
         if self.game_status.status == Status.TERMINATE:
             GameEndController.finished = True
-        return self.game_status
+        return self.game_status, err
 
     def __init__(self, game_tmp: Game = None, game_status: GameStatus = None, dialogueId: str = None):
         super().__init__()
