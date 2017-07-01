@@ -21,7 +21,6 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __last(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        LoggingController.logger("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if game_status_tmp.last_interaction_move is not None:
             if game_status_tmp.last_interaction_move.moveName == data_tmp['move_name']:
@@ -39,7 +38,6 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __not_last(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if game_status_tmp.last_interaction_move is not None:
             if game_status_tmp.last_interaction_move.moveName != data_tmp['move_name']:
@@ -57,7 +55,6 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __past(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = False
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
@@ -78,7 +75,6 @@ class EventEvaluator(IEvaluator):
 
     @staticmethod
     def __not_past(data_tmp: {} = None, game_status_tmp: GameStatus = None):
-        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         evaluated = True
         if len(game_status_tmp.past_moves) > 0:
             for past_move in game_status_tmp.past_moves:
@@ -104,7 +100,6 @@ class EventEvaluator(IEvaluator):
     @staticmethod
     def __evaluate_event(condition_tmp: Condition = None, game_status_tmp: GameStatus = None):
         evaluated = False
-        LoggingController.logger.debug("Evaluating: " + str(inspect.currentframe().f_code.co_name))
         # verify size of elements in the condition
         if len(condition_tmp.list) >= 2:
             even_type = condition_tmp.list[0]

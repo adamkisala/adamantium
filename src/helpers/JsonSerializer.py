@@ -58,6 +58,9 @@ class JsonSerializer(object):
         """
         d = dict()
         for attr in self.__attributes__:
+            if json is None:
+                continue
+            val = None
             if attr in json:
                 val = json[attr]
             elif attr in self.__required__:
@@ -69,8 +72,10 @@ class JsonSerializer(object):
             serializer = self.__attribute_serializer__.get(attr)
             if serializer:
                 d[attr] = self.serializers[serializer]['deserialize'](val)
-            else:
+            elif val is not None:
                 d[attr] = val
+            else:
+                continue
 
         return self.__object_class__(**d)
 

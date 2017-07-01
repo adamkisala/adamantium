@@ -1,5 +1,5 @@
+import gc
 from flask import Flask, jsonify
-from flask import Response
 from flask import request
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
@@ -8,22 +8,24 @@ from controllers.DatabaseController import DatabaseController
 from exception.ExceptionHandler import ExceptionHandler
 from factory.GameFactory import *
 from model.Dialogue import Dialogue
-from serializers.Serializer import DialogueSerializer
-from settings.db_settings import Base
+from model.GameStatus import GameStatus
+from serializers.Serializer import DialogueSerializer, GameStatusSerializer
 
 app = Flask(__name__)
 
 with app.app_context():
-    """@:var GameController"""
-    game_controller = None
     db_controller = DatabaseController()
 
+    @app.teardown_request
+    def teardown_request(exception):
+        gc.collect()
 
     @app.errorhandler(ExceptionHandler)
     def handle_invalid_usage(error):
         response = jsonify(error.to_dict())
         response.status_code = error.status_code
         return response
+
 
     @app.route("/utterance", methods=['POST'])
     def locution():
@@ -33,9 +35,12 @@ with app.app_context():
         if 'utterance' not in data:
             raise ExceptionHandler("UTTERANCE_MUST_BE_SUPPLIED", 400)
         try:
-            utterance = start_dialogue(data.get('dialogueId'))
-            # TODO return interaction move
-            return Response("OK", 200)
+            game_status = None
+            if 'gameStatus' in data:
+                game_status = data.get('gameStatus')
+                game_status = GameStatusSerializer().deserialize(game_status)
+            utterance = start_dialogue(data.get('dialogueId'), game_status)
+            return utterance.gameStatusSerialized
         except Exception as err:
             code = err.args[0] if len(err.args) > 1 else 500
             message = err.args[1] if len(err.args) > 1 else err.args[0]
@@ -89,15 +94,23 @@ with app.app_context():
             message = err.args[1] if len(err.args) > 1 else err.args[0]
             raise ExceptionHandler(message, code)
 
-
-    def start_dialogue(game_id: str):
+    def start_dialogue(game_id: str, game_status: GameStatus = None):
         game_fac = GameFactory()
         game = get_game_from_db(game_id)
         input_stream = InputStream(game.dialogueDescription)
         game = game_fac.create_game(input_stream)
-        global game_controller
-        game_controller = controllers.GameController.GameController(game)
-        return game_controller.play()
+        if game_status is not None:
+            game_status.set_game_template(game)
+        game_controller = controllers.GameController.GameController(game_tmp=game, dialogueId=game_id, game_status=game_status)
+        try:
+            response = game_controller.play()
+        except Exception as err:
+            game_fac = None
+            game = None
+            code = err.args[0] if len(err.args) > 1 else 500
+            message = err.args[1] if len(err.args) > 1 else err.args[0]
+            response = jsonify(code=code, message=message), code
+        return response
 
 
     def get_game_from_db(game_id: str):

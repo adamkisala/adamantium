@@ -1,27 +1,48 @@
+import uuid
+
+from sqlalchemy import Column, String
+
 from model.Game import Game
 from model.InteractionMove import InteractionMove
 from model.Move import Move
 from enums.Role import Role
-from interface.IObservable import IObservable
 from helpers.Constants import *
 from enums.Status import Status
+from settings.db_settings import Base
 
 
-class GameStatus(Game):
-    def __init__(self, game_template: Game = None):
+class GameStatus(Game, Base):
+
+    __tablename__ = "GameStatus"
+
+    id = Column(String, primary_key=True)
+    dialogueId = Column(String)
+    gameStatusSerialized = Column(String)
+
+    def __init__(self, game_template: Game = None, id: str = None, dialogueId: str = None, turns_counter=0,
+                 new_turn=False, initial_turn=True, speakers=[], current_speaker=EMPTY,
+                 last_interaction_move=None, last_move=None,
+                 available_moves={NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []},
+                 mandatory_moves={NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}, past_moves=[],
+                 all_players_did_move=False, status=None):
         super().__init__()
-        self.__turns_counter = 0
-        self.__new_turn = False
-        self.__initial_turn = True
-        self.__speakers = []
-        self.__current_speaker = EMPTY
-        self.__last_interaction_move = None
-        self.__last_move = None
-        self.__available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
-        self.__mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
-        self.__past_interaction_moves = []
-        self.__all_players_did_move = False
-        self.__status = None
+        if id is None:
+            self.id = str(uuid.uuid4())
+        else:
+            self.id = id
+        self.dialogueId = dialogueId
+        self.__turns_counter = turns_counter
+        self.__new_turn = new_turn
+        self.__initial_turn = initial_turn
+        self.__speakers = speakers
+        self.__current_speaker = current_speaker
+        self.__last_interaction_move = last_interaction_move
+        self.__last_move = last_move
+        self.__available_moves = available_moves
+        self.__mandatory_moves = mandatory_moves
+        self.__past_interaction_moves = past_moves
+        self.__all_players_did_move = all_players_did_move
+        self.__status = status
         if game_template is not None:
             self.name = game_template.name
             self.stores = game_template.stores
@@ -30,6 +51,15 @@ class GameStatus(Game):
             self.roles = game_template.roles
             self.principles = game_template.principles
             self.moves = game_template.moves
+
+    def set_game_template(self, game_template: Game):
+        self.name = game_template.name
+        self.stores = game_template.stores
+        self.turns = game_template.turns
+        self.players = game_template.players
+        self.roles = game_template.roles
+        self.principles = game_template.principles
+        self.moves = game_template.moves
 
     def __set_new_turn(self, new_turn_tmp: bool = False):
         self.__new_turn = new_turn_tmp
@@ -176,8 +206,8 @@ class GameStatus(Game):
         self.available_moves.pop(NOT_NEXT, None)
         self.mandatory_moves.pop(NEXT, None)
         self.mandatory_moves.pop(NOT_NEXT, None)
-        self.__available_moves = {NEXT: [], NOT_NEXT: []}
-        self.__mandatory_moves = {NEXT: [], NOT_NEXT: []}
+        self.__available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        self.__mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
 
     def get_next_player_name_from_the_list(self, player_name: str = EMPTY):
         value = None

@@ -50,9 +50,9 @@ class MoveValidationController(IHandler):
                 # check by move_id
                 for key in game_status_tmp.mandatory_moves:
                     for interaction_move in game_status_tmp.mandatory_moves[key]:
-                        if interaction_move.id == game_status_tmp.last_interaction_move.id:
+                        if interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
                             # need to check if Speaker or player_name correct just to be sure
-                            if interaction_move.playerName in game_status_tmp.get_speakers():
+                            if game_status_tmp.last_interaction_move.playerName in game_status_tmp.get_speakers():
                                 valid = True
                                 break
                     if valid:
@@ -64,7 +64,7 @@ class MoveValidationController(IHandler):
                     for interaction_move in game_status_tmp.available_moves[key]:
                         if interaction_move.id == game_status_tmp.last_interaction_move.id:
                             # need to check if Speaker or player_name correct just to be sure
-                            if interaction_move.playerName in game_status_tmp.get_speakers():
+                            if game_status_tmp.last_interaction_move.playerName in game_status_tmp.get_speakers():
                                 valid = True
                                 break
                     if valid:
