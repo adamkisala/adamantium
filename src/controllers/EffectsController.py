@@ -27,7 +27,7 @@ class EffectsController(IHandler):
 
     def handle(self, game_status_tmp: GameStatus = None):
         if game_status_tmp is None:
-            return game_status_tmp
+            return game_status_tmp, None
         game_status_tmp = EffectsController.__evaluate_effects(game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
@@ -92,13 +92,13 @@ class EffectsController(IHandler):
     @staticmethod
     def __assign(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         LoggingController.logger.debug(("Evaluating: " + str(inspect.currentframe().f_code.co_name)))
-            # this implementation is only needed if ever contents of 'status' would change
+        # this implementation is only needed if ever contents of 'status' would change
         return effect_tmp
 
     @staticmethod
     def __ext_effect(effect_tmp: Effect = None, game_status_tmp: GameStatus = None):
         LoggingController.logger.debug(("Evaluating: " + str(inspect.currentframe().f_code.co_name)))
-            # this implementation is only needed if ever contents of 'status' would change
+        # this implementation is only needed if ever contents of 'status' would change
         return effect_tmp
 
     __options = {

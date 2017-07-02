@@ -18,6 +18,7 @@ class MoveValidationController(IHandler):
             game_status_tmp.past_moves.append(game_status_tmp.last_interaction_move)
             game_status_tmp.set_did_move_flag(game_status_tmp.current_speaker)
             game_status_tmp.remove_interaction_move_from_moves(game_status_tmp.last_interaction_move)
+            game_status_tmp.speakers = game_status_tmp.get_speakers()
             game_status_tmp.initial_turn = False
             game_status_tmp.clear_init_moves_dicts()
         else:
@@ -41,7 +42,7 @@ class MoveValidationController(IHandler):
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         LoggingController.logger.debug("Handling in: " + str(type(self)))
-        return game_status_tmp
+        return game_status_tmp, None
 
     def __init__(self):
         super().__init__()
@@ -67,7 +68,7 @@ class MoveValidationController(IHandler):
                 # check by move_id
                 for key in game_status_tmp.available_moves:
                     for interaction_move in game_status_tmp.available_moves[key]:
-                        if interaction_move.id == game_status_tmp.last_interaction_move.id:
+                        if interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
                             # need to check if Speaker or player_name correct just to be sure
                             if game_status_tmp.last_interaction_move.playerName in game_status_tmp.get_speakers():
                                 valid = True

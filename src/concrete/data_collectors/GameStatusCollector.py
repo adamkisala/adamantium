@@ -40,9 +40,9 @@ class GameStatusCollector(IGameDataCollector):
     def __init__(self, game_tmp: Game = None, game_status: GameStatus = None, dialogueId: str = None):
         super().__init__()
         if game_status is not None:
-            self.__game_status = game_status
+            self.game_status = game_status
         else:
-            self.__game_status = GameStatus(game_tmp, dialogueId=dialogueId)
+            self.game_status = GameStatus(game_tmp, dialogueId=dialogueId)
         self.__turns_controller = TurnsController()
         self.__conditions_controller = ConditionsController()
         self.__effects_controller = EffectsController()
@@ -52,11 +52,12 @@ class GameStatusCollector(IGameDataCollector):
         self.__move_controller = MoveController()
         self.__move_validation_controller = MoveValidationController()
         self.__transcript_controller = TranscriptController()
-        self.__handlers = [self.__turns_controller, self.__rules_controller, self.__conditions_controller,
+        self.__handlers = [self.__turns_controller,self.__rules_controller, self.__conditions_controller,
                            self.__move_controller,
-                           self.__move_validation_controller, self.__effects_controller,
+                           self.__move_validation_controller,  self.__effects_controller,
 
-                           self.__store_controller, self.__transcript_controller, self.__output_controller]
+                           self.__store_controller,  self.__transcript_controller, self.__output_controller
+                           ]
 
     def __get_game_status(self) -> GameStatus:
         return self.__game_status
