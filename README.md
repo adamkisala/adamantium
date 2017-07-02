@@ -17,6 +17,8 @@ Oh and expect this whole stuff to be re-written most likely in Go, cause Python 
 Oh you'll also need Sqlite lib for python ([pip](https://pypi.python.org/pypi/pip/) will sort you out). I'll get a script sorted to check if DB exists and to create schema. 
 
 
+How do I create dialogue description? Well that's a completely different story. I have used [antlr](http://www.antlr.org) to generate all the lexers and parsers given the DGDL grammar (link soon), and that's in /gen folder. Example dialogue descriptions and an actual link to DGDL coming soon. 
+
 ### How does it work?? ###
 
 Well mostly it runs as a web server, but to be honest how you communicate and exchange data can be easily changed in the future (I think so).
