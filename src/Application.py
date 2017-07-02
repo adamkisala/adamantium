@@ -25,9 +25,10 @@ def main():
 
 
 def start_dialogue(game_id: str, game_status: GameStatus = None):
-    error = None
     game_fac = GameFactory()
-    game_from_db = get_game_from_db(game_id)
+    game_from_db, error = get_game_from_db(game_id)
+    if error is not None:
+        return None, error
     input_stream = InputStream(game_from_db.dialogueDescription)
     game = game_fac.create_game(input_stream)
     if game_status is not None:
@@ -45,14 +46,16 @@ def start_dialogue(game_id: str, game_status: GameStatus = None):
 
 
 def get_game_from_db(game_id: str):
+    error = None
+    dg = None
     try:
         """@:var Dialogue dg"""
         dg = db_controller.session.query(Dialogue).filter(Dialogue.id == game_id).one()
     except NoResultFound:
-        raise NoResultFound('ENTITY_NOT_FOUND', 404)
+        error = ExceptionHandler('ENTITY_NOT_FOUND', 404)
     except MultipleResultsFound:
-        raise MultipleResultsFound('MULTIPLE_ENTITIES_WITH_SAME_ID', 500)
-    return dg
+        error = ExceptionHandler('MULTIPLE_ENTITIES_WITH_SAME_ID', 500)
+    return dg, error
 
 
 with app.app_context():
@@ -118,7 +121,9 @@ with app.app_context():
 
     @app.route("/dialogue/<id>", methods=['GET'])
     def check_dialogue(id):
-        game = get_game_from_db(id)
+        game, error = get_game_from_db(id)
+        if error is not None:
+            return error
         return jsonify(id=game.id, description=game.dialogueDescription)
 
 
