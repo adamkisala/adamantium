@@ -1,5 +1,6 @@
 # README #
 
+## Adamant(ium) ##
 ### What is this repository for? ###
 
 * Fork of adamant tool project with necessary changes for sensors, bug fixes, code refactor and overall improvements.
@@ -11,6 +12,9 @@ You'll require Python 3.5.1 plus [Flask 0.12](http://flask.pocoo.org/docs/0.12/)
 
 
 Oh and expect this whole stuff to be re-written most likely in Go, cause Python is...
+
+
+Oh you'll also need Sqlite lib for python ([pip](https://pypi.python.org/pypi/pip/) will sort you out). I'll get a script sorted to check if DB exists and to create schema. 
 
 
 ### How does it work?? ###
