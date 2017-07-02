@@ -22,8 +22,8 @@ class GameStatus(Game, Base):
     def __init__(self, game_template: Game = None, id: str = None, dialogueId: str = None, turns_counter=0,
                  new_turn=False, initial_turn=True, speakers=[], current_speaker=EMPTY,
                  last_interaction_move=None, last_move=None,
-                 available_moves={NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []},
-                 mandatory_moves={NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}, past_moves=[],
+                 available_moves=None,
+                 mandatory_moves=None, past_moves=None,
                  all_players_did_move=False, status=None):
         super().__init__()
         if id is None:
@@ -34,13 +34,25 @@ class GameStatus(Game, Base):
         self.__turns_counter = turns_counter
         self.__new_turn = new_turn
         self.__initial_turn = initial_turn
-        self.__speakers = speakers
+        if speakers is None:
+            self.speakers = []
+        else:
+            self.speakers = speakers
         self.__current_speaker = current_speaker
         self.__last_interaction_move = last_interaction_move
         self.__last_move = last_move
-        self.__available_moves = available_moves
-        self.__mandatory_moves = mandatory_moves
-        self.__past_interaction_moves = past_moves
+        if available_moves is None:
+            self.available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        else:
+            self.available_moves = available_moves
+        if mandatory_moves is None:
+            self.mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        else:
+            self.mandatory_moves = mandatory_moves
+        if past_moves is None:
+            self.past_moves = []
+        else:
+            self.past_moves = past_moves
         self.__all_players_did_move = all_players_did_move
         self.__status = status
         if game_template is not None:
@@ -206,8 +218,8 @@ class GameStatus(Game, Base):
         self.available_moves.pop(NOT_NEXT, None)
         self.mandatory_moves.pop(NEXT, None)
         self.mandatory_moves.pop(NOT_NEXT, None)
-        self.__available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
-        self.__mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        self.available_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
+        self.mandatory_moves = {NEXT: [], NOT_NEXT: [], FUTURE: [], NOT_FUTURE: []}
 
     def get_next_player_name_from_the_list(self, player_name: str = EMPTY):
         value = None

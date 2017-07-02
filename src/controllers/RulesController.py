@@ -27,7 +27,7 @@ class RulesController(IHandler):
         game_status_tmp = self.__evaluate_principles(principles,game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        return game_status_tmp
+        return game_status_tmp, None
 
     @staticmethod
     def __get_principles_to_update(game_status_tmp: GameStatus) -> []:

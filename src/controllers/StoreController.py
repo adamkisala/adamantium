@@ -25,7 +25,7 @@ class StoreController(IHandler):
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         self.__log_details(game_status_tmp)
-        return game_status_tmp
+        return game_status_tmp, None
 
     def __log_details(self, game_status_tmp: GameStatus = None):
         logger = ''

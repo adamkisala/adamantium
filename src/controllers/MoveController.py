@@ -35,7 +35,7 @@ class MoveController(IHandler):
         self.__interaction_move = self.__parse_move(move_str, game_status_tmp)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
-        return game_status_tmp
+        return game_status_tmp, None
 
     def __init__(self):
         super().__init__()

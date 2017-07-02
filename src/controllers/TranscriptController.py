@@ -38,7 +38,7 @@ class TranscriptController(IHandler):
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         LoggingController.logger.debug("Handling in: " + str(type(self)))
-        return game_status_tmp
+        return game_status_tmp, None
 
     def __init__(self):
         super().__init__()

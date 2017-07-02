@@ -17,7 +17,7 @@ class TurnsController(IHandler):
         game_status_tmp.new_turn = self.__evaluate_next_player_by_turns(game_status_tmp)
         if game_status_tmp.all_players_did_move:
             game_status_tmp.turns_counter += 1
-        if hasattr(game_status_tmp.turns, 'max'):
+        if game_status_tmp.turns.max is not None:
             if game_status_tmp.turns_counter >= game_status_tmp.turns.max:
                 game_status_tmp.status = Status.TERMINATE
                 GameEndController.finished = True
@@ -31,7 +31,7 @@ class TurnsController(IHandler):
         self.update_flag()
         LoggingController.logger.debug("Handling in: " + str(type(self)))
         LoggingController.logger.debug("Next player: " + str(game_status_tmp.new_turn))
-        return game_status_tmp
+        return game_status_tmp, None
 
     def type(self):
         return HandlerType.PRE_MOVE_CHECK
@@ -88,6 +88,8 @@ class TurnsController(IHandler):
 
     def __assign_speaker_assign_listener(self, game_status_tmp: GameStatus = None):
         next_player = game_status_tmp.get_next_player_name_from_the_list(game_status_tmp.current_speaker)
+        if next_player is None:
+            return game_status_tmp
         for player in game_status_tmp.players.list:
             if next_player == player.name:
                 if SPEAKER not in player.roles:

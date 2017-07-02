@@ -14,14 +14,17 @@ from model.Store import Store
 
 
 class GameFactory(dgdlListener, dgdlVisitor):
-    def __init__(self, game_temp: Game = Game()):
-        self._game = game_temp
+    def __init__(self):
+        self._game = Game()
         pass
 
     def _get_game(self) -> Game:
         return self._game
 
-    game = property(_get_game, None, None, "Game object created by factory")
+    def _set_game(self, game: Game = None):
+        self._game = game
+
+    game = property(_get_game, _set_game, None, "Game object created by factory")
 
     # Enter a parse tree produced by dgdlParser#game.
     def enterGame(self, ctx: dgdlParser.GameContext):
@@ -203,7 +206,7 @@ class GameFactory(dgdlListener, dgdlVisitor):
         stream = CommonTokenStream(lexer)
         parser = dgdlParser(stream)
         tree = parser.game()
-        listener = GameFactory()
+        listener = self
         walker = ParseTreeWalker()
         walker.walk(listener, tree)
         return self.game

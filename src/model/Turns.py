@@ -10,27 +10,27 @@ class Turns:
 
     def __set_magnitude(self, magnitude_tmp: Magnitude = None):
         if magnitude_tmp == str.lower(Magnitude.SINGLE.name):
-            self._magnitude = Magnitude.SINGLE
+            self.__magnitude = Magnitude.SINGLE
         elif magnitude_tmp == str.lower(Magnitude.MULTIPLE.name):
-            self._magnitude = Magnitude.MULTIPLE
+            self.__magnitude = Magnitude.MULTIPLE
 
     def __set_ordering(self, ordering_tmp: Ordering = None):
         if ordering_tmp == str.lower(Ordering.LIBERAL.name):
-            self._ordering = Ordering.LIBERAL
+            self.__ordering = Ordering.LIBERAL
         elif ordering_tmp == str.lower(Ordering.STRICT.name):
-            self._ordering = Ordering.STRICT
+            self.__ordering = Ordering.STRICT
 
     def __set_max(self, max_tmp: int = None):
-        self._max = max_tmp
+        self.__max = max_tmp
 
     def __get_magnitude(self) -> Magnitude:
-        return self._magnitude
+        return self.__magnitude
 
     def __get_ordering(self) -> Ordering:
-        return self._ordering
+        return self.__ordering
 
-    def __get_max(self) -> int:
-        return self._max
+    def __get_max(self):
+        return self.__max
 
     ordering = property(__get_ordering, __set_ordering, None)
     magnitude = property(__get_magnitude, __set_magnitude, None)
