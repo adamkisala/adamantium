@@ -40,14 +40,11 @@ RequestResponse{
         },
         Response{
             content{Content},
-            conditions{
-                Event(Last,Command)
-            },
             effects{
                 Store(Add, Artifact,MainUnitStore, MainUnit),
                 Store(Add, Artifact,SensingUnitStore, SensingUnit),
                 Move(Permit, Next, Command),
-                Move(Mandate, !Next, Response)
+                Move(Permit, Next, Response)
             }
         }
     }
