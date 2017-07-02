@@ -37,8 +37,11 @@ class MoveValidationController(IHandler):
     def handle(self, game_status_tmp: GameStatus = None):
         valid = MoveValidationController.__validate(game_status_tmp)
         if not valid:
-            details = {"expected": game_status_tmp.get_speakers(),
-                       "got": game_status_tmp.last_interaction_move.playerName}
+            details = {"player_expected": game_status_tmp.get_speakers(),
+                       "player_got": game_status_tmp.last_interaction_move.playerName,
+                       "moves_expected": {"mandatory": [x.moveName for x in game_status_tmp.mandatory_moves[NEXT]],
+                                          "available": [x.moveName for x in game_status_tmp.available_moves[NEXT]]},
+                       "move_got": game_status_tmp.last_interaction_move.moveName}
             return None, ExceptionHandler("INVALID_MOVE", 400, payload=details)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
@@ -57,6 +60,10 @@ class MoveValidationController(IHandler):
                 # check by move_id
                 for key in game_status_tmp.mandatory_moves:
                     for interaction_move in game_status_tmp.mandatory_moves[key]:
+                        if key in [NOT_NEXT,
+                                   NOT_FUTURE] and interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
+                            valid = False
+                            break
                         if interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
                             # need to check if Speaker or player_name correct just to be sure
                             if game_status_tmp.last_interaction_move.playerName in game_status_tmp.speakers:
@@ -69,6 +76,10 @@ class MoveValidationController(IHandler):
                 # check by move_id
                 for key in game_status_tmp.available_moves:
                     for interaction_move in game_status_tmp.available_moves[key]:
+                        if key in [NOT_NEXT,
+                                   NOT_FUTURE] and interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
+                            valid = False
+                            break
                         if interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
                             # need to check if Speaker or player_name correct just to be sure
                             if game_status_tmp.last_interaction_move.playerName in game_status_tmp.speakers:
