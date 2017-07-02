@@ -32,7 +32,7 @@ class MoveController(IHandler):
 
     def handle(self, game_status_tmp: GameStatus = None):
         move_str = self.__move_collector.collect()
-        self.__interaction_move = self.__parse_move(move_str, game_status_tmp)
+        self.__interaction_move = self.__parse_move(move_str)
         game_status_tmp = self.update_collector(game_status_tmp)
         self.update_flag()
         return game_status_tmp, None
@@ -43,11 +43,11 @@ class MoveController(IHandler):
         self.__interaction_move = None
 
     @staticmethod
-    def __parse_move(move_str: dict = None, game_status_tmp: GameStatus = None) -> InteractionMove:
+    def __parse_move(move_str: dict = None) -> InteractionMove:
         # decode json and create Move
         if type(move_str) is not dict:
             LoggingController.logger.warning("Invalid JSON format: " + str(move_str))
-            raise Exception(400, Constants.WRONG_MESSAGE_FORMAT)
+            raise Exception(400, Constants.WRONG_MESSAGE_FORMAT, move_str)
         else:
             move = InteractionMoveSerializer().deserialize(move_str)
         return move

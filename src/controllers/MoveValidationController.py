@@ -13,12 +13,13 @@ from controllers.MoveController import MoveController
 class MoveValidationController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         if game_status_tmp.last_interaction_move:
+            game_status_tmp = game_status_tmp.assign_speaker_assign_listener()
+            game_status_tmp.speakers = game_status_tmp.get_speakers()
             game_status_tmp.current_speaker = game_status_tmp.last_interaction_move.playerName
             game_status_tmp.set_last_move_by_name(game_status_tmp.last_interaction_move.moveName)
             game_status_tmp.past_moves.append(game_status_tmp.last_interaction_move)
             game_status_tmp.set_did_move_flag(game_status_tmp.current_speaker)
             game_status_tmp.remove_interaction_move_from_moves(game_status_tmp.last_interaction_move)
-            game_status_tmp.speakers = game_status_tmp.get_speakers()
             game_status_tmp.initial_turn = False
             game_status_tmp.clear_init_moves_dicts()
         else:
@@ -58,7 +59,7 @@ class MoveValidationController(IHandler):
                     for interaction_move in game_status_tmp.mandatory_moves[key]:
                         if interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
                             # need to check if Speaker or player_name correct just to be sure
-                            if game_status_tmp.last_interaction_move.playerName in game_status_tmp.get_speakers():
+                            if game_status_tmp.last_interaction_move.playerName in game_status_tmp.speakers:
                                 valid = True
                                 break
                     if valid:
@@ -70,7 +71,7 @@ class MoveValidationController(IHandler):
                     for interaction_move in game_status_tmp.available_moves[key]:
                         if interaction_move.moveName == game_status_tmp.last_interaction_move.moveName:
                             # need to check if Speaker or player_name correct just to be sure
-                            if game_status_tmp.last_interaction_move.playerName in game_status_tmp.get_speakers():
+                            if game_status_tmp.last_interaction_move.playerName in game_status_tmp.speakers:
                                 valid = True
                                 break
                     if valid:

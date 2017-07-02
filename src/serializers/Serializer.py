@@ -54,9 +54,8 @@ class InteractionMoveSerializer(JsonSerializer):
 
 
 class GameStatusSerializer(JsonSerializer):
-    __attributes__ = ['id', 'dialogueId', 'turns_counter', 'new_turn', 'initial_turn', 'speakers', 'current_speaker',
-                      'last_interaction_move', 'last_move', 'mandatory_moves', 'available_moves', 'past_moves',
-                      'all_players_did_move', 'status']
+    __attributes__ = ['id', 'dialogueId', 'last_interaction_move', 'last_move', 'mandatory_moves', 'available_moves',
+                      'speakers', 'initial_turn']
     __required__ = ['id', 'dialogueId']
     __attribute_serializer__ = dict(last_interaction_move='last_interaction_move', mandatory_moves='mandatory_moves',
                                     available_moves='available_moves', past_moves='past_moves', last_move='last_move')

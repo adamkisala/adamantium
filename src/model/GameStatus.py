@@ -20,7 +20,7 @@ class GameStatus(Game, Base):
     gameStatusSerialized = Column(String)
 
     def __init__(self, game_template: Game = None, id: str = None, dialogueId: str = None, turns_counter=0,
-                 new_turn=False, initial_turn=True, speakers=[], current_speaker=EMPTY,
+                 new_turn=False, initial_turn=True, speakers=None, current_speaker=EMPTY,
                  last_interaction_move=None, last_move=None,
                  available_moves=None,
                  mandatory_moves=None, past_moves=None,
@@ -33,7 +33,7 @@ class GameStatus(Game, Base):
         self.dialogueId = dialogueId
         self.__turns_counter = turns_counter
         self.__new_turn = new_turn
-        self.__initial_turn = initial_turn
+        self.__initial_turn = bool(initial_turn)
         if speakers is None:
             self.speakers = []
         else:
@@ -264,3 +264,22 @@ class GameStatus(Game, Base):
         for key in self.available_moves:
             if interaction_move in self.available_moves[key]:
                 self.available_moves[key].remove(interaction_move)
+
+    def assign_speaker_assign_listener(self):
+        if self.last_interaction_move is None:
+            return self
+        next_player = self.get_next_player_name_from_the_list(self.last_interaction_move.playerName)
+        if next_player is None:
+            return self
+        for player in self.players.list:
+            if next_player == player.name:
+                if SPEAKER not in player.roles:
+                    if LISTENER in player.roles:
+                        player.roles.remove(LISTENER)
+                    player.roles.append(SPEAKER)
+            else:
+                if LISTENER not in player.roles:
+                    if SPEAKER in player.roles:
+                        player.roles.remove(SPEAKER)
+                    player.roles.append(LISTENER)
+        return self

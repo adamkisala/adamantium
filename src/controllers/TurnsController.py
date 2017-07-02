@@ -15,6 +15,7 @@ import controllers.GameController
 class TurnsController(IHandler):
     def update_collector(self, game_status_tmp: GameStatus = None):
         game_status_tmp.new_turn = self.__evaluate_next_player_by_turns(game_status_tmp)
+        game_status_tmp.speakers = game_status_tmp.get_speakers()
         if game_status_tmp.all_players_did_move:
             game_status_tmp.turns_counter += 1
         if game_status_tmp.turns.max is not None:
@@ -55,7 +56,7 @@ class TurnsController(IHandler):
         if controllers.GameController.GameController.game.turns.magnitude == Magnitude.SINGLE:
             new_turn = True
             if game_status_tmp.turns.ordering == Ordering.STRICT:
-                game_status_tmp = self.__assign_speaker_assign_listener(game_status_tmp)
+                game_status_tmp = game_status_tmp.assign_speaker_assign_listener()
             elif game_status_tmp.turns.ordering == Ordering.LIBERAL:
                 # TODO implement Ordering.LIBERAL
                 pass
@@ -64,7 +65,7 @@ class TurnsController(IHandler):
                 if self.multiple_moves_count >= game_status_tmp.max_moves_per_turn:
                     new_turn = True
                     if game_status_tmp.turns.ordering == Ordering.STRICT:
-                        game_status_tmp = self.__assign_speaker_assign_listener(game_status_tmp)
+                        game_status_tmp = game_status_tmp.assign_speaker_assign_listener()
                     elif game_status_tmp.turns.ordering == Ordering.LIBERAL:
                         # TODO implement Ordering.LIBERAL
                         pass
@@ -76,7 +77,7 @@ class TurnsController(IHandler):
                 if game_status_tmp.last_interaction_move.final:
                     new_turn = True
                     if game_status_tmp.turns.ordering == Ordering.STRICT:
-                        game_status_tmp = self.__assign_speaker_assign_listener(game_status_tmp)
+                        game_status_tmp = game_status_tmp.assign_speaker_assign_listener()
                     elif game_status_tmp.turns.ordering == Ordering.LIBERAL:
                         # TODO implement Ordering.LIBERAL
                         pass
@@ -87,7 +88,9 @@ class TurnsController(IHandler):
         return new_turn
 
     def __assign_speaker_assign_listener(self, game_status_tmp: GameStatus = None):
-        next_player = game_status_tmp.get_next_player_name_from_the_list(game_status_tmp.current_speaker)
+        if game_status_tmp.last_interaction_move is None:
+            return game_status_tmp
+        next_player = game_status_tmp.get_next_player_name_from_the_list(game_status_tmp.last_interaction_move.playerName)
         if next_player is None:
             return game_status_tmp
         for player in game_status_tmp.players.list:
