@@ -73,6 +73,10 @@ paths:
             $ref: '#/definitions/dialogue'
         404:
           description: ENTITY_NOT_FOUND
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/error'
     delete:
       summary: Delete given dialogue definition by id
       operationId: deleteDialogueDef
@@ -87,6 +91,10 @@ paths:
           description: OK
         404:
           description: ENTITY_NOT_FOUND
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/error'
   /utterance:
     post:
       summary: Act of communication in the specified dialogue
@@ -94,12 +102,19 @@ paths:
       parameters:
         - name: body
           in: body
+          required: true
           type: object
           schema:
             $ref: '#/definitions/utteranceBody'
       responses:
-
-
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/gameStatus'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/error'
 definitions:
   dialogues:
     type: array
