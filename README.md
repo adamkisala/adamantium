@@ -7,14 +7,9 @@
 
 ### How do I get set up? ###
 
-Well, at the moment there is no any dependency management (yaaay!) but this will hopefully get fixed soon.
-You'll require Python 3.5.1 plus [Flask 0.12](http://flask.pocoo.org/docs/0.12/) and [SQLAlchemy](http://docs.sqlalchemy.org/en/latest/intro.html) but yeah expect dm soon.
+Run `pip install -r requirements.txt`
 
-
-Oh and expect this whole stuff to be re-written most likely in Go, cause Python is...
-
-
-Oh you'll also need Sqlite lib for python ([pip](https://pypi.python.org/pypi/pip/) will sort you out). I'll get a script sorted to check if DB exists and to create schema. 
+Main dependencies: Python 3.5.1 plus [Flask 0.12](http://flask.pocoo.org/docs/0.12/) and [SQLAlchemy](http://docs.sqlalchemy.org/en/latest/intro.html) 
 
 
 How do I create dialogue description? Well that's a completely different story. I have used [antlr](http://www.antlr.org) to generate all the lexers and parsers given the DGDL grammar (link soon), and that's in /gen folder. Example dialogue descriptions and an actual link to DGDL coming soon. 
