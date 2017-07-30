@@ -111,19 +111,19 @@ with app.app_context():
             # check if exists already
             dg = db_controller.session.query(Dialogue).filter(Dialogue.id == data.get('id')).first()
             if dg is not None:
-                raise ExceptionHandler("ENTITY_EXISTS_CANNOT_CREATE", 400)
+                raise ExceptionHandler("ENTITY_EXISTS_CANNOT_CREATE", 409)
             dg = DialogueSerializer().deserialize(data)
             db_controller.session.add(dg)
             db_controller.session.commit()
             resp = DialogueSerializer().serialize(dg)
-            return jsonify({'response': resp})
+            return jsonify({'response': resp}), 201
 
 
     @app.route("/dialogue/<id>", methods=['GET'])
     def check_dialogue(id):
         game, error = get_game_from_db(id)
         if error is not None:
-            return error
+            raise error
         return jsonify(id=game.id, description=game.dialogueDescription)
 
 
